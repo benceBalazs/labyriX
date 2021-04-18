@@ -1,2 +1,3 @@
 # labyriX
-SE2 Gruppenarbeit basierend auf Lotti Karotti(Labyrix)
+SE2 Gruppenarbeit basierend auf Lotti Karottigit
+

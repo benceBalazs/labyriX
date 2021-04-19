@@ -68,3 +68,28 @@ project(":core") {
         
     }
 }
+
+project(":tests") {
+    apply plugin: "java"
+
+    sourceSets.test.java.srcDirs = ["src/"]
+
+    dependencies {
+        implementation project(":core")
+
+        configurations.all {
+            resolutionStrategy.dependencySubstitution {
+                substitute module('org.hamcrest:hamcrest-core:1.1') with module('junit:junit:4.10')
+            }
+        }
+
+        implementation "junit:junit:4.13.2"
+
+        implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testImplementation 'junit:junit:4.13.2'
+        testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    }
+}

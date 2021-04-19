@@ -1,4 +1,4 @@
-<img src="logo.svg">
+<img src="logo.png">
 
 [![Build Status](https://travis-ci.com/benceBalazs/labyriX.svg?branch=main)](https://travis-ci.com/benceBalazs/labyriX)
 

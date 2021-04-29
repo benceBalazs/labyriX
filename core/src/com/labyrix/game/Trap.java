@@ -4,6 +4,13 @@ public class Trap {
     private float probability;
     private TrapEvent event;
 
+
+    public Trap (float probability){
+        this.probability = probability;
+        this.event = new TrapEvent();
+    }
+
+
     public float getProbability() {
         return probability;
     }

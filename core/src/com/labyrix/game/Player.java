@@ -1,5 +1,7 @@
 package com.labyrix.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player {
@@ -17,10 +19,43 @@ public class Player {
     private TrapEvent activeEvent = null; //eventuell in die Enumeration umändern
 
 
-    Player(String name, Image playerImage) {
+    Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos) {
         this.name = name;
-        this.playerImage = playerImage;
+        this.playerImage = new Image(playerImagePath);
+        this.currentField = currentField;
+//current startposition for testcases
+        position = new Vector2(xPos, yPos);
     }
+
+
+    public void render(SpriteBatch batch) {
+        batch.draw(playerImage.getImg(), position.x, position.y);
+    }
+
+    public void update() {
+        movePlayer();
+    }
+
+
+    public void movePlayer() {
+        if (Gdx.input.justTouched()) {
+            if (currentField.getFollowingFields().size() == 1) {
+                currentField = currentField.getFollowingField(0);
+                position.x = currentField.getCoordinates().x + 64;
+                position.y = currentField.getCoordinates().y + 184;
+            }
+            //if more than one following field - just chose one random field
+            else if (currentField.getFollowingFields().size() > 1) {
+                int followingFieldIndex = (int) (Math.random()*10);
+                followingFieldIndex = (followingFieldIndex)  % currentField.getFollowingFields().size();
+
+                currentField = currentField.getFollowingField(followingFieldIndex);
+                position.x = currentField.getCoordinates().x + 64;
+                position.y = currentField.getCoordinates().y + 184;
+            }
+        }
+    }
+
 
     public String getName() {
         return name;

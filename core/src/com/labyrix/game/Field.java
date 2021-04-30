@@ -8,7 +8,7 @@ public abstract class Field {
     private Image fieldImage;
 
     public void setId(Integer id) {
-        if (id == 0) {
+        if (this.id == 0) {
             this.id = id;
         }
     }
@@ -32,5 +32,7 @@ public abstract class Field {
     public void setFieldImage(Image fieldImage) {
         this.fieldImage = fieldImage;
     }
+
+    abstract public void addFollowingFields(PathField f);
 }
 

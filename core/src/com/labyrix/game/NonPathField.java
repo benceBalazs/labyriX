@@ -9,4 +9,13 @@ public class NonPathField extends Field{
         this.setCoordinates(coordinates);
         this.setFieldImage(fieldImage);
     }
+
+    public NonPathField(int id, Image fieldImage) {
+        this.setId(id);
+        this.setFieldImage(fieldImage);
+    }
+
+    @Override
+    public void addFollowingFields(PathField f) {
+    }
 }

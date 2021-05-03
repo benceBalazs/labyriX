@@ -8,9 +8,9 @@ public class Main {
         Server server = new Server();
         server.start();
         try {
-            server.bind(ServerConfig.TCP, ServerConfig.UDP);
+            server.bind(ServerNetworkConfig.TCP, ServerNetworkConfig.UDP);
             server.addListener(new ServerRequestListener(server));
-            System.out.println("Listening on TCP port: " + ServerConfig.TCP + " and UDP Port: "+ ServerConfig.UDP);
+            System.out.println("Listening on TCP port: " + ServerNetworkConfig.TCP + " and UDP Port: "+ ServerNetworkConfig.UDP);
         } catch(IOException ioe) {
             System.err.println("Failed to initiate. Server closed.");
         }

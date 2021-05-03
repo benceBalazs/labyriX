@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+version '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":core")
+    implementation 'junit:junit:4.12'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
+    implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+jar {
+    dependsOn('copyJSON')
+    manifest {
+        attributes "Main-Class": "com.labyrix.server.Main",
+                'Implementation-Title': 'Labyrix official Server'
+    }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+task copyJSON(type: Copy) {
+    from project(':android').file('assets/data.json')
+    into file('src/main/resources/resources/')
+}
+
+test {
+    useJUnitPlatform()
+}

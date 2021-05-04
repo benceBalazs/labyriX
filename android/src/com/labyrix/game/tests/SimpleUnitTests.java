@@ -26,8 +26,6 @@ public class SimpleUnitTests {
             }
         }
 
-        System.out.println(count);
-
         count /= loops;
 
         assertEquals(probability, count, 0.01);

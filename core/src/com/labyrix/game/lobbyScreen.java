@@ -79,7 +79,7 @@ public class lobbyScreen extends ScreenAdapter {
 
 
             stage.act(Gdx.graphics.getDeltaTime());
-            stage.draw(); 
+            stage.draw();
 
         }
 

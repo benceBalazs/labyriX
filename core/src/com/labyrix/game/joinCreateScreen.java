@@ -111,7 +111,7 @@ public class joinCreateScreen extends ScreenAdapter {
 
     @Override
     public void dispose() {
-        
+
         backgroundTexture.dispose();
     }
 }

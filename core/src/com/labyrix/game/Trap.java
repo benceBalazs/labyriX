@@ -15,9 +15,7 @@ public class Trap {
         boolean result = false;
 
         Random random = new Random();
-        int randomInt = random.nextInt(101);
-
-        float randomFloat = (float) randomInt / 100;
+        float randomFloat = random.nextFloat();
 
         if (randomFloat <= this.probability){
             result = true;

@@ -15,18 +15,22 @@ public class SimpleUnitTests {
     public void testingTrapRandomMethod(){
         float probability = 0.5f;
         Trap trap = new Trap(probability);
-        double count = 0;
+        float count = 0;
 
-        for (int i = 0; i < 1000; i++) {
+        int loops = 10000;
+
+        for (int i = 0; i < loops; i++) {
             boolean trapWasActivated = trap.isTrapActivated();
             if (trapWasActivated){
                 count++;
             }
         }
 
-        count /= 1000;
+        System.out.println(count);
 
-        assertEquals(probability, count, 0.2);
+        count /= loops;
+
+        assertEquals(probability, count, 0.01);
     }
 
 }

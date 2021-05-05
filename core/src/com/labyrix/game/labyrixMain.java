@@ -2,11 +2,13 @@ package com.labyrix.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+
 
 public class labyrixMain extends ApplicationAdapter {
 	private SpriteBatch batch;
@@ -17,9 +19,14 @@ public class labyrixMain extends ApplicationAdapter {
 	private int cameraWidth = 200 * 4;
 
 
-
+	public labyrixMain(){
+		INSTANCE = this;
+	}
+  
+  
 	@Override
 	public void create () {
+    //setScreen(new startScreen());
 		batch = new SpriteBatch();
 		isorend = new Board(batch);
 		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
@@ -39,9 +46,8 @@ public class labyrixMain extends ApplicationAdapter {
 		cameraLerp( camera, player.getPosition());
 		batch.end();
 
-	}
-	
-	@Override
+
+
 	public void dispose () {
 		batch.dispose();
 	}
@@ -53,5 +59,4 @@ public class labyrixMain extends ApplicationAdapter {
 		camera.position.set(position);
 		camera.update();
 	}
-
 }

@@ -143,7 +143,7 @@ public class Board {
         return selectionArrowDown;
     }
 
-    public void getSelectionArrowDown(Image selectionArrowDown) {
+    public void setSelectionArrowDown(Image selectionArrowDown) {
         Board.selectionArrowDown = selectionArrowDown;
     }
 }

@@ -1,9 +1,19 @@
 package com.labyrix.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+
+import java.util.ArrayList;
+import java.util.Vector;
+
+import jdk.internal.dynalink.linker.GuardingDynamicLinker;
 
 public class Player {
 
@@ -42,53 +52,74 @@ public class Player {
 
 
     public void movePlayer() {
-        if (Gdx.input.justTouched()) {
+
             if (this.currentField.getFollowingFields().size() == 1) {
-                this.currentField = this.currentField.getFollowingField(0);
-                this.position.x = this.currentField.getCoordinates().x + 64;
-                this.position.y = this.currentField.getCoordinates().y + 184;
+                if (Gdx.input.justTouched()) {
+                    this.currentField = this.currentField.getFollowingField(0);
+                    this.position.x = this.currentField.getCoordinates().x + 64;
+                    this.position.y = this.currentField.getCoordinates().y + 184;
 
-                if (this.currentField.getFollowingFields().size() > 1) {
-                    for (PathField pf: this.currentField.getFollowingFields()) {
-                        String imgPath = "kreisIndicator.png";
-                        Image img =  new Image(imgPath);
-                        Vector2 v = new Vector2(pf.getCoordinates().x, pf.getCoordinates().y);
-                        img.setCoordinates(v);
+                    if (this.currentField.getFollowingFields().size() > 1) {
 
-                        if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
-                            imgPath = "pfeilOben.png";
-                            img.setImg(new Texture(imgPath));
-                            board.setSelectionArrowUp(img);
-                        }
-                        if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
-                            imgPath = "pfeilLinks.png";
-                            img.setImg(new Texture(imgPath));
-                            board.setSelectionArrowLeft(img);
-                        }
-                        if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
-                            imgPath = "pfeilHinten.png";
-                            img.setImg(new Texture(imgPath));
-                            board.setSelectionArrowDown(img);
-                        }
-                        if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
-                            imgPath = "pfeilRechts.png";
-                            img.setImg(new Texture(imgPath));
-                            board.setSelectionArrowRight(img);
+                        for (PathField pf : this.currentField.getFollowingFields()) {
+                            //Arrow Spawn for all 4 possible followingFields
+                            String imgPath = "kreisIndicator.png";
+                            Image img = new Image(imgPath);
+                            Vector2 v = new Vector2(pf.getCoordinates().x, pf.getCoordinates().y);
+                            img.setCoordinates(v);
+
+                            if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
+                                imgPath = "pfeilOben.png";
+                                img.setImg(new Texture(imgPath));
+                                board.setSelectionArrowUp(img);
+                            }
+                            if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
+                                imgPath = "pfeilLinks.png";
+                                img.setImg(new Texture(imgPath));
+                                board.setSelectionArrowLeft(img);
+
+                                Actor actorLeft = new Actor();
+                                actorLeft.setPosition(pf.getCoordinates().x, pf.getCoordinates().y);
+                                actorLeft.setHeight(256);
+                                actorLeft.setWidth(256);
+                                actorLeft.setColor(Color.CYAN);
+                                actorLeft.setZIndex(900);
+
+                                actorLeft.addListener(new InputListener() {
+                                    @Override
+                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                                        System.out.println("touched");
+                                    }
+                                });
+
+                                board.getArrowActors().setArrowActorLeft(actorLeft);
+
+                            }
+                            if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
+                                imgPath = "pfeilHinten.png";
+                                img.setImg(new Texture(imgPath));
+                                board.setSelectionArrowDown(img);
+                            }
+                            if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
+                                imgPath = "pfeilRechts.png";
+                                img.setImg(new Texture(imgPath));
+                                board.setSelectionArrowRight(img);
+                            }
                         }
                     }
                 }
             }
             //if more than one following field - just chose one random field
             else if (this.currentField.getFollowingFields().size() > 1) {
-                //Arrow Spawn for all 4 possible followingFields
-                //if touched one of them/field -> move there;
-                //Check if touched
-                //Check touching coordinates - if they are on the right field
+
+                if (Gdx.input.justTouched()) {
+                    if (board.getSelectionArrowLeft() != null) {
+                        System.out.println(Gdx.input.getX() + " " + Gdx.input.getY());
+                    }
+                }
 
 
-                //(Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat())
-                
-                int followingFieldIndex = (int) (Math.random()*10);
+               /* int followingFieldIndex = (int) (Math.random()*10);
                 followingFieldIndex = (followingFieldIndex)  % currentField.getFollowingFields().size();
 
                 currentField = currentField.getFollowingField(followingFieldIndex);
@@ -97,9 +128,7 @@ public class Player {
                 board.setSelectionArrowUp(null);
                 board.setSelectionArrowDown(null);
                 board.setSelectionArrowRight(null);
-                board.setSelectionArrowLeft(null);
-
-            }
+                board.setSelectionArrowLeft(null);*/
         }
     }
 

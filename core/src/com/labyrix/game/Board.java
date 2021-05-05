@@ -2,6 +2,8 @@ package com.labyrix.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Board {
     private Field[][] fields;
@@ -15,6 +17,8 @@ public class Board {
     private static Image selectionArrowRight = null;
     private static Image selectionArrowUp = null;
     private static Image selectionArrowDown = null;
+
+    private ArrowActors arrowActors = new ArrowActors();
 
     //Board for development
     public Board(SpriteBatch batch) {
@@ -83,18 +87,24 @@ public class Board {
 
         if (this.selectionArrowDown != null) {
             batch.draw(selectionArrowDown.getImg(), selectionArrowDown.getCoordinates().x, selectionArrowDown.getCoordinates().y);
+
         }
         if (this.selectionArrowUp != null) {
             batch.draw(selectionArrowUp.getImg(), selectionArrowUp.getCoordinates().x, selectionArrowUp.getCoordinates().y);
         }
         if (this.selectionArrowLeft != null) {
             batch.draw(selectionArrowLeft.getImg(), selectionArrowLeft.getCoordinates().x, selectionArrowLeft.getCoordinates().y);
+            arrowActors.getArrowActorLeft().draw(batch, 1);
         }
         if (this.selectionArrowRight != null) {
             batch.draw(selectionArrowRight.getImg(), selectionArrowRight.getCoordinates().x, selectionArrowRight.getCoordinates().y);
         }
     }
 
+
+    public ArrowActors getArrowActors() {
+        return arrowActors;
+    }
 
     public Field[][] getFields() {
         return fields;

@@ -13,7 +13,6 @@ import javax.swing.text.View;
 public class ArrowActors {
     private Stage stage;
     private Viewport viewport;
-    private final AssetManager manager = new AssetManager();
 
     private ArrowActor arrowActorLeft = null;
     private ArrowActor arrowActorRight = null;
@@ -31,10 +30,6 @@ public class ArrowActors {
     public void render() {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-    }
-
-    public void resize(int width, int height) {
-        viewport.update(width, height, true);
     }
 
     public void hide() {

@@ -77,6 +77,7 @@ public class TurnLogic {
            //Show arrows for PathSelection
            if (this.player.getRemainingSteps() > 0) {
                if (this.board.getSelectionArrowDown() == null && this.board.getSelectionArrowLeft() == null && this.board.getSelectionArrowRight() == null && this.board.getSelectionArrowUp() == null) {
+                   int i = 0;
                    for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                        //Arrow Spawn for all 4 possible followingFields
                        String imgPath = "kreisIndicator.png";
@@ -89,7 +90,7 @@ public class TurnLogic {
                            img.setImg(new Texture(imgPath));
                            this.board.setSelectionArrowUp(img);*/
 
-                           ArrowActor actorUp = new ArrowActor("pfeilOben.png", pf.getCoordinates().x, pf.getCoordinates().y);
+                           ArrowActor actorUp = new ArrowActor("pfeilOben.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowUp", this, i);
                            this.arrowActors.setArrowActorRight(actorUp);
                            this.arrowActors.getStage().addActor(actorUp);
                        }
@@ -97,9 +98,7 @@ public class TurnLogic {
                            //imgPath = "pfeilLinks.png";
                            //img.setImg(new Texture(imgPath));
                            //this.board.setSelectionArrowLeft(img);
-
-
-                           ArrowActor actorLeft = new ArrowActor("pfeilLinks.png", pf.getCoordinates().x, pf.getCoordinates().y);
+                           ArrowActor actorLeft = new ArrowActor("pfeilLinks.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowLeft", this, i);
                            this.arrowActors.setArrowActorLeft(actorLeft);
                            this.arrowActors.getStage().addActor(actorLeft);
 
@@ -114,19 +113,18 @@ public class TurnLogic {
                            img.setImg(new Texture(imgPath));
                            this.board.setSelectionArrowRight(img);
                        }
+                       i++;
                    }
                }
 
 
-               if (Gdx.input.justTouched()) {
+              /* if (Gdx.input.justTouched()) {
                    //Select Path
 
                    //Move to selected field
 
                    //Only go back to movement - if path has been selected
-                   this.player.setCurrentField(this.player.getCurrentField().getFollowingField(1));
-                   Vector2 playerPosition = new Vector2(this.player.getCurrentField().getCoordinates().x + 64, this.player.getCurrentField().getCoordinates().y + 184);
-                   this. player.setPosition(playerPosition);
+                   /*
                    this.arrowActors.setArrowActorUp(null);
                    this.arrowActors.setArrowActorDown(null);
                    this.arrowActors.setArrowActorRight(null);
@@ -134,7 +132,7 @@ public class TurnLogic {
                    //this.arrowActors.hide();
                    this.player.setRemainingSteps(this.player.getRemainingSteps()-1);
                    this.turnValue = TurnValue.MOVEMENT;
-               }
+               }*/
            }
        } else if (this.turnValue == TurnValue.TRAPCHECK) {
            /*if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
@@ -161,5 +159,17 @@ public class TurnLogic {
 
     public ArrowActors getArrowActors() {
         return arrowActors;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public TurnValue getTurnValue() {
+        return turnValue;
+    }
+
+    public void setTurnValue(TurnValue turnValue) {
+        this.turnValue = turnValue;
     }
 }

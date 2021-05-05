@@ -29,8 +29,13 @@ public class ArrowActor extends Actor {
                 tl.getPlayer().setPosition(playerPosition);
                 tl.getPlayer().setRemainingSteps(tl.getPlayer().getRemainingSteps()-1);
 
+                tl.getArrowActors().setArrowActorUp(null);
+                tl.getArrowActors().setArrowActorDown(null);
+                tl.getArrowActors().setArrowActorRight(null);
+                tl.getArrowActors().setArrowActorLeft(null);
+
                 tl.setTurnValue(TurnValue.MOVEMENT);
-                tl.getArrowActors().dispose();
+                tl.getArrowActors().hide();
 
                 return true;
             }

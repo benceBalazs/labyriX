@@ -33,11 +33,7 @@ public class ArrowActors {
     }
 
     public void hide() {
-        dispose();
-    }
-
-    public void dispose() {
-        stage.dispose();
+        stage.clear();
     }
 
     public Actor getArrowActorLeft() {

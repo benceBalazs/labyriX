@@ -16,6 +16,7 @@ public class ArrowActor extends Actor {
         Texture t = new Texture(imgPath);
         texture = new Sprite(t);
         texture.setPosition(xPos, yPos);
+        texture.setSize(256f, 256f);
         setBounds(texture.getX(), texture.getY(), texture.getWidth(), texture.getHeight());
         setTouchable(Touchable.enabled);
 

@@ -96,4 +96,8 @@ public class Board {
         }
         return null;
     }
+
+    public static SpriteBatch getBatch() {
+        return batch;
+    }
 }

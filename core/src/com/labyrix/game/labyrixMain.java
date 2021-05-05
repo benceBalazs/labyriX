@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 
-public class labyrixMain extends ApplicationAdapter {
+public class labyrixMain extends Game {
+	public static labyrixMain INSTANCE;
+	
 	private SpriteBatch batch;
 	private Board isorend;
 	private Player player;
@@ -45,7 +47,7 @@ public class labyrixMain extends ApplicationAdapter {
 		player.render(batch);
 		cameraLerp( camera, player.getPosition());
 		batch.end();
-
+	}
 
 
 	public void dispose () {

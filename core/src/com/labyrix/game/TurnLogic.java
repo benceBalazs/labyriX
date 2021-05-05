@@ -76,7 +76,7 @@ public class TurnLogic {
            //Do PathSelection Stuff
            //Show arrows for PathSelection
            if (this.player.getRemainingSteps() > 0) {
-               if (this.board.getSelectionArrowDown() == null && this.board.getSelectionArrowLeft() == null && this.board.getSelectionArrowRight() == null && this.board.getSelectionArrowUp() == null) {
+               if (this.arrowActors.getArrowActorLeft() == null && this.arrowActors.getArrowActorRight() == null && this.arrowActors.getArrowActorUp() == null && this.arrowActors.getArrowActorDown() == null) {
                    int i = 0;
                    for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                        //Arrow Spawn for all 4 possible followingFields
@@ -86,18 +86,11 @@ public class TurnLogic {
                        img.setCoordinates(v);
 
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                          /* imgPath = "pfeilOben.png";
-                           img.setImg(new Texture(imgPath));
-                           this.board.setSelectionArrowUp(img);*/
-
                            ArrowActor actorUp = new ArrowActor("pfeilOben.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowUp", this, i);
                            this.arrowActors.setArrowActorRight(actorUp);
                            this.arrowActors.getStage().addActor(actorUp);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                           //imgPath = "pfeilLinks.png";
-                           //img.setImg(new Texture(imgPath));
-                           //this.board.setSelectionArrowLeft(img);
                            ArrowActor actorLeft = new ArrowActor("pfeilLinks.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowLeft", this, i);
                            this.arrowActors.setArrowActorLeft(actorLeft);
                            this.arrowActors.getStage().addActor(actorLeft);
@@ -106,12 +99,12 @@ public class TurnLogic {
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                            imgPath = "pfeilHinten.png";
                            img.setImg(new Texture(imgPath));
-                           this.board.setSelectionArrowDown(img);
+                           //this.board.setSelectionArrowDown(img);
                        }
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                            imgPath = "pfeilRechts.png";
                            img.setImg(new Texture(imgPath));
-                           this.board.setSelectionArrowRight(img);
+                           //this.board.setSelectionArrowRight(img);
                        }
                        i++;
                    }

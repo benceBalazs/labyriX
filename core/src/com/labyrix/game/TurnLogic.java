@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 
+import javax.management.Notification;
+
 public class TurnLogic {
 
     private Board board;
@@ -23,6 +25,7 @@ public class TurnLogic {
     private Client client;
     private ArrowActors arrowActors;
     int animationCounter = 20;
+    private Texture turnValueText;
 
 
     public TurnLogic(Board board, Player player, Camera camera) {
@@ -32,17 +35,20 @@ public class TurnLogic {
         this.turnDone = false;
         this.turnValue = TurnValue.DICEROLL;
         arrowActors = new ArrowActors(camera);
-
+        turnValueText = new Texture("rollDice.png");
     }
 
     public void doTurn() {
         System.out.println(this.turnValue);
+        turnValueText = new Texture("rollDice.png");
        if (this.turnValue == TurnValue.DICEROLL) {
+
            if (Gdx.input.justTouched()) {
-               this.player.setRemainingSteps((int) (Math.random() * 10 * player.getMovementSpeed()));
+               this.player.setRemainingSteps((int) (((Math.random() * 10)%5+1) * player.getMovementSpeed()));
                this.turnValue = TurnValue.MOVEMENT;
            }
        } else if (this.turnValue == TurnValue.MOVEMENT) {
+           turnValueText = new Texture("move.png");
            System.out.println("Remaining Steps: "+this.player.getRemainingSteps());
 
            if (this.player.getRemainingSteps() <= 0) {
@@ -66,6 +72,8 @@ public class TurnLogic {
 
        } else if (this.turnValue == TurnValue.PATHSELECTION) {
 
+           turnValueText = new Texture("selectPath.png");
+
 
            System.out.println("Remaining Steps: "+this.player.getRemainingSteps());
 
@@ -76,22 +84,22 @@ public class TurnLogic {
                    for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                        //Arrow Spawn for all 4 possible followingFields
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                           ArrowActor actorUp = new ArrowActor("pfeilOben.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowUp", this, i);
+                           ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowUp", this, i);
                            this.arrowActors.setArrowActorRight(actorUp);
                            this.arrowActors.getStage().addActor(actorUp);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                           ArrowActor actorLeft = new ArrowActor("pfeilLinks.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowLeft", this, i);
+                           ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowLeft", this, i);
                            this.arrowActors.setArrowActorLeft(actorLeft);
                            this.arrowActors.getStage().addActor(actorLeft);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                           ArrowActor actorDown = new ArrowActor("pfeilHinten.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowDown", this, i);
+                           ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowDown", this, i);
                            this.arrowActors.setArrowActorRight(actorDown);
                            this.arrowActors.getStage().addActor(actorDown);
                        }
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                           ArrowActor actorRight = new ArrowActor("pfeilRechts.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowRight", this, i);
+                           ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowRight", this, i);
                            this.arrowActors.setArrowActorRight(actorRight);
                            this.arrowActors.getStage().addActor(actorRight);
                        }
@@ -100,6 +108,8 @@ public class TurnLogic {
                }
            }
        } else if (this.turnValue == TurnValue.TRAPCHECK) {
+
+           turnValueText = new Texture("checkTrap.png");
            /*if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
                this.turnValue = TurnValue.TRAPACTIVATED;
            } else {
@@ -115,10 +125,14 @@ public class TurnLogic {
            }
 
        } else if (this.turnValue == TurnValue.TRAPACTIVATED) {
+
+           turnValueText = new Texture("trapActive.png");
            //TODO
            //CODE FOR DEFUSING TRAP
            this.turnDone = true;
        }
+
+        board.getBatch().draw(turnValueText, -100,-100);
     }
 
 

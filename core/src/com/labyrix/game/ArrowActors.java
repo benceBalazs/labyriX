@@ -1,46 +1,76 @@
 package com.labyrix.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class ArrowActors extends Actor {
-    private static Actor arrowActorLeft = null;
-    private static Actor arrowActorRight = null;
-    private static Actor arrowActorUp = null;
-    private static Actor arrowActorDown = null;
+import javax.swing.text.View;
+
+public class ArrowActors {
+    private Stage stage;
+    private Viewport viewport;
+
+    private ArrowActor arrowActorLeft = null;
+    private ArrowActor arrowActorRight = null;
+    private ArrowActor arrowActorUp = null;
+    private ArrowActor arrowActorDown = null;
 
 
-    public Actor getArrowActorLeft() {
-        return arrowActorLeft;
+    public ArrowActors(Camera camera) {
+        this.viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),camera);
+        this.stage = new Stage(viewport);
+
+        Gdx.input.setInputProcessor(stage);
     }
 
-    public void setArrowActorLeft(Actor arrowActorLeft) {
-        if (ArrowActors.arrowActorLeft == null) {
-            ArrowActors.arrowActorLeft = new Actor();
-            ArrowActors.arrowActorLeft = arrowActorLeft;
+    public void render() {
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+    }
+
+    public void hide() {
+        stage.clear();
+    }
+
+    public Actor getArrowActorLeft() {
+        return this.arrowActorLeft;
+    }
+
+    public void setArrowActorLeft(ArrowActor arrowActorLeft) {
+        if (this.arrowActorLeft == null) {
+            this.arrowActorLeft = arrowActorLeft;
         }
     }
 
     public Actor getArrowActorRight() {
-        return arrowActorRight;
+        return this.arrowActorRight;
     }
 
-    public void setArrowActorRight(Actor arrowActorRight) {
-        ArrowActors.arrowActorRight = arrowActorRight;
+    public void setArrowActorRight(ArrowActor arrowActorRight) {
+        this.arrowActorRight = arrowActorRight;
     }
 
     public Actor getArrowActorUp() {
-        return arrowActorUp;
+        return this.arrowActorUp;
     }
 
-    public void setArrowActorUp(Actor arrowActorUp) {
-        ArrowActors.arrowActorUp = arrowActorUp;
+    public void setArrowActorUp(ArrowActor arrowActorUp) {
+        this.arrowActorUp = arrowActorUp;
     }
 
     public Actor getArrowActorDown() {
-        return arrowActorDown;
+        return this.arrowActorDown;
     }
 
-    public void setArrowActorDown(Actor arrowActorDown) {
-        ArrowActors.arrowActorDown = arrowActorDown;
+    public void setArrowActorDown(ArrowActor arrowActorDown) {
+        this.arrowActorDown = arrowActorDown;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

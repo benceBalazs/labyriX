@@ -2,8 +2,6 @@ package com.labyrix.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 
 public class Board {
     private Field[][] fields;
@@ -12,13 +10,6 @@ public class Board {
         fields = new Field[length][width];
     }
     private static SpriteBatch batch = null;
-
-    private static Image selectionArrowLeft = null;
-    private static Image selectionArrowRight = null;
-    private static Image selectionArrowUp = null;
-    private static Image selectionArrowDown = null;
-
-    private ArrowActors arrowActors = new ArrowActors();
 
     //Board for development
     public Board(SpriteBatch batch) {
@@ -84,27 +75,8 @@ public class Board {
                 batch.draw(fields[row][cols].getFieldImage().getImg(), x, y);
             }
         }
-
-        if (this.selectionArrowDown != null) {
-            batch.draw(selectionArrowDown.getImg(), selectionArrowDown.getCoordinates().x, selectionArrowDown.getCoordinates().y);
-
-        }
-        if (this.selectionArrowUp != null) {
-            batch.draw(selectionArrowUp.getImg(), selectionArrowUp.getCoordinates().x, selectionArrowUp.getCoordinates().y);
-        }
-        if (this.selectionArrowLeft != null) {
-            batch.draw(selectionArrowLeft.getImg(), selectionArrowLeft.getCoordinates().x, selectionArrowLeft.getCoordinates().y);
-            arrowActors.getArrowActorLeft().draw(batch, 1);
-        }
-        if (this.selectionArrowRight != null) {
-            batch.draw(selectionArrowRight.getImg(), selectionArrowRight.getCoordinates().x, selectionArrowRight.getCoordinates().y);
-        }
     }
 
-
-    public ArrowActors getArrowActors() {
-        return arrowActors;
-    }
 
     public Field[][] getFields() {
         return fields;
@@ -123,37 +95,5 @@ public class Board {
             }
         }
         return null;
-    }
-
-    public Image getSelectionArrowLeft() {
-        return selectionArrowLeft;
-    }
-
-    public void setSelectionArrowLeft(Image selectionArrowLeft) {
-        Board.selectionArrowLeft = selectionArrowLeft;
-    }
-
-    public Image getSelectionArrowRight() {
-        return selectionArrowRight;
-    }
-
-    public void setSelectionArrowRight(Image selectionArrowRight) {
-        Board.selectionArrowRight = selectionArrowRight;
-    }
-
-    public Image getSelectionArrowUp() {
-        return selectionArrowUp;
-    }
-
-    public void setSelectionArrowUp(Image selectionArrowUp) {
-        Board.selectionArrowUp = selectionArrowUp;
-    }
-
-    public Image getSelectionArrowDown() {
-        return selectionArrowDown;
-    }
-
-    public void setSelectionArrowDown(Image selectionArrowDown) {
-        Board.selectionArrowDown = selectionArrowDown;
     }
 }

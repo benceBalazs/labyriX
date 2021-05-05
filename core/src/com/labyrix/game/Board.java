@@ -9,10 +9,21 @@ public class Board {
     public Board(int length, int width) {
         fields = new Field[length][width];
     }
+    private static SpriteBatch batch = null;
+
+    private static Image selectionArrowLeft = null;
+    private static Image selectionArrowRight = null;
+    private static Image selectionArrowUp = null;
+    private static Image selectionArrowDown = null;
 
     //Board for development
-    public Board() {
-        Image floor = new Image("bodenlabyrixv2.png");
+    public Board(SpriteBatch batch) {
+        if (this.batch == null) {
+            this.batch = batch;
+        }
+
+        Image floor = new Image("bodenLabyrixSnow.png");
+        Image ziel = new Image("bodenLabyrixZiel.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
         fields = new Field[5][5];
         fields[0][0] = new PathField(1, floor);
@@ -28,7 +39,7 @@ public class Board {
         fields[2][4] = new PathField(11, floor);
         fields[3][4] = new PathField(12, floor);
         fields[4][4] = new PathField(13, floor);
-        fields[4][3] = new PathField(14, floor);
+        fields[4][3] = new PathField(14, ziel);
 
 
         fields[0][0].addFollowingFields((PathField) fields[0][1]);
@@ -60,7 +71,7 @@ public class Board {
         fields[4][1] = new NonPathField(25, poison);
     }
 
-    public void drawGround(SpriteBatch batch) {
+    public void drawGround() {
         for (int row = fields.length - 1; row >= 0; row--) {
             for (int cols = fields[row].length - 1; cols >= 0; cols--) {
                 float x = (cols - row) * 128;
@@ -68,6 +79,19 @@ public class Board {
                 fields[row][cols].setCoordinates(new Vector2(x, y));
                 batch.draw(fields[row][cols].getFieldImage().getImg(), x, y);
             }
+        }
+
+        if (this.selectionArrowDown != null) {
+            batch.draw(selectionArrowDown.getImg(), selectionArrowDown.getCoordinates().x, selectionArrowDown.getCoordinates().y);
+        }
+        if (this.selectionArrowUp != null) {
+            batch.draw(selectionArrowUp.getImg(), selectionArrowUp.getCoordinates().x, selectionArrowUp.getCoordinates().y);
+        }
+        if (this.selectionArrowLeft != null) {
+            batch.draw(selectionArrowLeft.getImg(), selectionArrowLeft.getCoordinates().x, selectionArrowLeft.getCoordinates().y);
+        }
+        if (this.selectionArrowRight != null) {
+            batch.draw(selectionArrowRight.getImg(), selectionArrowRight.getCoordinates().x, selectionArrowRight.getCoordinates().y);
         }
     }
 
@@ -89,5 +113,37 @@ public class Board {
             }
         }
         return null;
+    }
+
+    public Image getSelectionArrorLeft() {
+        return selectionArrowLeft;
+    }
+
+    public void setSelectionArrorLeft(Image selectionArrorLeft) {
+        Board.selectionArrowLeft = selectionArrorLeft;
+    }
+
+    public Image getSelectionArrorRight() {
+        return selectionArrowRight;
+    }
+
+    public void setSelectionArrorRight(Image selectionArrorRight) {
+        Board.selectionArrowRight = selectionArrorRight;
+    }
+
+    public Image getSelectionArrorUp() {
+        return selectionArrowUp;
+    }
+
+    public void setSelectionArrorUp(Image selectionArrorUp) {
+        Board.selectionArrowUp = selectionArrorUp;
+    }
+
+    public Image getSelectionArrorDown() {
+        return selectionArrowDown;
+    }
+
+    public void setSelectionArrorDown(Image selectionArrorDown) {
+        Board.selectionArrowDown = selectionArrorDown;
     }
 }

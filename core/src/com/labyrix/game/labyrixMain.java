@@ -21,8 +21,8 @@ public class labyrixMain extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		isorend = new Board();
-		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180);
+		isorend = new Board(batch);
+		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
 		camera = new OrthographicCamera(cameraHeight, cameraWidth);
 		camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
 
@@ -32,9 +32,9 @@ public class labyrixMain extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.setProjectionMatrix(camera.combined);
-		player.update();
 		batch.begin();
-		isorend.drawGround(batch);
+		player.update();
+		isorend.drawGround();
 		player.render(batch);
 		cameraLerp( camera, player.getPosition());
 		batch.end();

@@ -1,6 +1,7 @@
 package com.labyrix.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -17,14 +18,17 @@ public class Player {
     private int numberOfFails = 0;
     private int counterReducedMovementSpeed = 0;
     private TrapEvent activeEvent = null; //eventuell in die Enumeration umändern
+    private static Board board = null;
 
-
-    Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos) {
+    Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
 //current startposition for testcases
         position = new Vector2(xPos, yPos);
+        if (this.board == null) {
+            this.board = board;
+        }
     }
 
 
@@ -39,19 +43,47 @@ public class Player {
 
     public void movePlayer() {
         if (Gdx.input.justTouched()) {
-            if (currentField.getFollowingFields().size() == 1) {
-                currentField = currentField.getFollowingField(0);
-                position.x = currentField.getCoordinates().x + 64;
-                position.y = currentField.getCoordinates().y + 184;
+            if (this.currentField.getFollowingFields().size() == 1) {
+                this.currentField = this.currentField.getFollowingField(0);
+                this.position.x = this.currentField.getCoordinates().x + 64;
+                this.position.y = this.currentField.getCoordinates().y + 184;
+
+                if (this.currentField.getFollowingFields().size() > 1) {
+                    int i = 0;
+                    for (PathField pf: this.currentField.getFollowingFields()) {
+                        System.out.println("Test");
+                        Image img =  new Image("kreisIndicator.png");
+                        Vector2 v = new Vector2(pf.getCoordinates().x, pf.getCoordinates().y);
+                        img.setCoordinates(v);
+                        if (i == 0) {
+                            board.setSelectionArrorUp(img);
+                        } else if (i == 1) {
+                            board.setSelectionArrorRight(img);
+                        } else if (i == 2) {
+                            board.setSelectionArrorLeft(img);
+                        }
+                        i++;
+                    }
+                }
             }
             //if more than one following field - just chose one random field
-            else if (currentField.getFollowingFields().size() > 1) {
+            else if (this.currentField.getFollowingFields().size() > 1) {
+                //Arrow Spawn for all 4 possible followingFields
+                //if touched one of them/field -> move there;
+
+                //(Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat())
+                
                 int followingFieldIndex = (int) (Math.random()*10);
                 followingFieldIndex = (followingFieldIndex)  % currentField.getFollowingFields().size();
 
                 currentField = currentField.getFollowingField(followingFieldIndex);
                 position.x = currentField.getCoordinates().x + 64;
                 position.y = currentField.getCoordinates().y + 184;
+                board.setSelectionArrorUp(null);
+                board.setSelectionArrorDown(null);
+                board.setSelectionArrorRight(null);
+                board.setSelectionArrorLeft(null);
+
             }
         }
     }

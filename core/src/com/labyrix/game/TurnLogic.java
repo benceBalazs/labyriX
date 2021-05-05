@@ -21,8 +21,8 @@ public class TurnLogic {
         this.board = board;
         this.player = player;
         this.client = ClientNetworkHandler.getInstance().getClient();
-        turnDone = false;
-        turnValue = TurnValue.DICEROLL;
+        this.turnDone = false;
+        this.turnValue = TurnValue.DICEROLL;
     }
 
     public void doTurn() {
@@ -31,7 +31,7 @@ public class TurnLogic {
            if (Gdx.input.justTouched()) {
                //player.setRemainingSteps((int) (Math.random() * 10 * player.getMovementSpeed()));
 
-               player.setRemainingSteps(3);
+               this.player.setRemainingSteps(3);
                this.turnValue = TurnValue.MOVEMENT;
            }
        } else if (this.turnValue == TurnValue.MOVEMENT) {
@@ -41,10 +41,10 @@ public class TurnLogic {
                this.turnValue = TurnValue.TRAPCHECK;
            }
 
-           if (player.getCurrentField().getFollowingFields().size() == 1) {
+           if (this.player.getCurrentField().getFollowingFields().size() == 1) {
                if (Gdx.input.justTouched()) {
 
-                   player.setCurrentField(player.getCurrentField().getFollowingField(0));
+                   this.player.setCurrentField(player.getCurrentField().getFollowingField(0));
                    this.player.setRemainingSteps(this.player.getRemainingSteps()-1);
                    Vector2 playerPosition = new Vector2(player.getCurrentField().getCoordinates().x + 64, player.getCurrentField().getCoordinates().y + 184);
                    this.player.setPosition(playerPosition);
@@ -56,14 +56,15 @@ public class TurnLogic {
 
 
        } else if (this.turnValue == TurnValue.PATHSELECTION) {
-           //TODO
-           //Do PathSelection Stuff
 
-           //Show arrows for PathSelection
+
            System.out.println("Remaining Steps: "+this.player.getRemainingSteps());
 
+           //TODO
+           //Do PathSelection Stuff
+           //Show arrows for PathSelection
            if (this.player.getRemainingSteps() > 0) {
-               if (board.getSelectionArrowDown() == null && board.getSelectionArrowLeft() == null && board.getSelectionArrowRight() == null && board.getSelectionArrowUp() == null) {
+               if (this.board.getSelectionArrowDown() == null && this.board.getSelectionArrowLeft() == null && this.board.getSelectionArrowRight() == null && this.board.getSelectionArrowUp() == null) {
                    for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                        //Arrow Spawn for all 4 possible followingFields
                        String imgPath = "kreisIndicator.png";
@@ -74,12 +75,12 @@ public class TurnLogic {
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
                            imgPath = "pfeilOben.png";
                            img.setImg(new Texture(imgPath));
-                           board.setSelectionArrowUp(img);
+                           this.board.setSelectionArrowUp(img);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
                            imgPath = "pfeilLinks.png";
                            img.setImg(new Texture(imgPath));
-                           board.setSelectionArrowLeft(img);
+                           this.board.setSelectionArrowLeft(img);
 
                            Actor actorLeft = new Actor();
                            actorLeft.setPosition(pf.getCoordinates().x, pf.getCoordinates().y);
@@ -94,19 +95,17 @@ public class TurnLogic {
                                    System.out.println("touched");
                                }
                            });
-
-                           board.getArrowActors().setArrowActorLeft(actorLeft);
-
+                           this.board.getArrowActors().setArrowActorLeft(actorLeft);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                            imgPath = "pfeilHinten.png";
                            img.setImg(new Texture(imgPath));
-                           board.setSelectionArrowDown(img);
+                           this.board.setSelectionArrowDown(img);
                        }
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                            imgPath = "pfeilRechts.png";
                            img.setImg(new Texture(imgPath));
-                           board.setSelectionArrowRight(img);
+                           this.board.setSelectionArrowRight(img);
                        }
                    }
                }
@@ -118,13 +117,13 @@ public class TurnLogic {
                    //Move to selected field
 
                    //Only go back to movement - if path has been selected
-                   player.setCurrentField(player.getCurrentField().getFollowingField(1));
-                   Vector2 playerPosition = new Vector2(player.getCurrentField().getCoordinates().x + 64, player.getCurrentField().getCoordinates().y + 184);
-                   player.setPosition(playerPosition);
-                   board.setSelectionArrowUp(null);
-                   board.setSelectionArrowDown(null);
-                   board.setSelectionArrowRight(null);
-                   board.setSelectionArrowLeft(null);
+                   this.player.setCurrentField(this.player.getCurrentField().getFollowingField(1));
+                   Vector2 playerPosition = new Vector2(this.player.getCurrentField().getCoordinates().x + 64, this.player.getCurrentField().getCoordinates().y + 184);
+                   this. player.setPosition(playerPosition);
+                   this.board.setSelectionArrowUp(null);
+                   this.board.setSelectionArrowDown(null);
+                   this.board.setSelectionArrowRight(null);
+                   this.board.setSelectionArrowLeft(null);
                    this.player.setRemainingSteps(this.player.getRemainingSteps()-1);
                    this.turnValue = TurnValue.MOVEMENT;
                }
@@ -140,6 +139,7 @@ public class TurnLogic {
            //TODO
            //Delete this block after correct implementation of fields
            if (Gdx.input.justTouched()) {
+               this.turnDone = true;
                this.turnValue = TurnValue.DICEROLL;
            }
 

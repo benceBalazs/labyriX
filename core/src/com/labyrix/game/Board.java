@@ -11,11 +11,6 @@ public class Board {
     }
     private static SpriteBatch batch = null;
 
-    private static Image selectionArrowLeft = null;
-    private static Image selectionArrowRight = null;
-    private static Image selectionArrowUp = null;
-    private static Image selectionArrowDown = null;
-
     //Board for development
     public Board(SpriteBatch batch) {
         if (this.batch == null) {
@@ -80,19 +75,6 @@ public class Board {
                 batch.draw(fields[row][cols].getFieldImage().getImg(), x, y);
             }
         }
-
-        if (this.selectionArrowDown != null) {
-            batch.draw(selectionArrowDown.getImg(), selectionArrowDown.getCoordinates().x, selectionArrowDown.getCoordinates().y);
-        }
-        if (this.selectionArrowUp != null) {
-            batch.draw(selectionArrowUp.getImg(), selectionArrowUp.getCoordinates().x, selectionArrowUp.getCoordinates().y);
-        }
-        if (this.selectionArrowLeft != null) {
-            batch.draw(selectionArrowLeft.getImg(), selectionArrowLeft.getCoordinates().x, selectionArrowLeft.getCoordinates().y);
-        }
-        if (this.selectionArrowRight != null) {
-            batch.draw(selectionArrowRight.getImg(), selectionArrowRight.getCoordinates().x, selectionArrowRight.getCoordinates().y);
-        }
     }
 
 
@@ -113,37 +95,5 @@ public class Board {
             }
         }
         return null;
-    }
-
-    public Image getSelectionArrorLeft() {
-        return selectionArrowLeft;
-    }
-
-    public void setSelectionArrorLeft(Image selectionArrorLeft) {
-        Board.selectionArrowLeft = selectionArrorLeft;
-    }
-
-    public Image getSelectionArrorRight() {
-        return selectionArrowRight;
-    }
-
-    public void setSelectionArrorRight(Image selectionArrorRight) {
-        Board.selectionArrowRight = selectionArrorRight;
-    }
-
-    public Image getSelectionArrorUp() {
-        return selectionArrowUp;
-    }
-
-    public void setSelectionArrorUp(Image selectionArrorUp) {
-        Board.selectionArrowUp = selectionArrorUp;
-    }
-
-    public Image getSelectionArrorDown() {
-        return selectionArrowDown;
-    }
-
-    public void setSelectionArrorDown(Image selectionArrorDown) {
-        Board.selectionArrowDown = selectionArrorDown;
     }
 }

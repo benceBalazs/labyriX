@@ -19,6 +19,7 @@ public class labyrixMain extends Game {
 	private OrthographicCamera camera;
 	private int cameraHeight = 400 * 4;
 	private int cameraWidth = 200 * 4;
+	private TurnLogic tl;
 
 
 	public labyrixMain(){
@@ -34,6 +35,7 @@ public class labyrixMain extends Game {
 		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
 		camera = new OrthographicCamera(cameraHeight, cameraWidth);
 		camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
+		tl = new TurnLogic(isorend, player, camera);
 
 	}
 
@@ -42,10 +44,11 @@ public class labyrixMain extends Game {
 		ScreenUtils.clear(0, 0, 0, 1);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		player.update();
+		tl.doTurn();
 		isorend.drawGround();
 		player.render(batch);
 		cameraLerp( camera, player.getPosition());
+		tl.getArrowActors().render();
 		batch.end();
 	}
 

@@ -22,6 +22,7 @@ public class Player {
     private int remainingCheats = 2;
     private int numberOfFails = 0;
     private int counterReducedMovementSpeed = 0;
+    private int remainingSteps = 0;
     private TrapEvent activeEvent = null; //eventuell in die Enumeration umändern
     private static Board board = null;
 
@@ -44,8 +45,6 @@ public class Player {
     public void update() {
         movePlayer();
     }
-
-
     public void movePlayer() {
 
             if (this.currentField.getFollowingFields().size() == 1) {
@@ -206,5 +205,13 @@ public class Player {
 
     public void setCurrentField(PathField currentField) {
         this.currentField = currentField;
+    }
+
+    public int getRemainingSteps() {
+        return remainingSteps;
+    }
+
+    public void setRemainingSteps(int remainingSteps) {
+        this.remainingSteps = remainingSteps;
     }
 }

@@ -115,35 +115,35 @@ public class Board {
         return null;
     }
 
-    public Image getSelectionArrorLeft() {
+    public Image getSelectionArrowLeft() {
         return selectionArrowLeft;
     }
 
-    public void setSelectionArrorLeft(Image selectionArrorLeft) {
-        Board.selectionArrowLeft = selectionArrorLeft;
+    public void setSelectionArrowLeft(Image selectionArrowLeft) {
+        Board.selectionArrowLeft = selectionArrowLeft;
     }
 
-    public Image getSelectionArrorRight() {
+    public Image getSelectionArrowRight() {
         return selectionArrowRight;
     }
 
-    public void setSelectionArrorRight(Image selectionArrorRight) {
-        Board.selectionArrowRight = selectionArrorRight;
+    public void setSelectionArrowRight(Image selectionArrowRight) {
+        Board.selectionArrowRight = selectionArrowRight;
     }
 
-    public Image getSelectionArrorUp() {
+    public Image getSelectionArrowUp() {
         return selectionArrowUp;
     }
 
-    public void setSelectionArrorUp(Image selectionArrorUp) {
-        Board.selectionArrowUp = selectionArrorUp;
+    public void setSelectionArrowUp(Image selectionArrowUp) {
+        Board.selectionArrowUp = selectionArrowUp;
     }
 
-    public Image getSelectionArrorDown() {
+    public Image getSelectionArrowDown() {
         return selectionArrowDown;
     }
 
-    public void setSelectionArrorDown(Image selectionArrorDown) {
-        Board.selectionArrowDown = selectionArrorDown;
+    public void getSelectionArrowDown(Image selectionArrowDown) {
+        Board.selectionArrowDown = selectionArrowDown;
     }
 }

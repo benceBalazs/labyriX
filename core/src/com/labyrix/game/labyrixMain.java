@@ -45,7 +45,6 @@ public class labyrixMain extends Game {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		tl.doTurn();
-		//player.update();
 		isorend.drawGround();
 		player.render(batch);
 		cameraLerp( camera, player.getPosition());

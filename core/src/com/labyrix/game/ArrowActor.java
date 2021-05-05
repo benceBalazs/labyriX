@@ -43,11 +43,6 @@ public class ArrowActor extends Actor {
     }
 
     @Override
-    public void act(float delta) {
-        super.act(delta);
-    }
-
-    @Override
     public void draw(Batch batch, float parentAlpha) {
         texture.draw(batch);
     }

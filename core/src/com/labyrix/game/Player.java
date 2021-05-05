@@ -23,13 +23,13 @@ public class Player {
     private int numberOfFails = 0;
     private int counterReducedMovementSpeed = 0;
     private int remainingSteps = 0;
-    private TrapEvent activeEvent = null; //eventuell in die Enumeration umändern
     private static Board board = null;
 
     Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
+
         //current startposition for testcases
         position = new Vector2(xPos, yPos);
         if (this.board == null) {
@@ -56,14 +56,6 @@ public class Player {
 
     public void setMovementSpeed(float movementSpeed) {
         this.movementSpeed = movementSpeed;
-    }
-
-    public TrapEvent getActiveEvent() {
-        return activeEvent;
-    }
-
-    public void setActiveEvent(TrapEvent activeEvent) {
-        this.activeEvent = activeEvent;
     }
 
     public int getRemainingCheats() {

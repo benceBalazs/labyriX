@@ -16,8 +16,6 @@ public class Board {
     private static Image selectionArrowUp = null;
     private static Image selectionArrowDown = null;
 
-    private ArrowActors arrowActors = new ArrowActors();
-
     //Board for development
     public Board(SpriteBatch batch) {
         if (this.batch == null) {
@@ -92,17 +90,12 @@ public class Board {
         }
         if (this.selectionArrowLeft != null) {
             batch.draw(selectionArrowLeft.getImg(), selectionArrowLeft.getCoordinates().x, selectionArrowLeft.getCoordinates().y);
-            arrowActors.getArrowActorLeft().draw(batch, 1);
         }
         if (this.selectionArrowRight != null) {
             batch.draw(selectionArrowRight.getImg(), selectionArrowRight.getCoordinates().x, selectionArrowRight.getCoordinates().y);
         }
     }
 
-
-    public ArrowActors getArrowActors() {
-        return arrowActors;
-    }
 
     public Field[][] getFields() {
         return fields;

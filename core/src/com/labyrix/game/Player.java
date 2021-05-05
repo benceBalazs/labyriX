@@ -71,23 +71,6 @@ public class Player {
                                 imgPath = "pfeilLinks.png";
                                 img.setImg(new Texture(imgPath));
                                 board.setSelectionArrowLeft(img);
-
-                                Actor actorLeft = new Actor();
-                                actorLeft.setPosition(pf.getCoordinates().x, pf.getCoordinates().y);
-                                actorLeft.setHeight(256);
-                                actorLeft.setWidth(256);
-                                actorLeft.setColor(Color.CYAN);
-                                actorLeft.setZIndex(900);
-
-                                actorLeft.addListener(new InputListener() {
-                                    @Override
-                                    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                                        System.out.println("touched");
-                                    }
-                                });
-
-                                board.getArrowActors().setArrowActorLeft(actorLeft);
-
                             }
                             if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
                                 imgPath = "pfeilHinten.png";

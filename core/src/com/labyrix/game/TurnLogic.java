@@ -1,12 +1,17 @@
 package com.labyrix.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 
 public class TurnLogic {
@@ -16,13 +21,17 @@ public class TurnLogic {
     private boolean turnDone;
     private TurnValue turnValue;
     private Client client;
+    private ArrowActors arrowActors;
 
-    public TurnLogic(Board board, Player player) {
+
+    public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
         this.player = player;
         this.client = ClientNetworkHandler.getInstance().getClient();
         this.turnDone = false;
         this.turnValue = TurnValue.DICEROLL;
+        arrowActors = new ArrowActors(camera);
+
     }
 
     public void doTurn() {
@@ -73,29 +82,24 @@ public class TurnLogic {
                        img.setCoordinates(v);
 
                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                           imgPath = "pfeilOben.png";
+                          /* imgPath = "pfeilOben.png";
                            img.setImg(new Texture(imgPath));
-                           this.board.setSelectionArrowUp(img);
+                           this.board.setSelectionArrowUp(img);*/
+
+                           ArrowActor actorUp = new ArrowActor("pfeilOben.png", pf.getCoordinates().x, pf.getCoordinates().y);
+                           this.arrowActors.setArrowActorRight(actorUp);
+                           this.arrowActors.getStage().addActor(actorUp);
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                           imgPath = "pfeilLinks.png";
-                           img.setImg(new Texture(imgPath));
-                           this.board.setSelectionArrowLeft(img);
+                           //imgPath = "pfeilLinks.png";
+                           //img.setImg(new Texture(imgPath));
+                           //this.board.setSelectionArrowLeft(img);
 
-                           Actor actorLeft = new Actor();
-                           actorLeft.setPosition(pf.getCoordinates().x, pf.getCoordinates().y);
-                           actorLeft.setHeight(256);
-                           actorLeft.setWidth(256);
-                           actorLeft.setColor(Color.CYAN);
-                           actorLeft.setZIndex(900);
 
-                           actorLeft.addListener(new InputListener() {
-                               @Override
-                               public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                                   System.out.println("touched");
-                               }
-                           });
-                           this.board.getArrowActors().setArrowActorLeft(actorLeft);
+                           ArrowActor actorLeft = new ArrowActor("pfeilLinks.png", pf.getCoordinates().x, pf.getCoordinates().y);
+                           this.arrowActors.setArrowActorLeft(actorLeft);
+                           this.arrowActors.getStage().addActor(actorLeft);
+
                        }
                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                            imgPath = "pfeilHinten.png";
@@ -120,10 +124,11 @@ public class TurnLogic {
                    this.player.setCurrentField(this.player.getCurrentField().getFollowingField(1));
                    Vector2 playerPosition = new Vector2(this.player.getCurrentField().getCoordinates().x + 64, this.player.getCurrentField().getCoordinates().y + 184);
                    this. player.setPosition(playerPosition);
-                   this.board.setSelectionArrowUp(null);
-                   this.board.setSelectionArrowDown(null);
-                   this.board.setSelectionArrowRight(null);
-                   this.board.setSelectionArrowLeft(null);
+                   this.arrowActors.setArrowActorUp(null);
+                   this.arrowActors.setArrowActorDown(null);
+                   this.arrowActors.setArrowActorRight(null);
+                   this.arrowActors.setArrowActorLeft(null);
+                   //this.arrowActors.hide();
                    this.player.setRemainingSteps(this.player.getRemainingSteps()-1);
                    this.turnValue = TurnValue.MOVEMENT;
                }
@@ -151,4 +156,7 @@ public class TurnLogic {
     }
 
 
+    public ArrowActors getArrowActors() {
+        return arrowActors;
+    }
 }

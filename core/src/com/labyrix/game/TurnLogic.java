@@ -22,6 +22,7 @@ public class TurnLogic {
     private TurnValue turnValue;
     private Client client;
     private ArrowActors arrowActors;
+    int animationCounter = 20;
 
 
     public TurnLogic(Board board, Player player, Camera camera) {
@@ -51,13 +52,15 @@ public class TurnLogic {
            }
 
            if (this.player.getCurrentField().getFollowingFields().size() == 1) {
-               if (Gdx.input.justTouched()) {
-
+               //if (Gdx.input.justTouched()) {
+                if (animationCounter == 0) {
                    this.player.setCurrentField(player.getCurrentField().getFollowingField(0));
                    this.player.setRemainingSteps(this.player.getRemainingSteps()-1);
                    Vector2 playerPosition = new Vector2(player.getCurrentField().getCoordinates().x + 64, player.getCurrentField().getCoordinates().y + 184);
                    this.player.setPosition(playerPosition);
+                   animationCounter = 20;
                }
+           animationCounter--;
            }
            if (this.player.getCurrentField().getFollowingFields().size() > 1 && this.player.getRemainingSteps() > 0) {
                this.turnValue = TurnValue.PATHSELECTION;

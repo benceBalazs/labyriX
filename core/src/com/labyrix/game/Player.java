@@ -24,7 +24,7 @@ public class Player {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
-//current startposition for testcases
+        //current startposition for testcases
         position = new Vector2(xPos, yPos);
         if (this.board == null) {
             this.board = board;
@@ -49,20 +49,32 @@ public class Player {
                 this.position.y = this.currentField.getCoordinates().y + 184;
 
                 if (this.currentField.getFollowingFields().size() > 1) {
-                    int i = 0;
                     for (PathField pf: this.currentField.getFollowingFields()) {
-                        System.out.println("Test");
-                        Image img =  new Image("kreisIndicator.png");
+                        String imgPath = "kreisIndicator.png";
+                        Image img =  new Image(imgPath);
                         Vector2 v = new Vector2(pf.getCoordinates().x, pf.getCoordinates().y);
                         img.setCoordinates(v);
-                        if (i == 0) {
-                            board.setSelectionArrorUp(img);
-                        } else if (i == 1) {
-                            board.setSelectionArrorRight(img);
-                        } else if (i == 2) {
-                            board.setSelectionArrorLeft(img);
+
+                        if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
+                            imgPath = "pfeilOben.png";
+                            img.setImg(new Texture(imgPath));
+                            board.setSelectionArrowUp(img);
                         }
-                        i++;
+                        if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y < pf.getCoordinates().y) {
+                            imgPath = "pfeilLinks.png";
+                            img.setImg(new Texture(imgPath));
+                            board.setSelectionArrowLeft(img);
+                        }
+                        if (this.currentField.getCoordinates().x > pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
+                            imgPath = "pfeilHinten.png";
+                            img.setImg(new Texture(imgPath));
+                            board.setSelectionArrowDown(img);
+                        }
+                        if (this.currentField.getCoordinates().x < pf.getCoordinates().x && this.currentField.getCoordinates().y > pf.getCoordinates().y) {
+                            imgPath = "pfeilRechts.png";
+                            img.setImg(new Texture(imgPath));
+                            board.setSelectionArrowRight(img);
+                        }
                     }
                 }
             }
@@ -70,6 +82,9 @@ public class Player {
             else if (this.currentField.getFollowingFields().size() > 1) {
                 //Arrow Spawn for all 4 possible followingFields
                 //if touched one of them/field -> move there;
+                //Check if touched
+                //Check touching coordinates - if they are on the right field
+
 
                 //(Gdx.input.getX().toFloat(), Gdx.input.getY().toFloat())
                 
@@ -79,10 +94,10 @@ public class Player {
                 currentField = currentField.getFollowingField(followingFieldIndex);
                 position.x = currentField.getCoordinates().x + 64;
                 position.y = currentField.getCoordinates().y + 184;
-                board.setSelectionArrorUp(null);
-                board.setSelectionArrorDown(null);
-                board.setSelectionArrorRight(null);
-                board.setSelectionArrorLeft(null);
+                board.setSelectionArrowUp(null);
+                board.setSelectionArrowDown(null);
+                board.setSelectionArrowRight(null);
+                board.setSelectionArrowLeft(null);
 
             }
         }

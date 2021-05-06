@@ -20,50 +20,70 @@ public class Board {
         Image floor = new Image("bodenLabyrixSnow.png");
         Image ziel = new Image("bodenLabyrixZiel.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
-        fields = new Field[5][5];
-        fields[0][0] = new PathField(1, floor);
-        fields[0][1] = new PathField(2, floor);
-        fields[0][2] = new PathField(3, floor);
-        fields[0][3] = new PathField(4, floor);
-        fields[0][4] = new PathField(5, floor);
-        fields[1][2] = new PathField(6, floor);
-        fields[2][2] = new PathField(7, floor);
-        fields[3][2] = new PathField(8, floor);
-        fields[4][2] = new PathField(9, floor);
-        fields[1][4] = new PathField(10, floor);
-        fields[2][4] = new PathField(11, floor);
-        fields[3][4] = new PathField(12, floor);
-        fields[4][4] = new PathField(13, floor);
-        fields[4][3] = new PathField(14, ziel);
+        Image stone = new Image ("bodenLabyrixstone.png");
+        Image dach = new Image("bodenLabyrixdach.png");
+        Image cheddar = new Image ("bodenLabyrixcheddar.png");
+        Image standard = new Image ("bodenlabyrixv2.png");
 
 
-        fields[0][0].addFollowingFields((PathField) fields[0][1]);
-        fields[0][1].addFollowingFields((PathField) fields[0][2]);
-        fields[0][2].addFollowingFields((PathField) fields[0][3]);
-        fields[0][2].addFollowingFields((PathField) fields[1][2]);
-        fields[0][3].addFollowingFields((PathField) fields[0][4]);
-        fields[1][2].addFollowingFields((PathField) fields[2][2]);
-        fields[2][2].addFollowingFields((PathField) fields[3][2]);
-        fields[3][2].addFollowingFields((PathField) fields[4][2]);
-        fields[0][4].addFollowingFields((PathField) fields[1][4]);
-        fields[1][4].addFollowingFields((PathField) fields[2][4]);
-        fields[2][4].addFollowingFields((PathField) fields[3][4]);
-        fields[3][4].addFollowingFields((PathField) fields[4][4]);
-        fields[4][4].addFollowingFields((PathField) fields[4][3]);
-        fields[4][2].addFollowingFields((PathField) fields[4][3]);
 
 
-        fields[1][0] = new NonPathField(15, poison);
-        fields[1][1] = new NonPathField(16, poison);
-        fields[1][3] = new NonPathField(17, poison);
-        fields[2][0] = new NonPathField(18, poison);
-        fields[2][1] = new NonPathField(19, poison);
-        fields[2][3] = new NonPathField(20, poison);
-        fields[3][0] = new NonPathField(21, poison);
-        fields[3][1] = new NonPathField(22, poison);
-        fields[3][3] = new NonPathField(23, poison);
-        fields[4][0] = new NonPathField(24, poison);
-        fields[4][1] = new NonPathField(25, poison);
+        int[][] field = {{1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6},
+                {1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2},
+                {3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4},
+                {5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 7}};
+
+        fields = new Field[26][26];
+        int id = 1;
+
+
+        for (int i = 0; i < field.length; i++) {
+            for (int y = 0; y < field[i].length; y++) {
+                if (field[i][y] == 1) {
+                    fields[i][y] = new PathField(id,floor,(float)Math.random());
+                } else if (field[i][y] == 2) {
+                    fields [i][y] = new NonPathField(id,poison);
+                } else if (field[i][y] == 3) {
+                    fields[i][y] = new PathField(id,stone,(float)Math.random());
+                } else if (field[i][y] == 4) {
+                    fields[i][y] = new NonPathField(id,dach);
+                } else if (field[i][y] == 5) {
+                    fields[i][y] = new PathField(id,standard,(float)Math.random());
+                } else if (field[i][y] == 6) {
+                    fields[i][y] = new NonPathField(id,cheddar);
+                } else {
+                    fields[i][y] = new NonPathField(id,ziel);
+                }
+                id++;
+
+
+            }
+        }
+        fields[0][0].addFollowingFields((PathField) fields[1][0]);
+        fields[1][0].addFollowingFields((PathField) fields[2][0]);
+
     }
 
     public void drawGround() {

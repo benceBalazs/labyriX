@@ -17,7 +17,7 @@ public class TestTrap {
     }
 
     @Test
-    public void testingTrapRandomMethod(){
+    public void testing_isTrapActivated(){
         float count = 0;
         int loops = 10000;
 

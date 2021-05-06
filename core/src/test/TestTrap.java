@@ -29,7 +29,6 @@ public class TestTrap {
         }
 
         count /= loops;
-        System.out.println(probability);
 
         assertEquals(probability, count, 0.01);
     }

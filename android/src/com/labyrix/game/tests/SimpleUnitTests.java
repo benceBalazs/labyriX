@@ -5,12 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 public class SimpleUnitTests {
-
-    @Test
-    public void oneEqualsOne() {
-        assertEquals(1, 1);
-    }
-
+    
     @Test
     public void testingTrapRandomMethod(){
         float probability = 0.5f;

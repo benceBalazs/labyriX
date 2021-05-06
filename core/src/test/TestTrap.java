@@ -4,6 +4,7 @@ import com.labyrix.game.Trap;
 
 import org.junit.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TestTrap {
 
@@ -15,6 +16,14 @@ public class TestTrap {
         probability = 0.5f;
         trap = new Trap(probability);
     }
+
+    @Test
+    public void testing_constructor(){
+        trap = new Trap(probability);
+
+        assertNotNull(trap);
+    }
+
 
     @Test
     public void testing_isTrapActivated(){

@@ -1,10 +1,11 @@
-package com.labyrix.game.tests;
+package test;
 
 import com.labyrix.game.Trap;
-import static org.junit.Assert.assertEquals;
-import org.junit.*;
 
-public class SimpleUnitTests {
+import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
+public class TestTrap {
 
     private float probability;
     private Trap trap = new Trap(0.5f);
@@ -32,5 +33,4 @@ public class SimpleUnitTests {
 
         assertEquals(probability, count, 0.01);
     }
-
 }

@@ -27,4 +27,9 @@ public class TestTrapEvent {
         assertNotNull(this.trapEvent.getEvent());
     }
 
+    @Test
+    public void TrapEvent_getImage_whenTrapEventGetsCreated(){
+        assertNotNull(trapEvent.getEventImage());
+    }
+
 }

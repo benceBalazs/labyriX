@@ -3,7 +3,6 @@ package test;
 import com.labyrix.game.Trap;
 import com.labyrix.game.TrapEvent;
 
-import org.graalvm.compiler.debug.Assertions;
 import org.junit.*;
 
 import java.security.InvalidParameterException;

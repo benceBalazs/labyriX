@@ -71,4 +71,11 @@ public class TestTrap {
         assertEquals(this.probability, this.trap.getProbability(), 0);
     }
 
+    @Test
+    public void setProbability_changesCurrentProbability(){
+        this.probability = 0.135f;
+        this.trap.setProbability(this.probability);
+        assertEquals(this.probability, this.trap.getProbability(), 0);
+    }
+
 }

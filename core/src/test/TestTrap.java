@@ -15,7 +15,7 @@ public class TestTrap {
 
     /**
      * Test-Names should be created like the following convention:
-     * methodName_expectedBahavior_condition
+     * methodName_expectedBehavior_condition
      *
      */
 

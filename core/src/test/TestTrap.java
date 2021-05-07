@@ -8,21 +8,27 @@ import static org.junit.Assert.assertNotNull;
 
 public class TestTrap {
 
+    /**
+     * Test-Names should be created like the following convention:
+     * methodName_expectedBahavior_condition
+     *
+     */
+
     private float probability;
     private Trap trap = new Trap(0.5f);
 
     @Before
     public void init(){
-        probability = 0.5f;
-        trap = new Trap(probability);
+        this.probability = 0.5f;
+        this.trap = new Trap(this.probability);
     }
 
     @Test
     public void Trap_createsTrapObjectAndReturnsIt_ifProbabilityIsBetweenZeroAndOne(){
-        trap = null;
-        trap = new Trap(probability);
+        this.trap = null;
+        this.trap = new Trap(this.probability);
 
-        assertNotNull(trap);
+        assertNotNull(this.trap);
     }
 
 
@@ -32,7 +38,7 @@ public class TestTrap {
         int loops = 10000;
 
         for (int i = 0; i < loops; i++) {
-            boolean trapWasActivated = trap.isTrapActivated();
+            boolean trapWasActivated = this.trap.isTrapActivated();
             if (trapWasActivated){
                 count++;
             }
@@ -40,6 +46,6 @@ public class TestTrap {
 
         count /= loops;
 
-        assertEquals(probability, count, 0.01);
+        assertEquals(this.probability, count, 0.01);
     }
 }

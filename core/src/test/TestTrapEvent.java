@@ -1,11 +1,13 @@
 package test;
 
 import com.labyrix.game.TrapEvent;
+import com.labyrix.game.TrapEventName;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class TestTrapEvent {
 
@@ -35,6 +37,38 @@ public class TestTrapEvent {
     @Test
     public void TrapEvent_getDefuseMethod_whenTrapEventGetsCreated(){
         assertNotNull(trapEvent.getDefuseMethod());
+    }
+
+    @Test
+    public void randomTrapEvent_givesBackRandomTrapEventName_sameProbabilityForEveryName(){
+        TrapEventName[] identifier = new TrapEventName[TrapEventName.values().length];
+        double[] count = new double[TrapEventName.values().length];
+        int loops = 10000;      // should not be less than 10000
+
+        for (int i = 0; i < loops; i++){
+            TrapEventName trapEventName = trapEvent.randomTrapEvent();
+            for (int j = 0; j < count.length; j++){
+                if (identifier[j] == null){
+                    identifier[j] = trapEventName;
+                }
+                if (identifier[j] == trapEventName){
+                    count[j] += 1;
+                    break;
+                }
+            }
+        }
+
+        boolean result = true;
+        int probability = loops / TrapEventName.values().length;
+
+        for (double v : count) {
+            if (v > (probability * 1.05) || v < (probability * 0.95)) {     // difference should not be more than 5%
+                result = false;
+                break;
+            }
+        }
+
+        assertTrue(result);
     }
 
 }

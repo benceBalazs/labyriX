@@ -2,7 +2,11 @@ package test;
 
 import com.labyrix.game.Trap;
 
+import org.graalvm.compiler.debug.Assertions;
 import org.junit.*;
+
+import java.security.InvalidParameterException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -31,6 +35,12 @@ public class TestTrap {
         assertNotNull(this.trap);
     }
 
+    @Test(expected = InvalidParameterException.class)
+    public void Trap_throwsException_whenProbabilityIsLessThanZero(){
+        this.trap = null;
+        this.probability = -0.1f;
+        this.trap = new Trap(this.probability);
+    }
 
     @Test
     public void isTrapActivated_returnsTrue_asOftenAsTheProbabilityAllows(){

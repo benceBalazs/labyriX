@@ -18,7 +18,8 @@ public class TestTrap {
     }
 
     @Test
-    public void testing_constructor(){
+    public void Trap_createsTrapObjectAndReturnsIt_ifProbabilityIsBetweenZeroAndOne(){
+        trap = null;
         trap = new Trap(probability);
 
         assertNotNull(trap);
@@ -26,7 +27,7 @@ public class TestTrap {
 
 
     @Test
-    public void testing_isTrapActivated(){
+    public void isTrapActivated_returnsTrue_asOftenAsTheProbabilityAllows(){
         float count = 0;
         int loops = 10000;
 

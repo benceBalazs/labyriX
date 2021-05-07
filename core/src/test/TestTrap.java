@@ -78,4 +78,9 @@ public class TestTrap {
         assertEquals(this.probability, this.trap.getProbability(), 0);
     }
 
+    @Test
+    public void getEvent_returnsCurrentEvent(){
+        assertNotNull(this.trap.getEvent());
+    }
+
 }

@@ -1,6 +1,7 @@
 package test;
 
 import com.labyrix.game.Trap;
+import com.labyrix.game.TrapEvent;
 
 import org.graalvm.compiler.debug.Assertions;
 import org.junit.*;
@@ -81,6 +82,14 @@ public class TestTrap {
     @Test
     public void getEvent_returnsCurrentEvent(){
         assertNotNull(this.trap.getEvent());
+    }
+
+    @Test
+    public void setEvent_changesCurrentEvent(){
+        TrapEvent trapEvent = new TrapEvent();
+
+        this.trap.setEvent(trapEvent);
+        Assert.assertSame(trapEvent, this.trap.getEvent());
     }
 
 }

@@ -32,4 +32,9 @@ public class TestTrapEvent {
         assertNotNull(trapEvent.getEventImage());
     }
 
+    @Test
+    public void TrapEvent_getDefuseMethod_whenTrapEventGetsCreated(){
+        assertNotNull(trapEvent.getDefuseMethod());
+    }
+
 }

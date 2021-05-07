@@ -17,7 +17,7 @@ public class TestTrapEvent {
     }
 
     @Test
-    public void TrapEvent_createsTrapEventAndReturnsIt(){
+    public void TrapEvent_createsTrapEventObject(){
         assertNotNull(trapEvent);
     }
 

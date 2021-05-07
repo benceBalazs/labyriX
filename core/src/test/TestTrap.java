@@ -19,7 +19,7 @@ public class TestTrap {
      */
 
     private float probability;
-    private Trap trap = new Trap(0.5f);
+    private Trap trap;
 
     @Before
     public void init(){

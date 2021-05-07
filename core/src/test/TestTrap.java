@@ -35,6 +35,11 @@ public class TestTrap {
         assertNotNull(this.trap);
     }
 
+    @Test
+    public void Trap_createsTrapEventAutomatically_whenTrapObjectGetsCreated(){
+        assertNotNull(this.trap.getEvent());
+    }
+
     @Test(expected = InvalidParameterException.class)
     public void Trap_throwsException_whenProbabilityIsLessThanZero(){
         this.trap = null;

@@ -42,6 +42,13 @@ public class TestTrap {
         this.trap = new Trap(this.probability);
     }
 
+    @Test(expected = InvalidParameterException.class)
+    public void Trap_throwsException_whenProbabilityIsHigherThanOne(){
+        this.trap = null;
+        this.probability = 1.1f;
+        this.trap = new Trap(this.probability);
+    }
+
     @Test
     public void isTrapActivated_returnsTrue_asOftenAsTheProbabilityAllows(){
         float count = 0;

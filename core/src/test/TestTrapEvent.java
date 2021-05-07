@@ -21,4 +21,10 @@ public class TestTrapEvent {
         assertNotNull(trapEvent);
     }
 
+    @Test
+    public void TrapEvent_createsRandomEvent_whenTrapEventGetsCreated(){
+        this.trapEvent = new TrapEvent();
+        assertNotNull(this.trapEvent.getEvent());
+    }
+
 }

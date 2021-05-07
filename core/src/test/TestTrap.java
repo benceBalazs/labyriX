@@ -68,7 +68,7 @@ public class TestTrap {
 
         count /= loops;
 
-        assertEquals(this.probability, count, 0.01);
+        assertEquals(this.probability, count, 0.015);
     }
 
     @Test

@@ -15,7 +15,7 @@ public class TestTrap {
     /**
      * Test-Names should be created like the following convention:
      * methodName_expectedBehavior_condition
-     *
+     * if it is not important, the condition does not have to be added.
      */
 
     private float probability;

@@ -65,4 +65,10 @@ public class TestTrap {
 
         assertEquals(this.probability, count, 0.01);
     }
+
+    @Test
+    public void getProbability_returnsCurrentProbability(){
+        assertEquals(this.probability, this.trap.getProbability(), 0);
+    }
+
 }

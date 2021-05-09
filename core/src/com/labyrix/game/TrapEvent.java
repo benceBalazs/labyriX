@@ -58,7 +58,7 @@ public class TrapEvent {
                 result = sensorDefuse.dontMove();
                 break;
             case WAVE:
-                //TODO result = circleWave();
+                result = sensorDefuse.wave();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + defuseMethod);

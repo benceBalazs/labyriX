@@ -32,7 +32,6 @@ public class MovementDefuse {
             }
             Thread.sleep(100);
         }
-        successCount = 0;
 
         return false;
     }
@@ -65,10 +64,25 @@ public class MovementDefuse {
                 successCount += 1;
                 System.out.println(successCount);
             }
-
             Thread.sleep(100);
         }
-        successCount = 0;
+        return false;
+    }
+
+    public boolean wave() throws InterruptedException {
+        double time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 10000) {
+            if (successCount > 30) {
+                successCount = 0;
+                return true;
+            }
+
+            if (Gdx.input.getGyroscopeZ() > 1 && Gdx.input.getGyroscopeZ() < -1) {
+                successCount += 1;
+                System.out.println(successCount);
+            }
+            Thread.sleep(100);
+        }
         return false;
     }
 }

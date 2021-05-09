@@ -53,4 +53,22 @@ public class MovementDefuse {
         successCount = 0;
         return false;
     }
+
+    public boolean crawlOut() throws InterruptedException {
+        double time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 10000) {
+            if (successCount > 50) {
+                successCount = 0;
+                return true;
+            }
+            if (Gdx.input.getAccelerometerY() > 1 || Gdx.input.getAccelerometerY() < -1) {
+                successCount += 1;
+                System.out.println(successCount);
+            }
+
+            Thread.sleep(100);
+        }
+        successCount = 0;
+        return false;
+    }
 }

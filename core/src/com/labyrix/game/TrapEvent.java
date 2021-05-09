@@ -52,7 +52,7 @@ public class TrapEvent {
                 result = sensorDefuse.climbUp();
                 break;
             case CRAWLOUT:
-                //TODO result = crawlOut();
+                result = sensorDefuse.crawlOut();
                 break;
             case STOPMOVING:
                 result = sensorDefuse.dontMove();

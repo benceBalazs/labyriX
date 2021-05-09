@@ -13,23 +13,23 @@ public class TrapEvent {
         switch (event){
             case ZOMBIE:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.STOPMOVING;
                 break;
             case BOMB:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
             case PITFALL:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.CRAWLOUT;
                 break;
             case ALIENKIDNAP:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.WAVE;
                 break;
             default:
                 //TODO throw new IllegalArgumentException();

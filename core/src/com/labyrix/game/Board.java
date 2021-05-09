@@ -35,11 +35,11 @@ public class Board {
                 {1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
                 {1, 1, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6},
                 {5, 2, 1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2},
-                {3, 4, 1, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
-                {5, 6, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6},
-                {5, 2, 1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2},
-                {3, 4, 1, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
-                {5, 6, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 5, 2, 3, 4, 5, 5, 2},
+                {3, 4, 1, 1, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
+                {5, 6, 1, 2, 1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6},
+                {5, 2, 1, 4, 1, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2},
+                {3, 4, 1, 6, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
+                {5, 6, 1, 2, 1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 5, 2, 3, 4, 5, 5, 2},
                 {3, 4, 1, 1, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4},
                 {5, 6, 5, 2, 1, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6},
                 {5, 2, 3, 4, 1, 1, 1, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2, 3, 4, 5, 6, 5, 2},
@@ -84,12 +84,22 @@ public class Board {
         fields[0][0].addFollowingFields((PathField) fields[1][0]);
         fields[1][0].addFollowingFields((PathField) fields[2][0]);
         fields [2][0].addFollowingFields((PathField) fields[3][0]);
+
         fields [3][0].addFollowingFields((PathField) fields[4][0]);
         fields [4][0].addFollowingFields((PathField) fields[5][0]);
         fields [5][0].addFollowingFields((PathField) fields[5][1]);
         fields [5][1].addFollowingFields((PathField) fields[5][2]);
         fields [5][2].addFollowingFields((PathField) fields[6][2]);
         fields [6][2].addFollowingFields((PathField) fields[7][2]);
+        //Verzweigung
+
+        fields [7][2].addFollowingFields((PathField) fields[7][3]);
+        fields [7][3].addFollowingFields((PathField) fields[7][4]);
+        fields [7][4].addFollowingFields((PathField) fields[8][4]);
+        fields [8][4].addFollowingFields((PathField) fields[9][4]);
+        fields [9][4].addFollowingFields((PathField) fields[10][4]);
+        fields [10][4].addFollowingFields((PathField) fields[11][4]);
+
         fields [7][2].addFollowingFields((PathField) fields[8][2]);
         fields [8][2].addFollowingFields((PathField) fields[9][2]);
 

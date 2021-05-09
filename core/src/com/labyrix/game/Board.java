@@ -99,10 +99,11 @@ public class Board {
         fields [8][4].addFollowingFields((PathField) fields[9][4]);
         fields [9][4].addFollowingFields((PathField) fields[10][4]);
         fields [10][4].addFollowingFields((PathField) fields[11][4]);
+        fields [11][4].addFollowingFields((PathField) fields[12][4]);
 
+        
         fields [7][2].addFollowingFields((PathField) fields[8][2]);
         fields [8][2].addFollowingFields((PathField) fields[9][2]);
-
         fields [9][2].addFollowingFields((PathField) fields[10][2]);
         fields [10][2].addFollowingFields((PathField) fields[11][2]);
         fields [11][2].addFollowingFields((PathField) fields[12][2]);

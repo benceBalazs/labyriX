@@ -43,6 +43,7 @@ public class TrapEvent {
 
     public boolean TrapDefuse() throws InterruptedException {
         boolean result = true;
+        MovementDefuse sensorDefuse = new MovementDefuse();
         switch (defuseMethod){
             case DEFUSEBOMB:
                 //TODO result = defuseBomb()
@@ -54,7 +55,7 @@ public class TrapEvent {
                 //TODO result = crawlOut();
                 break;
             case STOPMOVING:
-                //TODO result = dontMove();
+                result = sensorDefuse.dontMove();
                 break;
             case WAVE:
                 //TODO result = circleWave();

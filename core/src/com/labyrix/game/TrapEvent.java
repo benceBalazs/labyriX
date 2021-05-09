@@ -41,6 +41,30 @@ public class TrapEvent {
         return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
+    public boolean TrapDefuse() throws InterruptedException {
+        boolean result = true;
+        switch (defuseMethod){
+            case DEFUSEBOMB:
+                //TODO result = defuseBomb()
+                break;
+            case CLIMBUP:
+                //TODO result = climbUp();
+                break;
+            case CRAWLOUT:
+                //TODO result = crawlOut();
+                break;
+            case STOPMOVING:
+                //TODO result = dontMove();
+                break;
+            case WAVE:
+                //TODO result = circleWave();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + defuseMethod);
+        }
+        return result;
+    }
+
     public TrapEventName getEvent() {
         return event;
     }

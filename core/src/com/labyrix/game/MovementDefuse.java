@@ -36,4 +36,21 @@ public class MovementDefuse {
 
         return false;
     }
+
+    public boolean climbUp() throws InterruptedException {
+        double time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 10000) {
+            if (successCount > 50) {
+                successCount = 0;
+                return true;
+            }
+            if (Gdx.input.getAccelerometerX() > 10 || Gdx.input.getAccelerometerX() < 8.5) {
+                successCount += 1;
+                System.out.println(successCount);
+            }
+            Thread.sleep(100);
+        }
+        successCount = 0;
+        return false;
+    }
 }

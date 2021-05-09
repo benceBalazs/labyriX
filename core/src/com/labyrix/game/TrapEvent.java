@@ -49,7 +49,7 @@ public class TrapEvent {
                 //TODO result = defuseBomb()
                 break;
             case CLIMBUP:
-                //TODO result = climbUp();
+                result = sensorDefuse.climbUp();
                 break;
             case CRAWLOUT:
                 //TODO result = crawlOut();

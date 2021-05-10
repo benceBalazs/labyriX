@@ -1,9 +1,9 @@
 package com.labyrix.game.Models;
 
-import com.labyrix.game.BombDefuse;
-import com.labyrix.game.MovementDefuse;
-import com.labyrix.game.TrapDefuseMethod;
-import com.labyrix.game.TrapEventName;
+import com.labyrix.game.Defusions.BombDefuse;
+import com.labyrix.game.Defusions.MovementDefuse;
+import com.labyrix.game.ENUMS.TrapDefuseMethod;
+import com.labyrix.game.ENUMS.TrapEventName;
 
 import java.util.Random;
 

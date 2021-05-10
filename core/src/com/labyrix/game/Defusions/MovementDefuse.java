@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Defusions;
 
 import com.badlogic.gdx.Gdx;
 

@@ -52,7 +52,7 @@ public class JoinScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
 
 
-                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
+                //LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
             }
 
             ;
@@ -73,7 +73,7 @@ public class JoinScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
 
-                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
+                //LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
             }
 
             ;

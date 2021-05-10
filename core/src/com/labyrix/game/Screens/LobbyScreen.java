@@ -49,7 +49,7 @@ public class LobbyScreen extends ScreenAdapter {
                 public void clicked(InputEvent event, float x, float y) {
 
 
-                    LabyrixMain.INSTANCE.setScreen((Screen) new GameScreen());
+                    //LabyrixMain.INSTANCE.setScreen((Screen) new GameScreen());
                 }
 
                 ;

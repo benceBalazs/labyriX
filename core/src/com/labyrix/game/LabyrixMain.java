@@ -1,17 +1,17 @@
 package com.labyrix.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.labyrix.game.Models.Board;
+import com.labyrix.game.Models.Player;
 
 
-public class labyrixMain extends Game {
-	public static labyrixMain INSTANCE;
+public class LabyrixMain extends Game {
+	public static LabyrixMain INSTANCE;
 	
 	private SpriteBatch batch;
 	private Board isorend;
@@ -22,14 +22,14 @@ public class labyrixMain extends Game {
 	private TurnLogic tl;
 
 
-	public labyrixMain(){
+	public LabyrixMain(){
 		INSTANCE = this;
 	}
   
   
 	@Override
 	public void create () {
-    //setScreen(new startScreen());
+    	//setScreen(new startScreen());
 		batch = new SpriteBatch();
 		isorend = new Board(batch);
 		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);

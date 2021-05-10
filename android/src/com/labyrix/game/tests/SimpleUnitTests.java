@@ -1,6 +1,6 @@
 package com.labyrix.game.tests;
 
-import com.labyrix.game.Trap;
+import com.labyrix.game.Models.Trap;
 import static org.junit.Assert.assertEquals;
 import org.testng.annotations.Test;
 

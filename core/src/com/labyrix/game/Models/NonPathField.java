@@ -1,8 +1,8 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class NonPathField extends Field{
+public class NonPathField extends Field {
 
     public NonPathField(int id, Vector2 coordinates, Image fieldImage) {
         this.setId(id);

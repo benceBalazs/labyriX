@@ -1,10 +1,10 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class PathField extends Field{
+public class PathField extends Field {
     private ArrayList<PathField> followingFields;
     private Trap trap;
 

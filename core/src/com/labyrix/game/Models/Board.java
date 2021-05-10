@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;

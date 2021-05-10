@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Network;
 
 import com.esotericsoftware.kryonet.Client;
 import java.io.IOException;

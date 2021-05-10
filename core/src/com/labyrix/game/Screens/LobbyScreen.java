@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,8 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.labyrix.game.LabyrixMain;
+import com.labyrix.game.Screens.GameScreen;
 
-public class lobbyScreen extends ScreenAdapter {
+public class LobbyScreen extends ScreenAdapter {
 
         SpriteBatch batch;
         Texture img;
@@ -30,7 +32,7 @@ public class lobbyScreen extends ScreenAdapter {
         private ImageButton button;
 
 
-        public lobbyScreen(){
+        public LobbyScreen(){
             myTexture = new Texture(Gdx.files.internal("Start.jpg"));
             myTextureRegion = new TextureRegion(myTexture);
             myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
@@ -47,7 +49,7 @@ public class lobbyScreen extends ScreenAdapter {
                 public void clicked(InputEvent event, float x, float y) {
 
 
-                    labyrixMain.INSTANCE.setScreen((Screen) new gameScreen());
+                    LabyrixMain.INSTANCE.setScreen((Screen) new GameScreen());
                 }
 
                 ;

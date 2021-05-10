@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Defusions;
 
 public class BombDefuse {
     String bombcode;

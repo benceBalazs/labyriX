@@ -1,13 +1,7 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 
 public class Player {
@@ -25,7 +19,7 @@ public class Player {
     private int remainingSteps = 0;
     private static Board board = null;
 
-    Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
+    public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;

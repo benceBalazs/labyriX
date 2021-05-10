@@ -23,8 +23,8 @@ public class GameScreen implements Screen {
     private Client client;
     private TurnLogic tl;
 
-    public GameScreen(final LabyrixMain labyrixMain) {
-        this.labyrixMain = labyrixMain;
+    public GameScreen() {
+        this.labyrixMain = LabyrixMain.getINSTANCE();
     }
 
     @Override

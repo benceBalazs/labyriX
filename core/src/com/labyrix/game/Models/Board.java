@@ -1,7 +1,11 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.labyrix.game.Field;
+import com.labyrix.game.Image;
+import com.labyrix.game.NonPathField;
+import com.labyrix.game.PathField;
 
 public class Board {
     private Field[][] fields;

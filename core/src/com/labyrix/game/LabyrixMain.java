@@ -85,4 +85,107 @@ public class LabyrixMain extends Game {
 		fontBig.dispose();
 	}
 
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
+	}
+
+	public AssetManager getAssets() {
+		return assets;
+	}
+
+	public void setAssets(AssetManager assets) {
+		this.assets = assets;
+	}
+
+	public BitmapFont getFontBig() {
+		return fontBig;
+	}
+
+	public void setFontBig(BitmapFont fontBig) {
+		this.fontBig = fontBig;
+	}
+
+	public BitmapFont getFontMedium() {
+		return fontMedium;
+	}
+
+	public void setFontMedium(BitmapFont fontMedium) {
+		this.fontMedium = fontMedium;
+	}
+
+	public BitmapFont getFontMediumError() {
+		return fontMediumError;
+	}
+
+	public void setFontMediumError(BitmapFont fontMediumError) {
+		this.fontMediumError = fontMediumError;
+	}
+
+	public int getWIDTH() {
+		return WIDTH;
+	}
+
+	public void setWIDTH(int WIDTH) {
+		this.WIDTH = WIDTH;
+	}
+
+	public int getHEIGHT() {
+		return HEIGHT;
+	}
+
+	public void setHEIGHT(int HEIGHT) {
+		this.HEIGHT = HEIGHT;
+	}
+
+	public SplashScreen getSplashScreen() {
+		return splashScreen;
+	}
+
+	public void setSplashScreen(SplashScreen splashScreen) {
+		this.splashScreen = splashScreen;
+	}
+
+	public GameScreen getGameScreen() {
+		return gameScreen;
+	}
+
+	public void setGameScreen(GameScreen gameScreen) {
+		this.gameScreen = gameScreen;
+	}
+
+	public LoadingScreen getLoadingScreen() {
+		return loadingScreen;
+	}
+
+	public void setLoadingScreen(LoadingScreen loadingScreen) {
+		this.loadingScreen = loadingScreen;
+	}
+
+	public TitleScreen getTitleScreen() {
+		return titleScreen;
+	}
+
+	public void setTitleScreen(TitleScreen titleScreen) {
+		this.titleScreen = titleScreen;
+	}
+
+	public LobbyScreen getLobbyScreen() {
+		return lobbyScreen;
+	}
+
+	public void setLobbyScreen(LobbyScreen lobbyScreen) {
+		this.lobbyScreen = lobbyScreen;
+	}
+
+	public JoinScreen getJoinScreen() {
+		return joinScreen;
+	}
+
+	public void setJoinScreen(JoinScreen joinScreen) {
+		this.joinScreen = joinScreen;
+	}
 }

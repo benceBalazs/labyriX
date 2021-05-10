@@ -13,23 +13,23 @@ public class TrapEvent {
         switch (event){
             case ZOMBIE:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.STOPMOVING;
                 break;
             case BOMB:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
             case PITFALL:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.CRAWLOUT;
                 break;
             case ALIENKIDNAP:
                 //TODO eventImage = null;
-                //TODO defuseMethod = null;
+                defuseMethod = TrapDefuseMethod.WAVE;
                 break;
             default:
                 //TODO throw new IllegalArgumentException();
@@ -39,6 +39,32 @@ public class TrapEvent {
 
     public TrapEventName randomTrapEvent() {
         return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
+    }
+
+    public boolean TrapDefuse() throws InterruptedException {
+        boolean result;
+        MovementDefuse sensorDefuse = new MovementDefuse();
+        BombDefuse bombDefuse = new BombDefuse();
+        switch (defuseMethod){
+            case DEFUSEBOMB:
+                result = bombDefuse.defuseBomb();
+                break;
+            case CLIMBUP:
+                result = sensorDefuse.climbUp();
+                break;
+            case CRAWLOUT:
+                result = sensorDefuse.crawlOut();
+                break;
+            case STOPMOVING:
+                result = sensorDefuse.dontMove();
+                break;
+            case WAVE:
+                result = sensorDefuse.wave();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + defuseMethod);
+        }
+        return result;
     }
 
     public TrapEventName getEvent() {

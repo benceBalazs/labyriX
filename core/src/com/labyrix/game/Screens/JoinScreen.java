@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -13,11 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.labyrix.game.LabyrixMain;
 
-public class startScreen extends ScreenAdapter {
+public class JoinScreen extends ScreenAdapter {
     SpriteBatch batch;
     Texture img;
-
 
     public static Texture backgroundTexture;
 
@@ -28,12 +28,19 @@ public class startScreen extends ScreenAdapter {
     private TextureRegionDrawable myTexRegionDrawable;
     private ImageButton button;
 
-    public startScreen() {
-        myTexture = new Texture(Gdx.files.internal("Playnow.jpg"));
+
+    private Stage stageTwo;
+    private Texture myTextureTwo;
+    private TextureRegion myTextureRegionTwo;
+    private TextureRegionDrawable myTexRegionDrawableTwo;
+    private ImageButton buttonTwo;
+
+    public JoinScreen(){
+        myTexture = new Texture(Gdx.files.internal("Join.jpg"));
         myTextureRegion = new TextureRegion(myTexture);
         myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         button = new ImageButton(myTexRegionDrawable);
-        button.setPosition(1000,200);
+        button.setPosition(600,170);
 
         stage = new Stage(new ScreenViewport());
         stage.addActor(button);
@@ -45,7 +52,28 @@ public class startScreen extends ScreenAdapter {
             public void clicked(InputEvent event, float x, float y) {
 
 
-                labyrixMain.INSTANCE.setScreen(new joinCreateScreen());
+                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
+            }
+
+            ;
+        });
+
+        myTextureTwo = new Texture(Gdx.files.internal("Create.jpg"));
+        myTextureRegionTwo = new TextureRegion(myTextureTwo);
+        myTexRegionDrawableTwo = new TextureRegionDrawable(myTextureRegionTwo);
+        buttonTwo = new ImageButton(myTexRegionDrawableTwo);
+        buttonTwo.setPosition(1400,170);
+
+        stageTwo = new Stage(new ScreenViewport());
+        stageTwo.addActor(buttonTwo);
+        Gdx.input.setInputProcessor(stageTwo);
+
+
+        buttonTwo.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
             }
 
             ;
@@ -53,20 +81,18 @@ public class startScreen extends ScreenAdapter {
 
 
         batch = new SpriteBatch();
-        img = new Texture("schriftApp.jpg");
 
 
-        backgroundTexture = new Texture("bildApp.png");
+        backgroundTexture = new Texture("Hintergrundbild.png");
+
+
 
     }
-
     @Override
     public void render(float delta) {
-
         ScreenUtils.clear(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 700, 1000);
 
 
         batch.draw(backgroundTexture,0,0,2600,1500);
@@ -78,16 +104,14 @@ public class startScreen extends ScreenAdapter {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-
+        stageTwo.act(Gdx.graphics.getDeltaTime());
+        stageTwo.draw();
 
     }
-
-
 
     @Override
     public void dispose() {
 
-        img.dispose();
         backgroundTexture.dispose();
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.labyrix.game.Models.Board;
+import com.labyrix.game.Models.Player;
 
 
 public class LabyrixMain extends Game {

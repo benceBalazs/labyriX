@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package com.labyrix.game;
+package com.labyrix.game.Models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.labyrix.game.TurnLogic;
+import com.labyrix.game.TurnValue;
 
 public class ArrowActor extends Actor {
     Sprite texture;

@@ -10,6 +10,6 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new LabyrixMain(), config);
+		initialize(new LabyrixMain().getINSTANCE(), config);
 	}
 }

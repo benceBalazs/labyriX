@@ -6,16 +6,21 @@ import com.labyrix.game.TrapEventName;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TestTrapEvent {
 
     TrapEvent trapEvent;
+    TrapEventName trapEventName;
 
     @Before
     public void init(){
         this.trapEvent = new TrapEvent();
+        this.trapEventName = TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
     @Test
@@ -74,6 +79,17 @@ public class TestTrapEvent {
     @Test
     public void getEvent_givesBackTrapEventName(){
         assertNotNull(this.trapEvent.getEvent());
+    }
+
+    @Test
+    public void setEvent_setsNewEvent(){
+        while (this.trapEvent.getEvent() == trapEventName){
+            this.trapEvent = new TrapEvent();
+        }
+
+        this.trapEvent.setEvent(trapEventName);
+
+        assertEquals(trapEventName, trapEvent.getEvent());
     }
 
 }

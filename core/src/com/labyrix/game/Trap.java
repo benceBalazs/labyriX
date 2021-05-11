@@ -7,6 +7,7 @@ public class Trap {
     private TrapEvent event;
 
     public Trap (float probability){
+        //TODO should throw exception when probability <0 & >1
         this.probability = probability;
         this.event = new TrapEvent();
     }

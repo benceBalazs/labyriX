@@ -71,4 +71,9 @@ public class TestTrapEvent {
         assertTrue(result);
     }
 
+    @Test
+    public void getEvent_givesBackTrapEventName(){
+        assertNotNull(this.trapEvent.getEvent());
+    }
+
 }

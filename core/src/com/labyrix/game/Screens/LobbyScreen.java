@@ -62,7 +62,7 @@ public class LobbyScreen extends ScreenAdapter {
             img = new Texture("schriftApp.jpg");
 
 
-            backgroundTexture = new Texture("Hintergrundbild.png");
+            backgroundTexture = new Texture("background.png");
 
 
 

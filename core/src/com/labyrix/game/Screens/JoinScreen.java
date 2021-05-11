@@ -83,7 +83,7 @@ public class JoinScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
 
-        backgroundTexture = new Texture("Hintergrundbild.png");
+        backgroundTexture = new Texture("background.png");
 
 
 

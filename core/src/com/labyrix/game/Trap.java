@@ -7,9 +7,6 @@ public class Trap {
     private TrapEvent event;
 
     public Trap (float probability){
-        if (probability > 1 || probability < 0){
-            throw new IllegalArgumentException("Probability has to be ≥0 and ≤1");
-        }
         this.probability = probability;
         this.event = new TrapEvent();
     }

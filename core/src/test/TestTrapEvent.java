@@ -34,23 +34,23 @@ public class TestTrapEvent {
     }
 
     @Test
-    public void TrapEvent_createsRandomEvent_whenTrapEventGetsCreated(){
+    public void TrapEvent_createsRandomEvent(){
         this.trapEvent = new TrapEvent();
         assertNotNull(this.trapEvent.getEvent());
     }
 
     @Test
-    public void TrapEvent_getImage_whenTrapEventGetsCreated(){
+    public void TrapEvent_getsImageAutomatically(){
         assertNotNull(trapEvent.getEventImage());
     }
 
     @Test
-    public void TrapEvent_getDefuseMethod_whenTrapEventGetsCreated(){
+    public void TrapEvent_getsDefuseMethodAutomatically(){
         assertNotNull(trapEvent.getDefuseMethod());
     }
 
     @Test
-    public void randomTrapEvent_givesBackRandomTrapEventName_sameProbabilityForEveryName(){
+    public void randomTrapEvent_returnsRandomTrapEventName_sameProbabilityForEveryName(){
         TrapEventName[] identifier = new TrapEventName[TrapEventName.values().length];
         double[] count = new double[TrapEventName.values().length];
         int loops = 10000;      // should not be less than 10000
@@ -82,7 +82,7 @@ public class TestTrapEvent {
     }
 
     @Test
-    public void getEvent_givesBackTrapEventName(){
+    public void getEvent_returnsTrapEventName(){
         assertNotNull(this.trapEvent.getEvent());
     }
 
@@ -98,30 +98,31 @@ public class TestTrapEvent {
     }
 
     @Test
-    public void getEventImage_(){
+    public void getEventImage_returnsCurrentEventImage(){
         //TODO
+        assertEquals(true, false);
     }
 
     @Test
     public void setEventImage_setsNewImage(){
         //TODO
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void getDefuseMethod_(){
+    public void getDefuseMethod_returnsCurrentDefuseMethod(){
         //TODO
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void setDefuseMethod_(){
+    public void setDefuseMethod_setsNewDefuseMethod(){
         //TODO
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas(){
+    public void TrapEvent_showsZombieImage_whenEventIsZombie(){
         this.trapEventName = TrapEventName.ZOMBIE;
         // TODO this.image = new Image("someZombie");
         while (trapEvent.getEvent() != trapEventName){
@@ -129,11 +130,11 @@ public class TestTrapEvent {
         }
 
         // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas2(){
+    public void TrapEvent_hasZombieDefuseMethod_whenEventIsZombie(){
         this.trapEventName = TrapEventName.ZOMBIE;
         // TODO this.defuseMethod = null;
         while (trapEvent.getEvent() != trapEventName){
@@ -141,11 +142,11 @@ public class TestTrapEvent {
         }
 
         // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas3(){
+    public void TrapEvent_showsBombImage_whenEventIsBomb(){
         this.trapEventName = TrapEventName.BOMB;
         // TODO this.image = new Image("someBomb");
         while (trapEvent.getEvent() != trapEventName){
@@ -153,11 +154,11 @@ public class TestTrapEvent {
         }
 
         // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas4(){
+    public void TrapEvent_TrapEvent_hasBombDefuseMethod_whenEventIsBomb(){
         this.trapEventName = TrapEventName.BOMB;
         // TODO this.defuseMethod = null;
         while (trapEvent.getEvent() != trapEventName){
@@ -165,11 +166,11 @@ public class TestTrapEvent {
         }
 
         // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas5(){
+    public void TrapEvent_showsPitfallImage_whenEventIsPitfall(){
         this.trapEventName = TrapEventName.PITFALL;
         // TODO this.image = new Image("somePitfall");
         while (trapEvent.getEvent() != trapEventName){
@@ -177,11 +178,11 @@ public class TestTrapEvent {
         }
 
         // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     @Test
-    public void TrapEvent_irgendwas6(){
+    public void TrapEvent_hasPitfallDefuseMethod_whenEventIsPitfall(){
         this.trapEventName = TrapEventName.PITFALL;
         // TODO this.defuseMethod = null;
         while (trapEvent.getEvent() != trapEventName){
@@ -189,7 +190,7 @@ public class TestTrapEvent {
         }
 
         // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, true);
+        assertEquals(true, false);
     }
 
     //TODO tests have to be adapted, when TrapEventNames change.

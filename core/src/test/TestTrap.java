@@ -28,7 +28,7 @@ public class TestTrap {
     }
 
     @Test
-    public void Trap_createsTrapObjectAndReturnsIt_ifProbabilityIsBetweenZeroAndOne(){
+    public void Trap_createsTrapObject(){
         this.trap = null;
         this.trap = new Trap(this.probability);
 
@@ -36,26 +36,26 @@ public class TestTrap {
     }
 
     @Test
-    public void Trap_createsTrapEventAutomatically_whenTrapObjectGetsCreated(){
+    public void Trap_createsTrapEventAutomatically(){
         assertNotNull(this.trap.getEvent());
     }
 
     @Test(expected = InvalidParameterException.class)
-    public void Trap_throwsException_whenProbabilityIsLessThanZero(){
+    public void Trap_throwsException_whenProbabilityLessThanZero(){
         this.trap = null;
         this.probability = -0.1f;
         this.trap = new Trap(this.probability);
     }
 
     @Test(expected = InvalidParameterException.class)
-    public void Trap_throwsException_whenProbabilityIsHigherThanOne(){
+    public void Trap_throwsException_whenProbabilityHigherThanOne(){
         this.trap = null;
         this.probability = 1.1f;
         this.trap = new Trap(this.probability);
     }
 
     @Test
-    public void isTrapActivated_returnsTrue_asOftenAsTheProbabilityAllows(){
+    public void isTrapActivated_activatesTrapAsOftenAsProbabilityAllows(){
         float count = 0;
         int loops = 10000;
 

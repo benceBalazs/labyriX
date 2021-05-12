@@ -1,5 +1,7 @@
 package test;
 
+import com.labyrix.game.Image;
+import com.labyrix.game.TrapDefuseMethod;
 import com.labyrix.game.TrapEvent;
 import com.labyrix.game.TrapEventName;
 
@@ -16,11 +18,14 @@ public class TestTrapEvent {
 
     TrapEvent trapEvent;
     TrapEventName trapEventName;
+    Image image;
+    TrapDefuseMethod defuseMethod;
 
     @Before
     public void init(){
         this.trapEvent = new TrapEvent();
         this.trapEventName = TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
+        //TODO this.image = new Image("badlogic.jpg"); does not work
     }
 
     @Test
@@ -91,5 +96,103 @@ public class TestTrapEvent {
 
         assertEquals(trapEventName, trapEvent.getEvent());
     }
+
+    @Test
+    public void getEventImage_(){
+        //TODO
+    }
+
+    @Test
+    public void setEventImage_setsNewImage(){
+        //TODO
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void getDefuseMethod_(){
+        //TODO
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void setDefuseMethod_(){
+        //TODO
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas(){
+        this.trapEventName = TrapEventName.ZOMBIE;
+        // TODO this.image = new Image("someZombie");
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // assertEquals(trapEvent.getEventImage(), this.image);
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas2(){
+        this.trapEventName = TrapEventName.ZOMBIE;
+        // TODO this.defuseMethod = null;
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas3(){
+        this.trapEventName = TrapEventName.BOMB;
+        // TODO this.image = new Image("someBomb");
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // assertEquals(trapEvent.getEventImage(), this.image);
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas4(){
+        this.trapEventName = TrapEventName.BOMB;
+        // TODO this.defuseMethod = null;
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas5(){
+        this.trapEventName = TrapEventName.PITFALL;
+        // TODO this.image = new Image("somePitfall");
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // assertEquals(trapEvent.getEventImage(), this.image);
+        assertEquals(true, true);
+    }
+
+    @Test
+    public void TrapEvent_irgendwas6(){
+        this.trapEventName = TrapEventName.PITFALL;
+        // TODO this.defuseMethod = null;
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
+        assertEquals(true, true);
+    }
+
+    //TODO tests have to be adapted, when TrapEventNames change.
+
 
 }

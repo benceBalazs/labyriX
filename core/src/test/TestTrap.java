@@ -5,8 +5,6 @@ import com.labyrix.game.TrapEvent;
 
 import org.junit.*;
 
-import java.security.InvalidParameterException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -40,14 +38,14 @@ public class TestTrap {
         assertNotNull(this.trap.getEvent());
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void Trap_throwsException_whenProbabilityLessThanZero(){
         this.trap = null;
         this.probability = -0.1f;
         this.trap = new Trap(this.probability);
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void Trap_throwsException_whenProbabilityHigherThanOne(){
         this.trap = null;
         this.probability = 1.1f;

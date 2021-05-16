@@ -1,8 +1,8 @@
 package com.labyrix.game.Defusions;
 
 public class BombDefuse {
-    String bombcode;
-    String userinput;
+    private String bombcode;
+    private String userinput;
 
     public BombDefuse(){
         for (int i = 0; i < 4; i++) {
@@ -12,7 +12,7 @@ public class BombDefuse {
     }
     
     public boolean defuseBomb(){
-        //TODO Numpad with 9 Buttons
+        
         return true;
     }
 }

@@ -1,11 +1,17 @@
 package com.labyrix.game.Network;
 
 import com.esotericsoftware.kryonet.Client;
+import com.labyrix.game.Screens.JoinScreen;
+import com.labyrix.game.Screens.LobbyScreen;
+import com.labyrix.game.Screens.TitleScreen;
+
 import java.io.IOException;
 
 public class ClientNetworkHandler {
     private static Client client;
     private static ClientNetworkHandler handler;
+    private LobbyScreen lobbyscreen;
+    private JoinScreen joinScreen;
 
     private ClientNetworkHandler(){ }
 
@@ -31,5 +37,13 @@ public class ClientNetworkHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addJoinToClient(JoinScreen joinScreen) {
+        this.joinScreen = joinScreen;
+    }
+
+    public void addLobbyToClient(LobbyScreen lobbyScreen) {
+        this.lobbyscreen = lobbyScreen;
     }
 }

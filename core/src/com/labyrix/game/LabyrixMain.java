@@ -1,67 +1,191 @@
 package com.labyrix.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.labyrix.game.Models.Board;
-import com.labyrix.game.Models.Player;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.labyrix.game.Screens.GameScreen;
+import com.labyrix.game.Screens.JoinScreen;
+import com.labyrix.game.Screens.LoadingScreen;
+import com.labyrix.game.Screens.LobbyScreen;
+import com.labyrix.game.Screens.SplashScreen;
+import com.labyrix.game.Screens.TitleScreen;
 
 
 public class LabyrixMain extends Game {
-	public static LabyrixMain INSTANCE;
-	
+	private static LabyrixMain INSTANCE = null;
+	private int WIDTH = 320;
+	private int HEIGHT = 480;
 	private SpriteBatch batch;
-	private Board isorend;
-	private Player player;
 	private OrthographicCamera camera;
-	private int cameraHeight = 400 * 4;
-	private int cameraWidth = 200 * 4;
-	private TurnLogic tl;
+	private AssetManager assets;
+	private SplashScreen splashScreen;
+	private GameScreen gameScreen;
+	private LoadingScreen loadingScreen;
+	private TitleScreen titleScreen;
+	private LobbyScreen lobbyScreen;
+	private JoinScreen joinScreen;
+	private BitmapFont fontBig, fontMedium, fontMediumError;
 
+	LabyrixMain(){
 
-	public LabyrixMain(){
-		INSTANCE = this;
 	}
-  
-  
+
+	public static LabyrixMain getINSTANCE(){
+		if(INSTANCE == null){
+			INSTANCE = new LabyrixMain();
+		}
+		return INSTANCE;
+	}
+
 	@Override
 	public void create () {
-    	//setScreen(new startScreen());
+		HEIGHT = Gdx.graphics.getHeight();
+		WIDTH = Gdx.graphics.getWidth();
 		batch = new SpriteBatch();
-		isorend = new Board(batch);
-		player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-		camera = new OrthographicCamera(cameraHeight, cameraWidth);
-		camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
-		tl = new TurnLogic(isorend, player, camera);
+		camera = new OrthographicCamera(WIDTH, HEIGHT);
+		assets = new AssetManager();
+		splashScreen = new SplashScreen();
+		gameScreen = new GameScreen();
+		loadingScreen = new LoadingScreen();
+		titleScreen = new TitleScreen();
+		joinScreen = new JoinScreen();
+		lobbyScreen = new LobbyScreen(joinScreen);
+		initFonts();
+		this.setScreen(loadingScreen);
+	}
 
+	private void initFonts() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/specialElite.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		params.size = this.HEIGHT/14;
+		params.color = Color.WHITE;
+		fontBig = generator.generateFont(params);
+		params.size =  this.HEIGHT/18;
+		fontMedium = generator.generateFont(params);
+		params.color = Color.RED;
+		fontMediumError = generator.generateFont(params);
+		generator.dispose();
 	}
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
-		batch.setProjectionMatrix(camera.combined);
-		batch.begin();
-		tl.doTurn();
-		isorend.drawGround();
-		player.render(batch);
-		cameraLerp( camera, player.getPosition());
-		tl.getArrowActors().render();
-		batch.end();
+		super.render();
 	}
 
-
+	@Override
 	public void dispose () {
 		batch.dispose();
+		assets.dispose();
+		splashScreen.dispose();
+		fontBig.dispose();
 	}
 
-	public void cameraLerp(OrthographicCamera camera, Vector2 target) {
-		Vector3 position = camera.position;
-		position.x = camera.position.x + (target.x - camera.position.x) * .05f;
-		position.y = camera.position.y + (target.y - camera.position.y) * .05f;
-		camera.position.set(position);
-		camera.update();
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
+	}
+
+	public AssetManager getAssets() {
+		return assets;
+	}
+
+	public void setAssets(AssetManager assets) {
+		this.assets = assets;
+	}
+
+	public BitmapFont getFontBig() {
+		return fontBig;
+	}
+
+	public void setFontBig(BitmapFont fontBig) {
+		this.fontBig = fontBig;
+	}
+
+	public BitmapFont getFontMedium() {
+		return fontMedium;
+	}
+
+	public void setFontMedium(BitmapFont fontMedium) {
+		this.fontMedium = fontMedium;
+	}
+
+	public BitmapFont getFontMediumError() {
+		return fontMediumError;
+	}
+
+	public void setFontMediumError(BitmapFont fontMediumError) {
+		this.fontMediumError = fontMediumError;
+	}
+
+	public int getWIDTH() {
+		return WIDTH;
+	}
+
+	public void setWIDTH(int WIDTH) {
+		this.WIDTH = WIDTH;
+	}
+
+	public int getHEIGHT() {
+		return HEIGHT;
+	}
+
+	public void setHEIGHT(int HEIGHT) {
+		this.HEIGHT = HEIGHT;
+	}
+
+	public SplashScreen getSplashScreen() {
+		return splashScreen;
+	}
+
+	public void setSplashScreen(SplashScreen splashScreen) {
+		this.splashScreen = splashScreen;
+	}
+
+	public GameScreen getGameScreen() {
+		return gameScreen;
+	}
+
+	public void setGameScreen(GameScreen gameScreen) {
+		this.gameScreen = gameScreen;
+	}
+
+	public LoadingScreen getLoadingScreen() {
+		return loadingScreen;
+	}
+
+	public void setLoadingScreen(LoadingScreen loadingScreen) {
+		this.loadingScreen = loadingScreen;
+	}
+
+	public TitleScreen getTitleScreen() {
+		return titleScreen;
+	}
+
+	public void setTitleScreen(TitleScreen titleScreen) {
+		this.titleScreen = titleScreen;
+	}
+
+	public LobbyScreen getLobbyScreen() {
+		return lobbyScreen;
+	}
+
+	public void setLobbyScreen(LobbyScreen lobbyScreen) {
+		this.lobbyScreen = lobbyScreen;
+	}
+
+	public JoinScreen getJoinScreen() {
+		return joinScreen;
+	}
+
+	public void setJoinScreen(JoinScreen joinScreen) {
+		this.joinScreen = joinScreen;
 	}
 }

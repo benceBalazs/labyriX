@@ -22,14 +22,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class TitleScreen extends ScreenAdapter {
     private final LabyrixMain labyrixMain;
-    SpriteBatch batch;
-    Texture img;
-    public static Texture backgroundTexture;
     private Stage stage;
-    private Texture myTexture;
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
-    private ImageButton button;
     private Skin skin;
     private Image backgroundImg;
     private TextButton buttonPlay;
@@ -75,7 +68,7 @@ public class TitleScreen extends ScreenAdapter {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                labyrixMain.setScreen(labyrixMain.getGameScreen());
+                labyrixMain.setScreen(labyrixMain.getJoinScreen());
             }
         });
 

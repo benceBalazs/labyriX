@@ -54,7 +54,7 @@ public class LabyrixMain extends Game {
 		loadingScreen = new LoadingScreen();
 		titleScreen = new TitleScreen();
 		joinScreen = new JoinScreen();
-		lobbyScreen = new LobbyScreen();
+		lobbyScreen = new LobbyScreen(joinScreen);
 		initFonts();
 		this.setScreen(loadingScreen);
 	}

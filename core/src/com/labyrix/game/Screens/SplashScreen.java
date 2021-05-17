@@ -36,7 +36,7 @@ public class SplashScreen implements Screen {
         Texture splashTex = labyrixMain.getAssets().get("logo.png", Texture.class);
         splashImg = new Image(splashTex);
         splashImg.setOrigin(0, 0);
-        splashImg.setSize(labyrixMain.getWIDTH()/3f,labyrixMain.getHEIGHT()/3f);
+        splashImg.setSize(labyrixMain.getWIDTH()/3f,labyrixMain.getHEIGHT()/2.75f);
         splashImg.setPosition(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT());
         splashImg.addAction(sequence(alpha(0), scaleTo(.1f, .1f),
                 parallel(fadeIn(2f, Interpolation.pow2),

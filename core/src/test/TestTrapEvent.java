@@ -1,9 +1,9 @@
 package test;
 
-import com.labyrix.game.Image;
-import com.labyrix.game.TrapDefuseMethod;
-import com.labyrix.game.TrapEvent;
-import com.labyrix.game.TrapEventName;
+import com.labyrix.game.Models.Image;
+import com.labyrix.game.ENUMS.TrapDefuseMethod;
+import com.labyrix.game.Models.TrapEvent;
+import com.labyrix.game.ENUMS.TrapEventName;
 
 import org.junit.Before;
 import org.junit.Test;

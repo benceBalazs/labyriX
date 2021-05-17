@@ -1,7 +1,7 @@
 package test;
 
-import com.labyrix.game.Trap;
-import com.labyrix.game.TrapEvent;
+import com.labyrix.game.Models.Trap;
+import com.labyrix.game.Models.TrapEvent;
 
 import org.junit.*;
 

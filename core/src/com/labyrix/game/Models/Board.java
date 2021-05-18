@@ -12,10 +12,11 @@ public class Board {
     public Board(int length, int width) {
         fields = new Field[length][width];
     }
+
     private static SpriteBatch batch = null;
 
     //Board for development
-    public Board(SpriteBatch batch)  throws IllegalArgumentException{
+    public Board(SpriteBatch batch) throws IllegalArgumentException {
         if (this.batch == null) {
             this.batch = batch;
         }
@@ -23,12 +24,10 @@ public class Board {
         Image snow = new Image("bodenLabyrixSnow.png");
         Image ziel = new Image("bodenLabyrixZiel.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
-        Image stone = new Image ("bodenLabyrixstone.png");
+        Image stone = new Image("bodenLabyrixstone.png");
         Image dach = new Image("bodenLabyrixdach.png");
-        Image cheddar = new Image ("bodenLabyrixcheddar.png");
-        Image floor = new Image ("bodenLabyrixv3.png");
-
-
+        Image cheddar = new Image("bodenLabyrixcheddar.png");
+        Image floor = new Image("bodenLabyrixv3.png");
 
 
         int[][] field = {
@@ -39,12 +38,12 @@ public class Board {
                 {1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
                 {1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
                 {4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
-                {3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
-                {4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
-                {4, 2, 1, 4, 1, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
-                {3, 4, 1, 2, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
-                {4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 4, 2, 3, 4, 4, 4, 2},
-                {3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {1, 2, 1, 4, 1, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {1, 4, 1, 2, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 4, 2, 3, 4, 4, 4, 2},
+                {1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
                 {4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2}, //13 4
                 {4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2}, //14 4
                 {3, 4, 4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},  //15 4
@@ -205,9 +204,9 @@ public class Board {
         }
     }
 
-    public boolean checkBoardSize(int[][] field) throws IllegalArgumentException{
+    public boolean checkBoardSize(int[][] field) throws IllegalArgumentException {
         for (int i = 1; i < field.length; i++) {
-            if (field[i-1].length != field[1].length) {
+            if (field[i - 1].length != field[1].length) {
                 throw new IllegalArgumentException();
             }
         }
@@ -227,24 +226,60 @@ public class Board {
 
     public void createPath(int[][] field) {
         ArrayList<Field> arrayList = new ArrayList<>();
-        for (int i = 0; i < field.length; i++) {
-            for (int j = 0; j < field[0].length; j++) {
-                if (field[i][j] == 1) {
-                    if (i < field.length-1 && !arrayList.contains(fields[i+1][j]) &&  field[i+1][j] == 1) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i+1][j]);
-                    }
-                    if (i > 0 && !arrayList.contains(fields[i-1][j]) &&  field[i-1][j] == 1) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i-1][j]);
-                    }
-                    if (j < field[i].length-1 && !arrayList.contains(fields[i][j+1]) && field[i][j+1] == 1) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i][j+1]);
-                    }
-                    if (j > 0 && !arrayList.contains(fields[i][j-1]) && field[i][j-1] == 1) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i][j-1]);
+        ArrayList<PathField> followingFields = new ArrayList<>();
+        ArrayList<Integer> is = new ArrayList<>();
+        ArrayList<Integer> js = new ArrayList<>();
+
+        int i = 0, j = 0;
+        is.add(i);
+        js.add(j);
+        followingFields.add((PathField) fields[0][0]);
+
+        while (followingFields.size() > 0) {
+            i = is.get(0);
+            j = js.get(0);
+            if (field[i][j] == 1 || field[i][j] == 7) {
+                if (j < field[i].length - 1 && !arrayList.contains(fields[i][j + 1]) && field[i][j + 1] == 1) {
+                    if (!this.fields[i][j].getFollowingFields().contains(fields[i][j + 1])) {
+                        this.fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
+                        followingFields.add((PathField) this.fields[i][j + 1]);
+                        is.add(i);
+                        js.add(j + 1);
+                        arrayList.add(fields[i][j]);
                     }
                 }
-                arrayList.add(fields[i][j]);
+                if (i < field.length - 1 && !arrayList.contains(fields[i + 1][j]) && field[i + 1][j] == 1) {
+                    if (!this.fields[i][j].getFollowingFields().contains(fields[i+1][j])) {
+                        this.fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
+                        followingFields.add((PathField) this.fields[i + 1][j]);
+                        is.add(i + 1);
+                        js.add(j);
+                        arrayList.add(fields[i][j]);
+                    }
+                }
+                if (j > 0 && !arrayList.contains(fields[i][j - 1]) && field[i][j - 1] == 1) {
+                    if (!this.fields[i][j].getFollowingFields().contains(fields[i][j - 1])) {
+                        this.fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
+                        followingFields.add((PathField) this.fields[i][j - 1]);
+                        is.add(i);
+                        js.add(j - 1);
+                        arrayList.add(fields[i][j]);
+                    }
+                }
+                if (i > 0 && !arrayList.contains(fields[i - 1][j]) && field[i - 1][j] == 1) {
+                    if (!this.fields[i][j].getFollowingFields().contains(fields[i-1][j])) {
+                        this.fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
+                        followingFields.add((PathField) this.fields[i - 1][j]);
+                        is.add(i - 1);
+                        js.add(j);
+                        arrayList.add(fields[i][j]);
+                    }
+                }
             }
+            is.remove(0);
+            js.remove(0);
+            followingFields.remove(0);
+            arrayList.add(fields[i][j]);
         }
     }
 
@@ -270,7 +305,7 @@ public class Board {
     }
 
     public void drawImg(Texture img, int x, int y) {
-        batch.draw(img, x,y);
+        batch.draw(img, x, y);
     }
 
     public SpriteBatch getBatch() {

@@ -43,7 +43,7 @@ public class TrapEvent {
         return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
-    public boolean TrapDefuse() { //throws InterruptedException {
+    public boolean TrapDefuse() throws InterruptedException {
         boolean result = false;
         MovementDefuse sensorDefuse = new MovementDefuse();
         BombDefuse bombDefuse = new BombDefuse();

@@ -13,14 +13,14 @@ public class PathField extends Field {
         this.setCoordinates(coordinates);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
-        //this.trap = new Trap(trapProbability);
+        this.trap = new Trap(trapProbability);
     }
 
     public PathField(int id, Image fieldImage, float trapProbability) {
         this.setId(id);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
-        //this.trap = new Trap(trapProbability);
+        this.trap = new Trap(trapProbability);
     }
 
     public PathField(int id, Image fieldImage) {

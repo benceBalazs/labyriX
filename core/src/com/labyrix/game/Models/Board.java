@@ -1,5 +1,6 @@
 package com.labyrix.game.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -187,6 +188,9 @@ public class Board {
             }
         }
         return null;
+    }
+    public void drawImg(Texture img, int x, int y) {
+        batch.draw(img, x,y);
     }
 
     public static SpriteBatch getBatch() {

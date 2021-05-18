@@ -1,5 +1,6 @@
 package com.labyrix.game.Models;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.labyrix.game.Defusions.BombDefuse;
 import com.labyrix.game.Defusions.MovementDefuse;
 import com.labyrix.game.ENUMS.TrapDefuseMethod;
@@ -17,24 +18,20 @@ public class TrapEvent {
 
         switch (event){
             case ZOMBIE:
-                //TODO eventImage = null;
+                this.eventImage = new Image("zombie.png");
                 defuseMethod = TrapDefuseMethod.STOPMOVING;
                 break;
             case BOMB:
-                //TODO eventImage = null;
+                this.eventImage = new Image("bomb.png");
                 defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
-            case PITFALL:
-                //TODO eventImage = null;
+            case DOOR:
+                this.eventImage = new Image("door.png");
                 defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
-                //TODO eventImage = null;
+                this.eventImage = new Image("quicksand.png");
                 defuseMethod = TrapDefuseMethod.CRAWLOUT;
-                break;
-            case ALIENKIDNAP:
-                //TODO eventImage = null;
-                defuseMethod = TrapDefuseMethod.WAVE;
                 break;
             default:
                 //TODO throw new IllegalArgumentException();
@@ -47,7 +44,7 @@ public class TrapEvent {
     }
 
     public boolean TrapDefuse() throws InterruptedException {
-        boolean result;
+        boolean result = false;
         MovementDefuse sensorDefuse = new MovementDefuse();
         BombDefuse bombDefuse = new BombDefuse();
         switch (defuseMethod){
@@ -67,7 +64,7 @@ public class TrapEvent {
                 result = sensorDefuse.wave();
                 break;
             default:
-                throw new IllegalStateException("Unexpected value: " + defuseMethod);
+                //throw new IllegalStateException("Unexpected value: " + defuseMethod);
         }
         return result;
     }

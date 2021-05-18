@@ -1,117 +1,254 @@
 package com.labyrix.game.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
+import com.labyrix.game.Models.Player;
+import com.labyrix.game.Models.TextFieldFilter;
+import com.labyrix.game.Network.ClientNetworkHandler;
 
-public class JoinScreen extends ScreenAdapter {
-    SpriteBatch batch;
-    Texture img;
+import java.util.ArrayList;
 
-    public static Texture backgroundTexture;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-
+public class JoinScreen implements Screen {
+    private final LabyrixMain labyrixMain;
     private Stage stage;
-    private Texture myTexture;
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
-    private ImageButton button;
-
-
-    private Stage stageTwo;
-    private Texture myTextureTwo;
-    private TextureRegion myTextureRegionTwo;
-    private TextureRegionDrawable myTexRegionDrawableTwo;
-    private ImageButton buttonTwo;
+    private Skin skinBig, skinMedium, skinMediumError;
+    private Label usernameLabel, lobbyCodeLabel;
+    private TextField username, lobbyCode;
+    private TextButton buttonJoin, buttonCreate;
+    private Image backgroundImg;
+    private ArrayList<Player> players = new ArrayList<>();
+    private ClientNetworkHandler clientNetworkHandler;
+    private Client client;
+    private String lobbyCodeReturn;
 
     public JoinScreen(){
-        myTexture = new Texture(Gdx.files.internal("Join.jpg"));
-        myTextureRegion = new TextureRegion(myTexture);
-        myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        button = new ImageButton(myTexRegionDrawable);
-        button.setPosition(600,170);
-
-        stage = new Stage(new ScreenViewport());
-        stage.addActor(button);
-        Gdx.input.setInputProcessor(stage);
-
-
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-
-                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
-            }
-
-            ;
-        });
-
-        myTextureTwo = new Texture(Gdx.files.internal("Create.jpg"));
-        myTextureRegionTwo = new TextureRegion(myTextureTwo);
-        myTexRegionDrawableTwo = new TextureRegionDrawable(myTextureRegionTwo);
-        buttonTwo = new ImageButton(myTexRegionDrawableTwo);
-        buttonTwo.setPosition(1400,170);
-
-        stageTwo = new Stage(new ScreenViewport());
-        stageTwo.addActor(buttonTwo);
-        Gdx.input.setInputProcessor(stageTwo);
-
-
-        buttonTwo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-                LabyrixMain.INSTANCE.setScreen(new LobbyScreen());
-            }
-
-            ;
-        });
-
-
-        batch = new SpriteBatch();
-
-
-        backgroundTexture = new Texture("Hintergrundbild.png");
-
-
-
+        this.labyrixMain = LabyrixMain.getINSTANCE();
+        this.stage = new Stage(new FitViewport(labyrixMain.getWIDTH(), labyrixMain.getHEIGHT(), labyrixMain.getCamera()));
+        clientNetworkHandler = ClientNetworkHandler.getInstance();
+        clientNetworkHandler.addJoinToClient(this);
+        client = clientNetworkHandler.getClient();
     }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+        stage.clear();
+        this.skinBig = new Skin();
+        this.skinBig.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skinBig.add("default-font", labyrixMain.getFontBig());
+        this.skinBig.load(Gdx.files.internal("ui/uiskins.json"));
+        this.skinMedium = new Skin();
+        this.skinMedium.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skinMedium.add("default-font", labyrixMain.getFontMedium());
+        this.skinMedium.load(Gdx.files.internal("ui/uiskins.json"));
+        this.skinMediumError = new Skin();
+        this.skinMediumError.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skinMediumError.add("default-font", labyrixMain.getFontMediumError());
+        this.skinMediumError.load(Gdx.files.internal("ui/uiskins.json"));
+        initScreen();
+    }
+
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0, 0, 0, 0);
+        Gdx.gl.glClearColor(1f, 1f, 1f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-
-
-        batch.draw(backgroundTexture,0,0,2600,1500);
-
-        batch.end();
-
-
-
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(delta);
         stage.draw();
+    }
 
-        stageTwo.act(Gdx.graphics.getDeltaTime());
-        stageTwo.draw();
+    private void initScreen() {
+        Texture backgroundTex = labyrixMain.getAssets().get("background.png", Texture.class);
+        backgroundImg = new Image(backgroundTex);
+        backgroundImg.setPosition(0-Gdx.graphics.getWidth()/8f, 0-Gdx.graphics.getHeight()/8f);
+        backgroundImg.setSize(Gdx.graphics.getWidth()+2*Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()+2*Gdx.graphics.getHeight()/8f);
+        backgroundImg.addAction(sequence(alpha(0),fadeIn(.5f)));
 
+        buttonJoin = new TextButton("Join", skinBig, "default");
+        buttonJoin.setSize(labyrixMain.getWIDTH()/3.5f, labyrixMain.getHEIGHT()/9f);
+        buttonJoin.setPosition(labyrixMain.getWIDTH()/2f-buttonJoin.getWidth()*1.1f, labyrixMain.getHEIGHT()/2f-labyrixMain.getHEIGHT()/2.5f);
+        buttonJoin.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonJoin.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(!username.getText().equals("") && !lobbyCode.getText().equals("")){
+                    clientNetworkHandler.startConnection();
+                    //TODO client send JoinRequest
+                    labyrixMain.setScreen(labyrixMain.getLobbyScreen());
+                } else if(username.getText().equals("")) {
+                    username = new TextField("", skinMediumError);
+                    username.setMessageText("Enter Username");
+                    username.setSize(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT()/7f);
+                    username.setAlignment(1);
+                    username.setPosition(labyrixMain.getWIDTH()/2f-username.getWidth()/2f, labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/8f);
+                    username.setTextFieldListener(new TextField.TextFieldListener() {
+                        public void keyTyped(TextField textField, char key) {
+                            if (key == '\n' || key == '\r') {
+                                textField.getOnscreenKeyboard().show(false);
+                                stage.setKeyboardFocus(null);
+                            }
+                        }
+                    });
+
+                    stage.addActor(username);
+                } else {
+                    lobbyCode = new TextField("", skinMediumError);
+                    lobbyCode.setMessageText("Enter Lobby Code");
+                    lobbyCode.setSize(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT()/7f);
+                    lobbyCode.setAlignment(1);
+                    lobbyCode.setPosition(labyrixMain.getWIDTH()/2f-username.getWidth()/2f, labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/16f);
+                    lobbyCode.setTextFieldFilter(new TextFieldFilter());
+                    lobbyCode.setTextFieldListener(new TextField.TextFieldListener() {
+                        public void keyTyped(TextField textField, char key) {
+                            if (key == '\n' || key == '\r') {
+                                textField.getOnscreenKeyboard().show(false);
+                                stage.setKeyboardFocus(null);
+                            }
+                        }
+                    });
+                    stage.addActor(lobbyCode);
+                }
+            }
+        });
+
+        buttonCreate = new TextButton("Create", skinBig);
+        buttonCreate.setSize(labyrixMain.getWIDTH()/3.5f, labyrixMain.getHEIGHT()/9f);
+        buttonCreate.setPosition(labyrixMain.getWIDTH()/2f+buttonJoin.getWidth()*0.1f, labyrixMain.getHEIGHT()/2f-labyrixMain.getHEIGHT()/2.5f);
+        buttonCreate.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonCreate.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(!username.getText().equals("")){
+                    //TODO client send CreateRequest
+                    labyrixMain.setScreen(labyrixMain.getLobbyScreen());
+                } else if(username.getText().equals("")) {
+                    stage.getActors().removeValue(username,true);
+                    username = new TextField("", skinMediumError);
+                    username.setMessageText("Enter Username");
+                    username.setSize(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT()/7f);
+                    username.setAlignment(1);
+                    username.setPosition(labyrixMain.getWIDTH()/2f-username.getWidth()/2f, labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/8f);
+                    username.setTextFieldListener(new TextField.TextFieldListener() {
+                        public void keyTyped(TextField textField, char key) {
+                            if (key == '\n' || key == '\r') {
+                                textField.getOnscreenKeyboard().show(false);
+                                stage.setKeyboardFocus(null);
+                            }
+                        }
+                    });
+
+                    stage.addActor(username);
+                }
+            }
+        });
+
+        username = new TextField("", skinMedium);
+        username.setMessageText("Enter Username");
+        username.setSize(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT()/7f);
+        username.setAlignment(1);
+        username.setPosition(labyrixMain.getWIDTH()/2f-username.getWidth()/2f, labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/8f);
+        username.setTextFieldListener(new TextField.TextFieldListener() {
+            public void keyTyped(TextField textField, char key) {
+                if (key == '\n' || key == '\r') {
+                    textField.getOnscreenKeyboard().show(false);
+                    stage.setKeyboardFocus(null);
+                }
+            }
+        });
+
+        lobbyCode = new TextField("", skinMedium);
+        lobbyCode.setMessageText("Enter Lobby Code");
+        lobbyCode.setSize(labyrixMain.getWIDTH()/2f, labyrixMain.getHEIGHT()/7f);
+        lobbyCode.setAlignment(1);
+        lobbyCode.setPosition(labyrixMain.getWIDTH()/2f-username.getWidth()/2f, labyrixMain.getHEIGHT()/4f+labyrixMain.getHEIGHT()/16f);
+        lobbyCode.setTextFieldFilter(new TextFieldFilter());
+        lobbyCode.setFocusTraversal(false);
+        lobbyCode.setTextFieldListener(new TextField.TextFieldListener() {
+            public void keyTyped(TextField textField, char key) {
+                if (key == '\n' || key == '\r') {
+                    textField.getOnscreenKeyboard().show(false);
+                    stage.setKeyboardFocus(null);
+                }
+            }
+        });
+
+        usernameLabel = new Label("", skinMedium);
+        usernameLabel.setText("Username");
+        usernameLabel.setSize(280*1f, 60*1f);
+        usernameLabel.setPosition(username.getX(), username.getY()+username.getHeight()*1.15f);
+
+        lobbyCodeLabel = new Label("", skinMedium);
+        lobbyCodeLabel.setText("Lobby Code");
+        lobbyCodeLabel.setSize(280*1f, 60*1f);
+        lobbyCodeLabel.setPosition(lobbyCode.getX(), lobbyCode.getY()+lobbyCode.getHeight()*1.15f);
+
+        stage.addActor(backgroundImg);
+        stage.addActor(buttonCreate);
+        stage.addActor(buttonJoin);
+        stage.addActor(username);
+        stage.addActor(lobbyCode);
+        stage.addActor(usernameLabel);
+        stage.addActor(lobbyCodeLabel);
+    }
+
+    public String getLobbyCodeReturn() {
+        return lobbyCodeReturn;
+    }
+
+    public void setLobbyCodeReturn(String lobbyCodeReturn) {
+        this.lobbyCodeReturn = lobbyCodeReturn;
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+        stage.clear();
     }
 
     @Override
     public void dispose() {
-
-        backgroundTexture.dispose();
+        stage.dispose();
     }
 }

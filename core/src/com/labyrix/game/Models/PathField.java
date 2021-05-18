@@ -54,7 +54,13 @@ public class PathField extends Field {
     }
 
     public PathField getFollowingField(int i) {
-        return followingFields.get(i);
+
+        if (followingFields.size() < i) {
+            return followingFields.get(i);
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 }

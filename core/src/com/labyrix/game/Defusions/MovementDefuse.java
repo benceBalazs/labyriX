@@ -3,8 +3,8 @@ package com.labyrix.game.Defusions;
 import com.badlogic.gdx.Gdx;
 
 public class MovementDefuse {
-    int successCount;
-    int failCount;
+    private int successCount;
+    private int failCount;
     //TODO Image anzeigen
 
     public MovementDefuse(){

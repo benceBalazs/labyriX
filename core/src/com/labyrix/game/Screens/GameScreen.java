@@ -42,8 +42,8 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        tl.doTurn();
         isorend.drawGround();
+        tl.doTurn();
         player.render(batch);
         cameraLerp( camera, player.getPosition());
         tl.getArrowActors().render();

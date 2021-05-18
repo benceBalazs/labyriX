@@ -202,8 +202,8 @@ public class Board {
 
     public boolean checkBoardSize(int[][] field) throws IllegalArgumentException{
         for (int i = 1; i < field.length; i++) {
-            if (field[i-1] != field[1]) {
-                throw  new IllegalArgumentException();
+            if (field[i-1].length != field[1].length) {
+                throw new IllegalArgumentException();
             }
         }
         return true;

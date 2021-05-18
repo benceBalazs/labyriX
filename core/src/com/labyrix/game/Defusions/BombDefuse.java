@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -109,6 +110,7 @@ public class BombDefuse {
             }
         });
 
+        table.add("Code: ").size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/8).getActor().setFontScale(5);
         table.add((CharSequence)bombcode).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/8).getActor().setFontScale(5);
         table.row();
         table.add(buttonOne).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
@@ -122,15 +124,25 @@ public class BombDefuse {
         table.add(buttonSeven).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonEight).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonNine).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        System.out.println(table.getWidth() + table.getHeight());
 
         stage.addActor(table);
         Gdx.input.setInputProcessor(stage);
     }
+
     
     public boolean defuseBomb() throws InterruptedException{
         render();
+        /*
+        Timer timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                stage.clear();
+            }
+        },10);*/
+
         //TODO Indicator for right/wrong input
+
         float time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 10000){
             if (userinput.equals(bombcode)){
@@ -141,6 +153,14 @@ public class BombDefuse {
         }
         stage.clear();
         return false;
+    }
+
+    //Color Text in specific Cell
+    public void changeStringColor(){
+        if (bombcode.contains(userinput)){
+            table.getCell(buttonEight).getActor().getLabel().setColor(0,255,0, 0);
+        }
+        else table.getCell(buttonEight).getActor().getLabel().setColor(255,0,0, 0);
     }
 
     public void render(){

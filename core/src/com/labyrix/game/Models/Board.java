@@ -4,16 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 public class Board {
     private Field[][] fields;
 
     public Board(int length, int width) {
         fields = new Field[length][width];
     }
+
     private static SpriteBatch batch = null;
 
     //Board for development
-    public Board(SpriteBatch batch)  throws IllegalArgumentException{
+    public Board(SpriteBatch batch) throws IllegalArgumentException {
         if (this.batch == null) {
             this.batch = batch;
         }
@@ -21,40 +24,39 @@ public class Board {
         Image snow = new Image("bodenLabyrixSnow.png");
         Image ziel = new Image("bodenLabyrixZiel.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
-        Image stone = new Image ("bodenLabyrixstone.png");
+        Image stone = new Image("bodenLabyrixstone.png");
         Image dach = new Image("bodenLabyrixdach.png");
-        Image cheddar = new Image ("bodenLabyrixcheddar.png");
-        Image floor = new Image ("bodenLabyrixv3.png");
+        Image cheddar = new Image("bodenLabyrixcheddar.png");
+        Image floor = new Image("bodenLabyrixv3.png");
 
 
-
-
-        int[][] field = {{1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {1, 4, 1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4},
-                {1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4, 1, 2, 4, 2, 3, 4, 1, 2},
-                {1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2},
-                {1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2},
-                {1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 1, 2, 3, 4, 1, 1, 2},
-                {3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2},
-                {1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {3, 4, 1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 2, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2},
-                {1, 2, 3, 4, 1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2},
-                {3, 4, 1, 2, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4},
-                {1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 1, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2},
-                {1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 2, 1, 2},
-                {3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 1, 4, 1, 1, 1, 2, 1, 4, 1, 1, 1, 2, 3, 4},
-                {1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 2, 1, 4, 1, 2},
-                {1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 1, 1, 2},
-                {3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 1, 4},
-                {1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 2, 1, 2, 3, 4, 1, 7}};
+        int[][] field = {
+                {1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {1, 2, 1, 4, 1, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {1, 4, 1, 2, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {1, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 4, 2, 3, 4, 4, 4, 2},
+                {1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {3, 4, 4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {4, 2, 4, 2, 1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {4, 2, 3, 4, 4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {3, 4, 4, 2, 4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2},
+                {3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 1, 4, 1, 1, 1, 2, 1, 4, 1, 1, 1, 2, 3, 4},
+                {4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 2, 1, 4, 4, 2},
+                {4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 1, 1, 1, 2},
+                {3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 1, 4},
+                {4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 1, 7}};
 
         if (checkBoardSize(field)) {
 
@@ -84,6 +86,7 @@ public class Board {
 
                 }
             }
+
             fields[0][0].addFollowingFields((PathField) fields[1][0]);
             fields[1][0].addFollowingFields((PathField) fields[2][0]);
             fields[2][0].addFollowingFields((PathField) fields[3][0]);
@@ -94,7 +97,8 @@ public class Board {
             fields[5][1].addFollowingFields((PathField) fields[5][2]);
             fields[5][2].addFollowingFields((PathField) fields[6][2]);
             fields[6][2].addFollowingFields((PathField) fields[7][2]);
-            //Verzweigung
+
+
 
             fields[7][2].addFollowingFields((PathField) fields[7][3]);
             fields[7][3].addFollowingFields((PathField) fields[7][4]);
@@ -103,7 +107,6 @@ public class Board {
             fields[9][4].addFollowingFields((PathField) fields[10][4]);
             fields[10][4].addFollowingFields((PathField) fields[11][4]);
             fields[11][4].addFollowingFields((PathField) fields[12][4]);
-
 
             fields[7][2].addFollowingFields((PathField) fields[8][2]);
             fields[8][2].addFollowingFields((PathField) fields[9][2]);
@@ -114,6 +117,22 @@ public class Board {
             fields[12][3].addFollowingFields((PathField) fields[12][4]);
             fields[12][4].addFollowingFields((PathField) fields[13][4]);
             fields[13][4].addFollowingFields((PathField) fields[14][4]);
+
+            fields[7][2].addFollowingFields((PathField) fields[7][1]);
+            fields[7][1].addFollowingFields((PathField) fields[7][0]);
+            fields[7][0].addFollowingFields((PathField) fields[8][0]);
+            fields[8][0].addFollowingFields((PathField) fields[9][0]);
+            fields[9][0].addFollowingFields((PathField) fields[10][0]);
+            fields[10][0].addFollowingFields((PathField) fields[11][0]);
+            fields[11][0].addFollowingFields((PathField) fields[12][0]);
+            fields[12][0].addFollowingFields((PathField) fields[12][1]);
+            fields[12][1].addFollowingFields((PathField) fields[12][2]);
+
+            fields[14][4].addFollowingFields((PathField) fields[15][4]);
+            fields[15][4].addFollowingFields((PathField) fields[16][4]);
+            fields[16][4].addFollowingFields((PathField) fields[16][5]);
+            fields[16][5].addFollowingFields((PathField) fields[16][6]);
+
             fields[14][4].addFollowingFields((PathField) fields[14][5]);
             fields[14][5].addFollowingFields((PathField) fields[14][6]);
             fields[14][6].addFollowingFields((PathField) fields[15][6]);
@@ -156,6 +175,8 @@ public class Board {
             fields[23][24].addFollowingFields((PathField) fields[24][24]);
             fields[24][24].addFollowingFields((PathField) fields[25][24]);
             fields[25][24].addFollowingFields((PathField) fields[25][25]);
+
+            //createPath(field);
         }
     }
 
@@ -200,9 +221,9 @@ public class Board {
         }
     }
 
-    public boolean checkBoardSize(int[][] field) throws IllegalArgumentException{
+    public boolean checkBoardSize(int[][] field) throws IllegalArgumentException {
         for (int i = 1; i < field.length; i++) {
-            if (field[i-1].length != field[1].length) {
+            if (field[i - 1].length != field[1].length) {
                 throw new IllegalArgumentException();
             }
         }
@@ -216,6 +237,134 @@ public class Board {
                 float y = (cols + row) * 64;
                 fields[row][cols].setCoordinates(new Vector2(x, y));
                 batch.draw(fields[row][cols].getFieldImage().getImg(), x, y);
+            }
+        }
+    }
+
+    public void createPath(int[][] field) {
+        //von startfeld einen pfad bis zum ende
+        //wenn mehr als ein folgefeld -> füge diese zu einer liste für subpfade
+        //wenn du am ende des weges angelangt bist (oder an einem Feld, das bereits betreten wurde)
+        //--> elemente aus der liste entfernen
+        //--> hauptpfad mit subpfad zusammenfügen
+        //wieder von start bis ende durchgehen (wenn feld bereits passiert - verknüpfe die pfade
+
+        ArrayList<Field> passedFields = new ArrayList<>();
+        ArrayList<PathField> subPaths = new ArrayList<>();
+        ArrayList<PathField> splitPaths = new ArrayList<>();
+        ArrayList<Integer> is = new ArrayList<>();
+        ArrayList<Integer> js = new ArrayList<>();
+
+        int i = 0, j = 0;
+
+        subPaths.add((PathField) this.fields[0][0]);
+        is.add(i);
+        js.add(j);
+
+        while (subPaths.size() > 0) {
+            int tempI = i, tempJ = j;
+            int follwoingFields = 0;
+
+            if (j < field[i].length - 1 && (field[i][j + 1] == 1 || field[i][j + 1] == 7 ) ) {
+                if (!passedFields.contains(fields[i][j+1])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
+                        tempJ = j+1;
+                        follwoingFields++;
+                    } else {
+                        //Neuer Pfad
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i][j + 1]);
+                        is.add(i);
+                        js.add(j + 1);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+
+                    //Pfad zusammenfügen
+                } else if (passedFields.contains(fields[i][j+1]) && subPaths.contains(fields[i][j])&& !fields[i][j+1].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
+                    tempJ = j+1;
+                    follwoingFields++;
+                }
+            }
+
+            if (i < field.length - 1 && (field[i + 1][j] == 1  || field[i + 1][j] == 7 )) {
+
+                if (!passedFields.contains(fields[i+1][j])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
+                        tempI = i+1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i + 1][j]);
+                        is.add(i + 1);
+                        js.add(j);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i + 1][j]) && subPaths.contains(fields[i][j])&& !fields[i+1][j].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
+                    tempI = i+1;
+                    follwoingFields++;
+                }
+            }
+
+            if (j > 0 && (field[i][j - 1] == 1  || field[i][j - 1] == 7 )) {
+                if (!passedFields.contains(fields[i][j-1])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
+                        tempJ = j-1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i][j - 1]);
+                        is.add(i);
+                        js.add(j - 1);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i][j - 1]) && subPaths.contains(fields[i][j]) && !fields[i][j-1].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
+                    tempJ = j-1;
+                    follwoingFields++;
+                }
+            }
+
+            if (i > 0 && (field[i - 1][j] == 1  || field[i - 1][j] == 7 )) {
+                if (!passedFields.contains(fields[i-1][j])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
+                        tempI = i-1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i - 1][j]);
+                        is.add(i - 1);
+                        js.add(j);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i - 1][j]) && subPaths.contains(fields[i][j]) && !fields[i-1][j].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
+                    tempI = i-1;
+                    follwoingFields++;
+                }
+            }
+
+
+            i = tempI;
+            j = tempJ;
+
+            if (field[i][j] == 7 || passedFields.contains(fields[i][j])) {
+                subPaths.remove(0);
+                is.remove(0);
+                js.remove(0);
+
+                if (is.size() > 0 && js.size() > 0) {
+                    i = is.get(0);
+                    j = js.get(0);
+
+                    splitPaths.get(0).addFollowingFields((PathField) fields[i][j]);
+                    splitPaths.remove(0);
+                }
             }
         }
     }
@@ -243,7 +392,7 @@ public class Board {
     }
 
     public void drawImg(Texture img, int x, int y) {
-        batch.draw(img, x,y);
+        batch.draw(img, x, y);
     }
 
     public SpriteBatch getBatch() {

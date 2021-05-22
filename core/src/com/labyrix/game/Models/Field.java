@@ -2,6 +2,9 @@ package com.labyrix.game.Models;
 
 import com.badlogic.gdx.math.Vector2;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public abstract class Field {
     private Integer id = 0;
     private Vector2 coordinates;
@@ -34,5 +37,6 @@ public abstract class Field {
     }
 
     abstract public void addFollowingFields(PathField f);
+    abstract public ArrayList<PathField> getFollowingFields();
 }
 

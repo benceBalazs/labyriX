@@ -44,10 +44,10 @@ public class Board {
                 {1, 4, 1, 2, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
                 {1, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 4, 2, 3, 4, 4, 4, 2},
                 {1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
-                {4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2}, //13 4
-                {4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2}, //14 4
-                {3, 4, 4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},  //15 4
-                {4, 2, 4, 2, 1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2}, //16 4, 5, 6
+                {4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
+                {4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
+                {3, 4, 4, 2, 1, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
+                {4, 2, 4, 2, 1, 1, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
                 {4, 2, 3, 4, 4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2},
                 {3, 4, 4, 2, 4, 2, 3, 4, 1, 1, 1, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4},
                 {4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 1, 4, 4, 2, 4, 2, 3, 4, 4, 2, 4, 2, 3, 4, 4, 2},
@@ -227,249 +227,133 @@ public class Board {
     }
 
     public void createPath(int[][] field) {
+        //von startfeld einen pfad bis zum ende
+        //wenn mehr als ein folgefeld -> füge diese zu einer liste für subpfade
+        //wenn du am ende des weges angelangt bist (oder an einem Feld, das bereits betreten wurde)
+        //--> elemente aus der liste entfernen
+        //--> hauptpfad mit subpfad zusammenfügen
+        //wieder von start bis ende durchgehen (wenn feld bereits passiert - verknüpfe die pfade
 
         ArrayList<Field> passedFields = new ArrayList<>();
         ArrayList<PathField> subPaths = new ArrayList<>();
         ArrayList<PathField> splitPaths = new ArrayList<>();
         ArrayList<Integer> is = new ArrayList<>();
         ArrayList<Integer> js = new ArrayList<>();
-        ArrayList<Integer> spiltI = new ArrayList<>();
-        ArrayList<Integer> splitJ = new ArrayList<>();
 
         int i = 0, j = 0;
-        boolean pathdone = false;
 
         subPaths.add((PathField) this.fields[0][0]);
         is.add(i);
         js.add(j);
 
-        //TODO Verkettung der Subpaths
+        while (subPaths.size() > 0) {
+            int tempI = i, tempJ = j;
+            int follwoingFields = 0;
 
-        while (!pathdone) {
-            if (field[i][j] == 1) {
-                int newI = i, newJ = j;
-                int follwoingFields = 0;
-                //Standard Case for Path
-                if (j < field[i].length - 1 && !passedFields.contains(fields[i][j + 1]) && (field[i][j + 1] == 1 || field[i][j + 1] == 7)) {
+            if (j < field[i].length - 1 && (field[i][j + 1] == 1 || field[i][j + 1] == 7 ) ) {
+                if (!passedFields.contains(fields[i][j+1])) {
                     if (follwoingFields == 0) {
-                        if (!this.fields[i][j].getFollowingFields().contains(fields[i][j + 1])) {
-                            this.fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
-                            newJ = j + 1;
-                        }
+                        fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
+                        tempJ = j+1;
+                        follwoingFields++;
                     } else {
-                        //if there are more follwingfields
-                        if (!subPaths.contains((PathField) this.fields[i][j + 1])) {
-                            subPaths.add((PathField) this.fields[i][j + 1]);
-                            is.add(i);
-                            js.add(j + 1);
-                            splitPaths.add((PathField) this.fields[i][j]);
-                            spiltI.add(i);
-                            splitJ.add(j);
-                        }
+                        //Neuer Pfad
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i][j + 1]);
+                        is.add(i);
+                        js.add(j + 1);
                     }
-                    passedFields.add(fields[i][j]);
+                    passedFields.add((PathField) fields[i][j]);
+
+                    //Pfad zusammenfügen
+                } else if (passedFields.contains(fields[i][j+1]) && subPaths.contains(fields[i][j])&& !fields[i][j+1].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
+                    tempJ = j+1;
                     follwoingFields++;
                 }
-
-                //Pathmerging
-                if(j < field[i].length - 1 && passedFields.contains(fields[i][j + 1]) && subPaths.contains(fields[i][j])) {
-
-
-                    this.fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
-                    //combine paths
-                    splitPaths.get(0).addFollowingFields(subPaths.get(0));
-
-                    newJ = j + 1;
-                    js.remove(subPaths.indexOf(fields[i][j]));
-                    is.remove(subPaths.indexOf(fields[i][j]));
-                    splitPaths.remove(0);
-                    spiltI.remove(0);
-                    splitJ.remove(0);
-
-                    subPaths.remove(subPaths.indexOf(fields[i][j]));
-                }
-
-
-
-                if (i < field.length - 1 && !passedFields.contains(fields[i + 1][j]) && field[i + 1][j] == 1) {
-                    if (follwoingFields == 0) {
-                        if (!this.fields[i][j].getFollowingFields().contains(fields[i + 1][j])) {
-                            this.fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
-                            newI = i + 1;
-                        }
-                    } else {
-                        if (!subPaths.contains((PathField) this.fields[i + 1][j])) {
-                            subPaths.add((PathField) this.fields[i + 1][j]);
-                            splitPaths.add((PathField) this.fields[i][j]);
-                            is.add(i + 1);
-                            js.add(j);
-                            spiltI.add(i);
-                            splitJ.add(j);
-
-                        }
-                    }
-                    passedFields.add(fields[i][j]);
-                    follwoingFields++;
-                }
-
-                /*if(i < field.length - 1 && passedFields.contains(fields[i + 1][j]) && subPaths.contains(fields[i][j])) {
-                    this.fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
-                    //combine paths
-                    splitPaths.get(0).addFollowingFields(subPaths.get(0));
-
-                    newI = i + 1;
-                    js.remove(subPaths.indexOf(fields[i][j]));
-                    is.remove(subPaths.indexOf(fields[i][j]));
-                    splitPaths.remove(0);
-                    subPaths.remove(subPaths.indexOf(fields[i][j]));
-                }*/
-
-                if (j > 0 && !passedFields.contains(fields[i][j - 1]) && field[i][j - 1] == 1) {
-                    if (follwoingFields == 0) {
-                        if (!this.fields[i][j].getFollowingFields().contains(fields[i][j - 1])) {
-                            this.fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
-                            newJ = j - 1;
-                        }
-                    } else {
-                        if (!subPaths.contains((PathField) this.fields[i][j - 1])) {
-                            subPaths.add((PathField) this.fields[i][j - 1]);
-                            splitPaths.add((PathField) this.fields[i][j]);
-                            is.add(i);
-                            js.add(j - 1);
-                            spiltI.add(i);
-                            splitJ.add(j);
-
-                        }
-                    }
-                    passedFields.add(fields[i][j]);
-                    follwoingFields++;
-                }
-
-               /* if(j > 0 && passedFields.contains(fields[i][j - 1]) && subPaths.contains(fields[i][j])) {
-                    this.fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
-                    //combine paths
-                    splitPaths.get(0).addFollowingFields(subPaths.get(0));
-
-                    newJ = j - 1;
-                    js.remove(subPaths.indexOf(fields[i][j]));
-                    is.remove(subPaths.indexOf(fields[i][j]));
-                    splitPaths.remove(0);
-                    subPaths.remove(subPaths.indexOf(fields[i][j]));
-                }*/
-
-                if (i > 0 && !passedFields.contains(fields[i - 1][j]) && field[i - 1][j] == 1) {
-                    if (follwoingFields == 0) {
-                        if (!this.fields[i][j].getFollowingFields().contains(fields[i - 1][j])) {
-                            this.fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
-                            newI = i - 1;
-                        }
-                    } else {
-                        if (!subPaths.contains((PathField) this.fields[i - 1][j])) {
-                            subPaths.add((PathField) this.fields[i - 1][j]);
-                            splitPaths.add((PathField) this.fields[i][j]);
-                            is.add(i - 1);
-                            js.add(j);
-                            spiltI.add(i);
-                            splitJ.add(j);
-
-                        }
-                    }
-                    passedFields.add(fields[i][j]);
-                    follwoingFields++;
-                }
-
-                /*if(i > 0 && passedFields.contains(fields[i - 1][j]) && subPaths.contains(fields[i][j])) {
-                    this.fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
-                    //combine paths
-                    splitPaths.get(0).addFollowingFields(subPaths.get(0));
-
-                    newI = i - 1;
-                    js.remove(subPaths.indexOf(fields[i][j]));
-                    is.remove(subPaths.indexOf(fields[i][j]));
-                    splitPaths.remove(0);
-                    subPaths.remove(subPaths.indexOf(fields[i][j]));
-                }*/
-
-                i = newI;
-                j = newJ;
             }
+
+            if (i < field.length - 1 && (field[i + 1][j] == 1  || field[i + 1][j] == 7 )) {
+
+                if (!passedFields.contains(fields[i+1][j])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
+                        tempI = i+1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i + 1][j]);
+                        is.add(i + 1);
+                        js.add(j);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i + 1][j]) && subPaths.contains(fields[i][j])&& !fields[i+1][j].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
+                    tempI = i+1;
+                    follwoingFields++;
+                }
+            }
+
+            if (j > 0 && (field[i][j - 1] == 1  || field[i][j - 1] == 7 )) {
+                if (!passedFields.contains(fields[i][j-1])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
+                        tempJ = j-1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i][j - 1]);
+                        is.add(i);
+                        js.add(j - 1);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i][j - 1]) && subPaths.contains(fields[i][j]) && !fields[i][j-1].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
+                    tempJ = j-1;
+                    follwoingFields++;
+                }
+            }
+
+            if (i > 0 && (field[i - 1][j] == 1  || field[i - 1][j] == 7 )) {
+                if (!passedFields.contains(fields[i-1][j])) {
+                    if (follwoingFields == 0) {
+                        fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
+                        tempI = i-1;
+                        follwoingFields++;
+                    } else {
+                        splitPaths.add((PathField) fields[i][j]);
+                        subPaths.add((PathField) fields[i - 1][j]);
+                        is.add(i - 1);
+                        js.add(j);
+                    }
+                    passedFields.add((PathField) fields[i][j]);
+                } else if (passedFields.contains(fields[i - 1][j]) && subPaths.contains(fields[i][j]) && !fields[i-1][j].getFollowingFields().contains(fields[i][j])) {
+                    fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
+                    tempI = i-1;
+                    follwoingFields++;
+                }
+            }
+
+
+            i = tempI;
+            j = tempJ;
 
             if (field[i][j] == 7 || passedFields.contains(fields[i][j])) {
                 subPaths.remove(0);
-                js.remove(0);
                 is.remove(0);
+                js.remove(0);
 
-                if (is.size() > 0 && js.size() > 0 && subPaths.size() > 0) {
+                if (is.size() > 0 && js.size() > 0) {
                     i = is.get(0);
                     j = js.get(0);
-                    splitPaths.get(0).addFollowingFields(subPaths.get(0));
-                }
-            }
 
-            if (is.size() == 0 && js.size() == 0) {
-                pathdone = true;
+                    splitPaths.get(0).addFollowingFields((PathField) fields[i][j]);
+                    splitPaths.remove(0);
+                }
             }
         }
-
-        /*
-        ArrayList<Field> arrayList = new ArrayList<>();
-        ArrayList<PathField> followingFields = new ArrayList<>();
-        ArrayList<Integer> is = new ArrayList<>();
-        ArrayList<Integer> js = new ArrayList<>();
-
-        int i = 0, j = 0;
-        is.add(i);
-        js.add(j);
-        followingFields.add((PathField) fields[0][0]);
-
-        while (followingFields.size() > 0) {
-            i = is.get(0);
-            j = js.get(0);
-            if (field[i][j] == 1) {
-                if (j < field[i].length - 1 && !arrayList.contains(fields[i][j + 1]) && (field[i][j + 1] == 1 ||  field[i][j + 1] == 7) ) {
-                    if (!this.fields[i][j].getFollowingFields().contains(fields[i][j + 1])) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
-                        followingFields.add((PathField) this.fields[i][j + 1]);
-                        is.add(i);
-                        js.add(j + 1);
-                        arrayList.add(fields[i][j]);
-                    }
-                }
-                if (i < field.length - 1 && !arrayList.contains(fields[i + 1][j]) && field[i + 1][j] == 1) {
-                    if (!this.fields[i][j].getFollowingFields().contains(fields[i+1][j])) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
-                        followingFields.add((PathField) this.fields[i + 1][j]);
-                        is.add(i + 1);
-                        js.add(j);
-                        arrayList.add(fields[i][j]);
-                    }
-                }
-                if (j > 0 && !arrayList.contains(fields[i][j - 1]) && field[i][j - 1] == 1) {
-                    if (!this.fields[i][j].getFollowingFields().contains(fields[i][j - 1])) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
-                        followingFields.add((PathField) this.fields[i][j - 1]);
-                        is.add(i);
-                        js.add(j - 1);
-                        arrayList.add(fields[i][j]);
-                    }
-                }
-                if (i > 0 && !arrayList.contains(fields[i - 1][j]) && field[i - 1][j] == 1) {
-                    if (!this.fields[i][j].getFollowingFields().contains(fields[i-1][j])) {
-                        this.fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
-                        followingFields.add((PathField) this.fields[i - 1][j]);
-                        is.add(i - 1);
-                        js.add(j);
-                        arrayList.add(fields[i][j]);
-                    }
-                }
-            }
-            is.remove(0);
-            js.remove(0);
-            followingFields.remove(0);
-            arrayList.add(fields[i][j]);
-        }
-         */
     }
+
 
     public Field[][] getFields() {
         return fields;

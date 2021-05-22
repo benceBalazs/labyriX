@@ -87,7 +87,6 @@ public class Board {
                 }
             }
 
-            /*
             fields[0][0].addFollowingFields((PathField) fields[1][0]);
             fields[1][0].addFollowingFields((PathField) fields[2][0]);
             fields[2][0].addFollowingFields((PathField) fields[3][0]);
@@ -98,7 +97,8 @@ public class Board {
             fields[5][1].addFollowingFields((PathField) fields[5][2]);
             fields[5][2].addFollowingFields((PathField) fields[6][2]);
             fields[6][2].addFollowingFields((PathField) fields[7][2]);
-            //Verzweigung
+
+
 
             fields[7][2].addFollowingFields((PathField) fields[7][3]);
             fields[7][3].addFollowingFields((PathField) fields[7][4]);
@@ -107,7 +107,6 @@ public class Board {
             fields[9][4].addFollowingFields((PathField) fields[10][4]);
             fields[10][4].addFollowingFields((PathField) fields[11][4]);
             fields[11][4].addFollowingFields((PathField) fields[12][4]);
-
 
             fields[7][2].addFollowingFields((PathField) fields[8][2]);
             fields[8][2].addFollowingFields((PathField) fields[9][2]);
@@ -118,6 +117,22 @@ public class Board {
             fields[12][3].addFollowingFields((PathField) fields[12][4]);
             fields[12][4].addFollowingFields((PathField) fields[13][4]);
             fields[13][4].addFollowingFields((PathField) fields[14][4]);
+
+            fields[7][2].addFollowingFields((PathField) fields[7][1]);
+            fields[7][1].addFollowingFields((PathField) fields[7][0]);
+            fields[7][0].addFollowingFields((PathField) fields[8][0]);
+            fields[8][0].addFollowingFields((PathField) fields[9][0]);
+            fields[9][0].addFollowingFields((PathField) fields[10][0]);
+            fields[10][0].addFollowingFields((PathField) fields[11][0]);
+            fields[11][0].addFollowingFields((PathField) fields[12][0]);
+            fields[12][0].addFollowingFields((PathField) fields[12][1]);
+            fields[12][1].addFollowingFields((PathField) fields[12][2]);
+
+            fields[14][4].addFollowingFields((PathField) fields[15][4]);
+            fields[15][4].addFollowingFields((PathField) fields[16][4]);
+            fields[16][4].addFollowingFields((PathField) fields[16][5]);
+            fields[16][5].addFollowingFields((PathField) fields[16][6]);
+
             fields[14][4].addFollowingFields((PathField) fields[14][5]);
             fields[14][5].addFollowingFields((PathField) fields[14][6]);
             fields[14][6].addFollowingFields((PathField) fields[15][6]);
@@ -159,9 +174,9 @@ public class Board {
             fields[23][23].addFollowingFields((PathField) fields[23][24]);
             fields[23][24].addFollowingFields((PathField) fields[24][24]);
             fields[24][24].addFollowingFields((PathField) fields[25][24]);
-            fields[25][24].addFollowingFields((PathField) fields[25][25]);*/
+            fields[25][24].addFollowingFields((PathField) fields[25][25]);
 
-            createPath(field);
+            //createPath(field);
         }
     }
 

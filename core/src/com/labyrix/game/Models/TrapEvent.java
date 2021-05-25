@@ -1,9 +1,12 @@
 package com.labyrix.game.Models;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.labyrix.game.Defusions.BombDefuse;
 import com.labyrix.game.Defusions.MovementDefuse;
 import com.labyrix.game.ENUMS.TrapDefuseMethod;
 import com.labyrix.game.ENUMS.TrapEventName;
+import com.labyrix.game.Screens.GameScreen;
 
 import java.util.Random;
 
@@ -11,48 +14,45 @@ public class TrapEvent {
     private TrapEventName event;
     private Image eventImage;
     private TrapDefuseMethod defuseMethod;
+    private MovementDefuse sensorDefuse;
 
     public TrapEvent (){
         this.event = randomTrapEvent();
 
         switch (event){
             case ZOMBIE:
-                //TODO eventImage = null;
+                this.eventImage = new Image("zombie.png");
                 defuseMethod = TrapDefuseMethod.STOPMOVING;
                 break;
             case BOMB:
-                //TODO eventImage = null;
+                this.eventImage = new Image("bomb.png");
                 defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
-            case PITFALL:
-                //TODO eventImage = null;
+            case DOOR:
+                this.eventImage = new Image("door.png");
                 defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
-                //TODO eventImage = null;
+                this.eventImage = new Image("quicksand.png");
                 defuseMethod = TrapDefuseMethod.CRAWLOUT;
-                break;
-            case ALIENKIDNAP:
-                //TODO eventImage = null;
-                defuseMethod = TrapDefuseMethod.WAVE;
                 break;
             default:
                 //TODO throw new IllegalArgumentException();
         }
-
     }
 
     public TrapEventName randomTrapEvent() {
-        return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
+        //return TrapEventName.BOMB;
+        return TrapEventName.ZOMBIE;
+        //return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
     public boolean TrapDefuse() throws InterruptedException {
-        boolean result;
-        MovementDefuse sensorDefuse = new MovementDefuse();
-        BombDefuse bombDefuse = new BombDefuse();
+        boolean result = false;
+        this.sensorDefuse = new MovementDefuse();
+
         switch (defuseMethod){
             case DEFUSEBOMB:
-                result = bombDefuse.defuseBomb();
                 break;
             case CLIMBUP:
                 result = sensorDefuse.climbUp();
@@ -69,6 +69,7 @@ public class TrapEvent {
             default:
                 throw new IllegalStateException("Unexpected value: " + defuseMethod);
         }
+        System.out.println(result);
         return result;
     }
 
@@ -94,5 +95,9 @@ public class TrapEvent {
 
     public void setDefuseMethod(TrapDefuseMethod defuseMethod) {
         this.defuseMethod = defuseMethod;
+    }
+
+    public MovementDefuse getSensorDefuse() {
+        return sensorDefuse;
     }
 }

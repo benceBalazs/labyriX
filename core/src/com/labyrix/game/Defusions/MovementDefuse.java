@@ -3,9 +3,8 @@ package com.labyrix.game.Defusions;
 import com.badlogic.gdx.Gdx;
 
 public class MovementDefuse {
-    int successCount;
-    int failCount;
-    //TODO Image anzeigen
+    private int successCount;
+    private int failCount;
 
     public MovementDefuse(){
         successCount = 0;
@@ -15,7 +14,7 @@ public class MovementDefuse {
     public boolean dontMove() throws InterruptedException {
         double time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 10000) {
-            if (successCount > 75) {
+            if (successCount > 50) {
                 successCount = 0;
                 return true;
             }
@@ -39,7 +38,7 @@ public class MovementDefuse {
     public boolean climbUp() throws InterruptedException {
         double time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 10000) {
-            if (successCount > 50) {
+            if (successCount > 30) {
                 successCount = 0;
                 return true;
             }
@@ -56,7 +55,7 @@ public class MovementDefuse {
     public boolean crawlOut() throws InterruptedException {
         double time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 10000) {
-            if (successCount > 50) {
+            if (successCount > 30) {
                 successCount = 0;
                 return true;
             }

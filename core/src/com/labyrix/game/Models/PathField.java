@@ -13,14 +13,14 @@ public class PathField extends Field {
         this.setCoordinates(coordinates);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
-        //this.trap = new Trap(trapProbability);
+        this.trap = new Trap(trapProbability);
     }
 
     public PathField(int id, Image fieldImage, float trapProbability) {
         this.setId(id);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
-        //this.trap = new Trap(trapProbability);
+        this.trap = new Trap(trapProbability);
     }
 
     public PathField(int id, Image fieldImage) {
@@ -30,6 +30,7 @@ public class PathField extends Field {
         followingFields = new ArrayList<PathField>();
     }
 
+    @Override
     public ArrayList<PathField> getFollowingFields() {
         return followingFields;
     }
@@ -53,8 +54,15 @@ public class PathField extends Field {
         }
     }
 
+
     public PathField getFollowingField(int i) {
-        return followingFields.get(i);
+
+        if (followingFields.size() > i) {
+            return followingFields.get(i);
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 }

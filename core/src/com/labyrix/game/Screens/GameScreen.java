@@ -42,12 +42,14 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.setProjectionMatrix(camera.combined);
+
         batch.begin();
-        tl.doTurn();
         isorend.drawGround();
+        tl.doTurn();
         player.render(batch);
         cameraLerp( camera, player.getPosition());
         tl.getArrowActors().render();
+        tl.getBombRender().render();
         batch.end();
         hud.render(batch);
         hud.update(player);

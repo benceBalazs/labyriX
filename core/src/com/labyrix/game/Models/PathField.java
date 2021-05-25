@@ -30,6 +30,7 @@ public class PathField extends Field {
         followingFields = new ArrayList<PathField>();
     }
 
+    @Override
     public ArrayList<PathField> getFollowingFields() {
         return followingFields;
     }
@@ -52,6 +53,7 @@ public class PathField extends Field {
             followingFields.add(f);
         }
     }
+
 
     public PathField getFollowingField(int i) {
 

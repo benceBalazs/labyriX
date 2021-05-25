@@ -63,6 +63,10 @@ public class TurnLogic {
                 case TRAPACTIVATED:
                     defuseTrap();
                     break;
+                case WON:
+                    System.out.println("WON");
+                    //SOME FANCY SERVER STUFF
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -73,7 +77,7 @@ public class TurnLogic {
         board.getBatch().draw(turnValueText, this.player.getPosition().x, this.player.getPosition().y + 180);
     }
 
-    public void rollDice() throws IllegalArgumentException{
+    public void rollDice() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.DICEROLL && turnDone == false) {
             if (Gdx.input.justTouched()) {
                 this.player.setRemainingSteps((int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed()));
@@ -84,10 +88,25 @@ public class TurnLogic {
         }
     }
 
-    public void move() throws IllegalArgumentException{
+    public void move() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.MOVEMENT && turnDone == false) {
+            if (this.getArrowActors().getArrowActorDown() != null) {
+                this.getArrowActors().setArrowActorDown(null);
+            }
+            if (this.getArrowActors().getArrowActorLeft() != null) {
+                this.getArrowActors().setArrowActorLeft(null);
+            }
+            if (this.getArrowActors().getArrowActorRight() != null) {
+                this.getArrowActors().setArrowActorRight(null);
+            }
+            if (this.getArrowActors().getArrowActorUp() != null) {
+                this.getArrowActors().setArrowActorUp(null);
+            }
+
             turnValueText = new Texture("move.png");
             System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
+            System.out.println("Following Fields: " + this.player.getCurrentField().getFollowingFields().size());
+
 
             if (this.player.getRemainingSteps() <= 0) {
                 this.turnValue = TurnValue.TRAPCHECK;
@@ -100,6 +119,9 @@ public class TurnLogic {
                     Vector2 playerPosition = new Vector2(player.getCurrentField().getCoordinates().x + 64, player.getCurrentField().getCoordinates().y + 184);
                     this.player.setPosition(playerPosition);
                     animationCounter = 20;
+                    if (this.player.getCurrentField().getFieldImage().getImg().equals(new Texture("bodenLabyrixZiel.png"))) {
+                        this.turnValue = TurnValue.WON;
+                    }
                 }
                 animationCounter--;
             }
@@ -111,7 +133,7 @@ public class TurnLogic {
         }
     }
 
-    public void selectPath() throws IllegalArgumentException{
+    public void selectPath() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
             if (this.player.getRemainingSteps() > 0) {
@@ -143,6 +165,10 @@ public class TurnLogic {
                             this.arrowActors.getStage().addActor(actorRight);
                         }
                         i++;
+                    i++;
+                    if (this.getArrowActors().isIsHidden()) {
+                        this.arrowActors.render();
+                        this.getArrowActors().setIsHidden(false);
                     }
                 }
             }
@@ -151,7 +177,7 @@ public class TurnLogic {
         }
     }
 
-    public void checkTrap() throws IllegalArgumentException{
+    public void checkTrap() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
             turnValueText = new Texture("checkTrap.png");
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
@@ -187,6 +213,7 @@ public class TurnLogic {
             board.drawImg(trapImg, x, y);
 
             if (Gdx.input.justTouched()) {
+
                 try {
                     if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB){
                         this.bombRender.setInputProcess();

@@ -2,39 +2,52 @@ package com.labyrix.game.Defusions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.labyrix.game.LabyrixMain;
 
-public class BombDefuse {
+public class BombDefuse extends Actor {
     private String bombcode;
     private String userinput;
     private Skin skin;
     private Table table;
-    private TextButton buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine;
-    private Viewport viewport;
-    private Stage stage;
+    private TextButton buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine, clear;
+    private TextField userinputText;
+    /*private Stage stage;*/
+    private Window window;
+    private boolean bombDefuse;
 
-    public BombDefuse(Camera cam){
+    public BombDefuse(float x, float y){
+        bombDefuse = false;
         userinput = "";
         bombcode = "";
-
         for (int i = 0; i < 4; i++) {
             int randomNumber = (int)(Math.random()* 9 + 1);
             bombcode += randomNumber;
         }
-        //TODO Table not centered
+
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),cam);
-        stage = new Stage(viewport);
+
+        //stage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),cam));
 
         table = new Table(skin);
+        table.setX(x);
+        table.setY(y);
+
+        userinputText = new TextField("userinput", skin);
+        userinputText.setText(userinput);
+        userinputText.setAlignment(1);
 
         buttonOne = new TextButton("1",skin);
         buttonOne.getLabel().setFontScale(5);
@@ -54,64 +67,94 @@ public class BombDefuse {
         buttonEight.getLabel().setFontScale(5);
         buttonNine = new TextButton("9", skin);
         buttonNine.getLabel().setFontScale(5);
+        clear = new TextButton("clear", skin);
+        clear.getLabel().setFontScale(5);
 
-        buttonOne.addListener(new InputListener(){
+        buttonOne.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 1;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonTwo.addListener(new InputListener(){
+
+        } );
+        buttonTwo.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 2;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonThree.addListener(new InputListener(){
+        } );
+        buttonThree.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 3;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonFour.addListener(new InputListener(){
+        } );
+        buttonFour.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 4;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonFive.addListener(new InputListener(){
+        } );
+        buttonFive.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 5;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonSix.addListener(new InputListener(){
+        } );
+        buttonSix.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 6;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonSeven.addListener(new InputListener(){
+        } );
+        buttonSeven.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 7;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonEight.addListener(new InputListener(){
+        } );
+        buttonEight.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 8;
+                updateUserInput();
+                System.out.println(userinput);
             }
-        });
-        buttonNine.addListener(new InputListener(){
+        } );
+        buttonNine.addListener(new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 userinput += 9;
+                updateUserInput();
+                System.out.println(userinput);
+            }
+        } );
+        clear.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                userinput = "";
+                updateUserInput();
+                System.out.println(userinput);
             }
         });
 
-        table.add("Code: ").size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/8).getActor().setFontScale(5);
-        table.add((CharSequence)bombcode).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/8).getActor().setFontScale(5);
+        table.add((CharSequence)bombcode).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7).getActor().setFontScale(5);
+        table.add(userinputText).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
+        table.add(clear).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
         table.row();
         table.add(buttonOne).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonTwo).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
@@ -125,46 +168,59 @@ public class BombDefuse {
         table.add(buttonEight).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonNine).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
 
-        stage.addActor(table);
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
     }
 
 
     public boolean defuseBomb() throws InterruptedException{
-        render();
+        System.out.println(bombDefuse);
+        //stage.addActor(table);
         /*
+        render();
+        clearStage();
+        double time = System.currentTimeMillis();
+        while (System.currentTimeMillis() < time + 10000){
+            if (userinput.equals(bombcode)){
+                bombDefuse = true;
+            }
+            else bombDefuse = false;
+            System.out.println(bombDefuse);
+            Thread.sleep(100);
+        }*/
+        return bombDefuse;
+    }
+    /*
+    public void render(){
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+    }
+
+    public void clearStage(){
         Timer timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 stage.clear();
             }
-        },10);*/
+        },8);
+    }*/
 
-        //TODO Indicator for right/wrong input
-
-        float time = System.currentTimeMillis();
-        while (System.currentTimeMillis() < time + 10000){
-            if (userinput.equals(bombcode)){
-                stage.clear();
-                return true;
-            }
-            Thread.sleep(100);
+    public boolean bombResult(){
+        if (userinput.equals(bombcode)){
+            bombDefuse = true;
         }
-        stage.clear();
-        return false;
+        return bombDefuse;
     }
 
-    //Color Text in specific Cell
-    public void changeStringColor(){
-        if (bombcode.contains(userinput)){
-            table.getCell(buttonEight).getActor().getLabel().setColor(0,255,0, 0);
-        }
-        else table.getCell(buttonEight).getActor().getLabel().setColor(255,0,0, 0);
+    public String getBombcode() {
+        return bombcode;
     }
 
-    public void render(){
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
+    public Table getTable() {
+        return table;
+    }
+
+    private void updateUserInput() {
+        userinputText.setText(userinput);
     }
 }

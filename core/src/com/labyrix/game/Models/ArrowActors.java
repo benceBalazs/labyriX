@@ -22,7 +22,9 @@ public class ArrowActors {
     public ArrowActors(Camera camera) {
         this.viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),camera);
         this.stage = new Stage(viewport);
+    }
 
+    public void setInputProcess(){
         Gdx.input.setInputProcessor(stage);
     }
 

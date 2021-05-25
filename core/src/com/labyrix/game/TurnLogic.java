@@ -224,7 +224,7 @@ public class TurnLogic {
                         }
                     }
                     else {
-                        if (this.player.getCurrentField().getTrap().getEvent().TrapDefuse(LabyrixMain.getINSTANCE().getCamera()) == true) {
+                        if (this.player.getCurrentField().getTrap().getEvent().TrapDefuse() == true) {
                             this.turnValue = TurnValue.DICEROLL;
                         }
                         else if (this.player.getNumberOfFails() < 1){

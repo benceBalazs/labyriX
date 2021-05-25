@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 public class ArrowActors {
     private Stage stage;
     private Viewport viewport;
+    private boolean isHidden = false;
+
 
     private ArrowActor arrowActorLeft = null;
     private ArrowActor arrowActorRight = null;
@@ -71,5 +73,13 @@ public class ArrowActors {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public boolean isIsHidden() {
+        return isHidden;
+    }
+
+    public void setIsHidden(boolean ishidden) {
+        this.isHidden = ishidden;
     }
 }

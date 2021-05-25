@@ -2,27 +2,33 @@ package com.labyrix.game.Defusions;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.labyrix.game.LabyrixMain;
 
-public class BombDefuse{
+public class BombDefuse extends Actor {
     private String bombcode;
     private String userinput;
     private Skin skin;
     private Table table;
     private TextButton buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine, clear;
-    private Stage stage;
+    private TextField userinputText;
+    /*private Stage stage;*/
+    private Window window;
     private boolean bombDefuse;
 
-    public BombDefuse(Camera cam){
+    public BombDefuse(float x, float y){
         bombDefuse = false;
         userinput = "";
         bombcode = "";
@@ -31,13 +37,17 @@ public class BombDefuse{
             bombcode += randomNumber;
         }
 
-        //TODO Table not centered
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),cam));
+
+        //stage = new Stage(new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),cam));
 
         table = new Table(skin);
-        table.setY(500);
-        table.setX(Gdx.graphics.getHeight()/2 + 450);
+        table.setX(x);
+        table.setY(y);
+
+        userinputText = new TextField("userinput", skin);
+        userinputText.setText(userinput);
+        userinputText.setAlignment(1);
 
         buttonOne = new TextButton("1",skin);
         buttonOne.getLabel().setFontScale(5);
@@ -64,13 +74,16 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 1;
+                updateUserInput();
                 System.out.println(userinput);
             }
+
         } );
         buttonTwo.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 2;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -78,6 +91,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 3;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -85,6 +99,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 4;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -92,6 +107,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 5;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -99,6 +115,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 6;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -106,6 +123,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 7;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -113,6 +131,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 8;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -120,6 +139,7 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 9;
+                updateUserInput();
                 System.out.println(userinput);
             }
         } );
@@ -127,12 +147,13 @@ public class BombDefuse{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput = "";
+                updateUserInput();
                 System.out.println(userinput);
             }
         });
 
         table.add((CharSequence)bombcode).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7).getActor().setFontScale(5);
-        table.add((CharSequence)userinput).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7).getActor().setFontScale(5);
+        table.add(userinputText).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
         table.add(clear).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
         table.row();
         table.add(buttonOne).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
@@ -146,14 +167,14 @@ public class BombDefuse{
         table.add(buttonSeven).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonEight).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonNine).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        stage.addActor(table);
-        Gdx.input.setInputProcessor(stage);
+
+        //Gdx.input.setInputProcessor(stage);
     }
 
 
     public boolean defuseBomb() throws InterruptedException{
         System.out.println(bombDefuse);
-
+        //stage.addActor(table);
         /*
         render();
         clearStage();
@@ -164,19 +185,11 @@ public class BombDefuse{
             }
             else bombDefuse = false;
             System.out.println(bombDefuse);
-            Thread.sleep(10);
+            Thread.sleep(100);
         }*/
         return bombDefuse;
     }
-
-    //Color Text in specific Cell
-    public void changeStringColor(){
-        if (bombcode.contains(userinput)){
-            table.getCell(buttonEight).getActor().getLabel().setColor(0,255,0, 0);
-        }
-        else table.getCell(buttonEight).getActor().getLabel().setColor(255,0,0, 0);
-    }
-
+    /*
     public void render(){
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -190,5 +203,24 @@ public class BombDefuse{
                 stage.clear();
             }
         },8);
+    }*/
+
+    public boolean bombResult(){
+        if (userinput.equals(bombcode)){
+            bombDefuse = true;
+        }
+        return bombDefuse;
+    }
+
+    public String getBombcode() {
+        return bombcode;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    private void updateUserInput() {
+        userinputText.setText(userinput);
     }
 }

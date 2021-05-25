@@ -124,7 +124,7 @@ public class TurnLogic {
                         //Arrow Spawn for all 4 possible followingFields
                         if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
                             ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowUp", this, i);
-                            this.arrowActors.setArrowActorRight(actorUp);
+                            this.arrowActors.setArrowActorUp(actorUp);
                             this.arrowActors.getStage().addActor(actorUp);
                         }
                         if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
@@ -134,7 +134,7 @@ public class TurnLogic {
                         }
                         if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
                             ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x, pf.getCoordinates().y, "ArrowDown", this, i);
-                            this.arrowActors.setArrowActorRight(actorDown);
+                            this.arrowActors.setArrowActorDown(actorDown);
                             this.arrowActors.getStage().addActor(actorDown);
                         }
                         if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
@@ -143,6 +143,10 @@ public class TurnLogic {
                             this.arrowActors.getStage().addActor(actorRight);
                         }
                         i++;
+                        if (this.getArrowActors().isIsHidden()) {
+                            this.arrowActors.render();
+                            this.getArrowActors().setIsHidden(false);
+                        }
                     }
                 }
             }

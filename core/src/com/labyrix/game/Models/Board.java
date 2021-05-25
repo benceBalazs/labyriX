@@ -1,5 +1,6 @@
 package com.labyrix.game.Models;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -236,7 +237,7 @@ public class Board {
                 float x = (cols - row) * 128;
                 float y = (cols + row) * 64;
                 fields[row][cols].setCoordinates(new Vector2(x, y));
-                batch.draw(fields[row][cols].getFieldImage().getImg(), x, y);
+                batch.draw(fields[row][cols].getFieldImage().getImg(), x- Gdx.graphics.getWidth()/8f, y-Gdx.graphics.getHeight()/8f);
             }
         }
     }

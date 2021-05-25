@@ -18,8 +18,8 @@ import com.labyrix.game.Screens.TitleScreen;
 
 public class LabyrixMain extends Game {
 	private static LabyrixMain INSTANCE = null;
-	private int WIDTH = 320;
-	private int HEIGHT = 480;
+	private int WIDTH;
+	private int HEIGHT;
 	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private AssetManager assets;

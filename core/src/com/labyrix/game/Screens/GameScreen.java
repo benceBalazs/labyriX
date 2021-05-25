@@ -1,12 +1,12 @@
 package com.labyrix.game.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.Player;
@@ -18,10 +18,10 @@ public class GameScreen implements Screen {
     private Board isorend;
     private OrthographicCamera camera;
     private Player player;
-    private int cameraHeight = 400 * 4;
-    private int cameraWidth = 200 * 4;
-    private Client client;
+    private int cameraHeight = Gdx.graphics.getHeight();
+    private int cameraWidth = Gdx.graphics.getWidth();
     private TurnLogic tl;
+    private HUD hud;
 
     public GameScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -35,6 +35,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
         tl = new TurnLogic(isorend, player, camera);
+        hud = new HUD(batch, player);
     }
 
     @Override
@@ -50,6 +51,8 @@ public class GameScreen implements Screen {
         tl.getArrowActors().render();
         tl.getBombRender().render();
         batch.end();
+        hud.render(batch);
+        hud.update(player);
     }
 
     public void cameraLerp(OrthographicCamera camera, Vector2 target) {

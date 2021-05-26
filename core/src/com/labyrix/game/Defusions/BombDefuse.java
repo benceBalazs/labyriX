@@ -1,21 +1,14 @@
 package com.labyrix.game.Defusions;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.labyrix.game.LabyrixMain;
 
 public class BombDefuse extends Actor {
@@ -25,7 +18,7 @@ public class BombDefuse extends Actor {
     private Skin skin;
     private Table table;
     private TextButton buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine, clear;
-    private TextField userinputText;
+    private TextField userinputTextfield, bombcodeTextfield;
     private boolean bombDefuse;
 
     public BombDefuse(float x, float y){
@@ -48,9 +41,13 @@ public class BombDefuse extends Actor {
         table.setX(x - 120);
         table.setY(y + 100);
 
-        userinputText = new TextField("userinput", skin);
-        userinputText.setText(userinput);
-        userinputText.setAlignment(1);
+        bombcodeTextfield = new TextField("bombcode", skin);
+        bombcodeTextfield.setText(bombcode);
+        bombcodeTextfield.setAlignment(1);
+
+        userinputTextfield = new TextField("userinput", skin);
+        userinputTextfield.setText(userinput);
+        userinputTextfield.setAlignment(1);
 
         buttonOne = new TextButton("1",skin);
         buttonTwo = new TextButton("2", skin);
@@ -67,7 +64,7 @@ public class BombDefuse extends Actor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 1;
-                updateUserInput();
+                updateUserInputTextField();
             }
 
         } );
@@ -75,69 +72,69 @@ public class BombDefuse extends Actor {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 2;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonThree.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 3;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonFour.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 4;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonFive.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 5;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonSix.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 6;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonSeven.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 7;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonEight.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 8;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         buttonNine.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput += 9;
-                updateUserInput();
+                updateUserInputTextField();
             }
         } );
         clear.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 userinput = "";
-                updateUserInput();
+                updateUserInputTextField();
             }
         });
 
-        table.add((CharSequence)bombcode).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
-        table.add(userinputText).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
-        table.add(clear).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/7);
+        table.add(bombcodeTextfield).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(userinputTextfield).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(clear).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.row();
         table.add(buttonOne).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(buttonTwo).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
@@ -167,7 +164,11 @@ public class BombDefuse extends Actor {
         return table;
     }
 
-    private void updateUserInput() {
-        userinputText.setText(userinput);
+    private void updateUserInputTextField() {
+        userinputTextfield.setText(userinput);
+        if (bombcode.contains(userinput)){
+            userinputTextfield.setColor(0,255,0,5);
+        }
+        else userinputTextfield.setColor(255,0,0,5);
     }
 }

@@ -31,6 +31,7 @@ public class TurnLogic {
     private BombRender bombRender;
     int animationCounter = 20;
     private Texture turnValueText;
+    private Texture dicerollImg;
 
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
@@ -44,9 +45,10 @@ public class TurnLogic {
     }
 
     public void doTurn() throws IllegalArgumentException {
+        board.getBatch().draw(turnValueText, this.player.getPosition().x - Gdx.graphics.getWidth() / 8f, this.player.getPosition().y);
+
         if (this.turnDone == false) {
             System.out.println(this.turnValue);
-
             switch (this.turnValue) {
                 case DICEROLL:
                     rollDice();
@@ -73,16 +75,55 @@ public class TurnLogic {
         } else if (this.turnDone == true) {
             doServerStuff();
         }
-
-        board.getBatch().draw(turnValueText, this.player.getPosition().x, this.player.getPosition().y + 180);
     }
 
     public void rollDice() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.DICEROLL && turnDone == false) {
-            if (Gdx.input.justTouched()) {
-                this.player.setRemainingSteps((int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed()));
-                this.turnValue = TurnValue.MOVEMENT;
+            if (this.player.getRemainingSteps() == 0) {
+                animationCounter = 120;
             }
+
+            if (Gdx.input.justTouched() & animationCounter == 120) {
+                int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
+                this.player.setRemainingSteps(steps);
+
+                this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() - 1);
+                this.animationCounter = 120;
+                switch (steps) {
+                    case 1:
+                        this.dicerollImg = new Texture("diceOne.png");
+                        break;
+                    case 2:
+                        this.dicerollImg = new Texture("diceTwo.png");
+                        break;
+                    case 3:
+                        this.dicerollImg = new Texture("diceThree.png");
+                        break;
+                    case 4:
+                        this.dicerollImg = new Texture("diceFour.png");
+                        break;
+                    case 5:
+                        this.dicerollImg = new Texture("diceFive.png");
+                        break;
+                    case 6:
+                        this.dicerollImg = new Texture("diceSix.png");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            if (this.animationCounter > 0 && this.player.getRemainingSteps() > 0) {
+                this.animationCounter--;
+                board.getBatch().draw(dicerollImg, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+            }
+
+            if (this.animationCounter == 0 && this.player.getRemainingSteps() > 0) {
+                this.animationCounter = 20;
+                this.turnValue = TurnValue.MOVEMENT;
+                this.dicerollImg = null;
+            }
+
         } else {
             throw new IllegalArgumentException();
         }
@@ -138,6 +179,7 @@ public class TurnLogic {
         if (this.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
             if (this.player.getRemainingSteps() > 0) {
+                this.arrowActors.setInputProcess();
                 turnValueText = new Texture("selectPath.png");
                 System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
                 if (this.arrowActors.getArrowActorLeft() == null && this.arrowActors.getArrowActorRight() == null && this.arrowActors.getArrowActorUp() == null && this.arrowActors.getArrowActorDown() == null) {
@@ -146,22 +188,24 @@ public class TurnLogic {
                     for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                         //Arrow Spawn for all 4 possible followingFields
                         if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                            ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth()/8f, pf.getCoordinates().y - Gdx.graphics.getHeight()/8f, "ArrowUp", this, i);
+                            ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowUp", this, i);
+
                             this.arrowActors.setArrowActorUp(actorUp);
                             this.arrowActors.getStage().addActor(actorUp);
+
                         }
                         if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                            ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth()/8f, pf.getCoordinates().y - Gdx.graphics.getHeight()/8f, "ArrowLeft", this, i);
+                            ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowLeft", this, i);
                             this.arrowActors.setArrowActorLeft(actorLeft);
                             this.arrowActors.getStage().addActor(actorLeft);
                         }
                         if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                            ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth()/8f, pf.getCoordinates().y - Gdx.graphics.getHeight()/8f, "ArrowDown", this, i);
+                            ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowDown", this, i);
                             this.arrowActors.setArrowActorDown(actorDown);
                             this.arrowActors.getStage().addActor(actorDown);
                         }
                         if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                            ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth()/8f, pf.getCoordinates().y - Gdx.graphics.getHeight()/8f, "ArrowRight", this, i);
+                            ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowRight", this, i);
                             this.arrowActors.setArrowActorRight(actorRight);
                             this.arrowActors.getStage().addActor(actorRight);
                         }
@@ -195,6 +239,7 @@ public class TurnLogic {
 
                 Vector2 trapCoordinates = new Vector2(x, y);
                 this.player.getCurrentField().getTrap().getEvent().getEventImage().setCoordinates(trapCoordinates);
+                this.animationCounter = 120;
             } else {
                 this.turnValue = TurnValue.DICEROLL;
             }
@@ -206,26 +251,28 @@ public class TurnLogic {
 
     public void defuseTrap() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
-            turnValueText = new Texture("trapActive.png");
-            System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
-            int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x;
-            int y = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().y;
-            Texture trapImg = this.player.getCurrentField().getTrap().getEvent().getEventImage().getImg();
-            board.drawImg(trapImg, x, y);
+            turnValueText = new Texture("schriftApp.jpg");
+            if (this.animationCounter != 0) {
+                turnValueText = new Texture("trapActive.png");
+                System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
+                int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
+                int y = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().y - (int) (Gdx.graphics.getHeight() / 8f);
+                Texture trapImg = this.player.getCurrentField().getTrap().getEvent().getEventImage().getImg();
+                board.drawImg(trapImg, x, y);
 
-            if (Gdx.input.justTouched()) {
-
+                animationCounter--;
+            } else {
                 try {
-                    if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB){
+                    if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB) {
                         this.bombRender.setInputProcess();
 
-                        if (this.bombRender.getBombDefuse() == null){
-                            BombDefuse defuse = new BombDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y);
+                        if (this.bombRender.getBombDefuse() == null) {
+                            BombDefuse defuse = new BombDefuse(this.player.getCurrentField().getCoordinates().x, this.player.getCurrentField().getCoordinates().y);
                             this.bombRender.setBombDefuse(defuse);
                             this.bombRender.addToStage(this.bombRender.getBombDefuse().getTable());
 
                             Timer timer = new Timer();
-                            timer.scheduleTask(new Timer.Task(){
+                            timer.scheduleTask(new Timer.Task() {
                                 @Override
                                 public void run() {
                                     bombRender.getStage().clear();
@@ -233,44 +280,46 @@ public class TurnLogic {
                             }, 6);
                         }
 
-                        if (this.bombRender.getStage().getActors().isEmpty() == true){
-                            if (bombRender.getBombDefuse().bombResult() == true){
+                        if (this.bombRender.getStage().getActors().isEmpty() == true) {
+                            if (bombRender.getBombDefuse().bombResult() == true) {
                                 System.out.println("Success!!!!!!!!!!");
                                 bombRender.setBombDefuse(null);
                                 this.turnValue = TurnValue.DICEROLL;
-                            }
-                            else if (this.player.getNumberOfFails() < 1){
+                            } else if (this.player.getNumberOfFails() < 3) {
                                 System.out.println("You lose!!!!!!!!");
                                 this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
+                                this.player.setMovementSpeed((int) (this.player.getMovementSpeed() * 0.75));
                                 bombRender.setBombDefuse(null);
-                            }
-                            else {
+                            } else {
                                 bombRender.setBombDefuse(null);
                                 this.turnValue = TurnValue.DICEROLL;
                             }
+
+                            if (player.getNumberOfFails() >= 3) {
+                                this.player.setCounterReducedMovementSpeed(4);
+                                this.player.setNumberOfFails(0);
+                                this.turnValue = TurnValue.DICEROLL;
+                            }
+
                             this.turnDone = true;
                         }
-                    }
-                    else {
+                    } else {
                         if (this.player.getCurrentField().getTrap().getEvent().TrapDefuse() == true) {
                             this.turnValue = TurnValue.DICEROLL;
-                        }
-                        else if (this.player.getNumberOfFails() < 1){
+                        } else if (this.player.getNumberOfFails() < 3) {
                             this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                            //TODO wait for one turn or try again
-                        /*
-                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                        this.turnValue = TurnValue.Wait/.RECOVER;
-                        this.turnDone = true;
-                         */
+                            this.player.setMovementSpeed((int) (this.player.getMovementSpeed() * 0.75));
                         }
-                        else {
+
+                        if (player.getNumberOfFails() >= 3) {
+                            this.player.setCounterReducedMovementSpeed(4);
+                            this.player.setNumberOfFails(0);
                             this.turnValue = TurnValue.DICEROLL;
                         }
                         this.turnDone = true;
                     }
 
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     System.out.println("Trapdefuse was Interrupted!");
                 }
             }
@@ -294,6 +343,7 @@ public class TurnLogic {
             throw new IllegalArgumentException();
         }
     }
+
     public ArrowActors getArrowActors() {
         return arrowActors;
     }

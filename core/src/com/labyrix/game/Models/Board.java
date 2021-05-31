@@ -37,21 +37,21 @@ public class Board {
                 {5, 5, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                 {5, 5, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                 {5, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1},
-                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
-                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
-                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
-                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
-                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
+                {2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2},
+                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1},
+                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
+                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
+                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1},
+                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 1},
+                {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 1},
                 {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1},
                 {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4, 4},
                 {4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1},
@@ -100,6 +100,65 @@ public class Board {
             fields[1][8].addFollowingFields((PathField) fields[2][8]);
             fields[2][8].addFollowingFields((PathField) fields[3][8]);
             fields[3][8].addFollowingFields((PathField) fields[4][8]);
+
+            fields[4][8].addFollowingFields((PathField) fields[5][8]);
+            fields[5][8].addFollowingFields((PathField) fields[6][8]);
+            fields[6][8].addFollowingFields((PathField) fields[7][8]);
+            fields[7][8].addFollowingFields((PathField) fields[8][8]);
+            fields[8][8].addFollowingFields((PathField) fields[9][8]);
+
+            fields[9][8].addFollowingFields((PathField) fields[9][9]);
+            fields[9][9].addFollowingFields((PathField) fields[9][10]);
+            fields[9][10].addFollowingFields((PathField) fields[9][11]);
+            fields[9][11].addFollowingFields((PathField) fields[9][12]);
+
+            fields[9][12].addFollowingFields((PathField) fields[10][12]);
+            fields[10][12].addFollowingFields((PathField) fields[11][12]);
+            fields[11][12].addFollowingFields((PathField) fields[12][12]);
+            fields[12][12].addFollowingFields((PathField) fields[13][12]);
+            fields[13][12].addFollowingFields((PathField) fields[14][12]);
+
+            fields[14][12].addFollowingFields((PathField) fields[14][13]);
+            fields[14][13].addFollowingFields((PathField) fields[14][14]);
+            fields[14][14].addFollowingFields((PathField) fields[14][15]);
+            fields[14][15].addFollowingFields((PathField) fields[14][16]);
+
+            fields[14][16].addFollowingFields((PathField) fields[13][16]);
+            fields[13][16].addFollowingFields((PathField) fields[12][16]);
+            fields[12][16].addFollowingFields((PathField) fields[11][16]);
+            fields[11][16].addFollowingFields((PathField) fields[10][16]);
+            fields[10][16].addFollowingFields((PathField) fields[9][16]);
+
+            fields[9][16].addFollowingFields((PathField) fields[9][17]);
+            fields[9][17].addFollowingFields((PathField) fields[9][18]);
+            fields[9][18].addFollowingFields((PathField) fields[9][19]);
+            fields[9][19].addFollowingFields((PathField) fields[9][20]);
+
+            fields[9][20].addFollowingFields((PathField) fields[10][20]);
+            fields[10][20].addFollowingFields((PathField) fields[11][20]);
+            fields[11][20].addFollowingFields((PathField) fields[12][20]);
+            fields[12][20].addFollowingFields((PathField) fields[13][20]);
+            fields[13][20].addFollowingFields((PathField) fields[14][20]);
+
+            fields[14][20].addFollowingFields((PathField) fields[14][21]);
+            fields[14][21].addFollowingFields((PathField) fields[14][22]);
+
+            fields[14][12].addFollowingFields((PathField) fields[15][12]);
+            fields[16][12].addFollowingFields((PathField) fields[17][12]);
+
+            fields[17][12].addFollowingFields((PathField) fields[17][13]);
+            fields[17][13].addFollowingFields((PathField) fields[17][14]);
+            fields[17][14].addFollowingFields((PathField) fields[17][15]);
+            fields[17][15].addFollowingFields((PathField) fields[17][16]);
+            fields[17][16].addFollowingFields((PathField) fields[17][17]);
+            fields[17][17].addFollowingFields((PathField) fields[17][18]);
+            fields[17][18].addFollowingFields((PathField) fields[17][19]);
+            fields[17][19].addFollowingFields((PathField) fields[17][20]);
+            fields[17][20].addFollowingFields((PathField) fields[17][21]);
+
+            fields[17][21].addFollowingFields((PathField) fields[18][21]);
+            fields[18][21].addFollowingFields((PathField) fields[19][21]);
+            fields[19][21].addFollowingFields((PathField) fields[20][21]);
 
             fields[4][8].addFollowingFields((PathField) fields[4][9]);
             fields[4][9].addFollowingFields((PathField) fields[4][10]);

@@ -33,20 +33,20 @@ public class Board {
 
         int[][] field = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                {1, 5, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                {1, 5, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                {1, 5, 5, 5, 5, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
-                {1, 5, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5},
-                {1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
-                {2, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2},
-                {3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
-                {3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1},
+                {1, 5, 5, 5, 1, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                {1, 5, 5, 5, 1, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                {1, 5, 5, 5, 1, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
+                {1, 5, 5, 5, 1, 5, 5, 5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5},
+                {1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {1, 1, 1, 1, 1, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2},
+                {2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 2},
+                {3, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 1, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 3, 3, 1, 3, 1, 3, 3, 3},
+                {3, 3, 3, 3, 3, 3, 1, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1, 1, 1},
                 {6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
                 {6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1},
                 {6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6, 6, 6, 1},
@@ -100,10 +100,10 @@ public class Board {
             fields[8][1].addFollowingFields((PathField) fields[8][2]);
             fields[8][2].addFollowingFields((PathField) fields[8][3]);
             fields[8][3].addFollowingFields((PathField) fields[8][4]);
-            fields[8][4].addFollowingFields((PathField) fields[8][5]);
-            fields[8][5].addFollowingFields((PathField) fields[8][6]);
+           // fields[8][4].addFollowingFields((PathField) fields[8][5]);
+            //fields[8][5].addFollowingFields((PathField) fields[8][6]);
 
-            fields[8][6].addFollowingFields((PathField) fields[9][6]);
+            //fields[8][6].addFollowingFields((PathField) fields[9][6]);
             fields[9][6].addFollowingFields((PathField) fields[10][6]);
             fields[10][6].addFollowingFields((PathField) fields[11][6]);
             fields[11][6].addFollowingFields((PathField) fields[12][6]);
@@ -149,6 +149,33 @@ public class Board {
             fields[0][1].addFollowingFields((PathField) fields[0][2]);
             fields[0][2].addFollowingFields((PathField) fields[0][3]);
             fields[0][3].addFollowingFields((PathField) fields[0][4]);
+
+            fields[0][4].addFollowingFields((PathField) fields[1][4]);
+            fields[1][4].addFollowingFields((PathField) fields[2][4]);
+            fields[2][4].addFollowingFields((PathField) fields[3][4]);
+            fields[3][4].addFollowingFields((PathField) fields[4][4]);
+            fields[4][4].addFollowingFields((PathField) fields[5][4]);
+            fields[5][4].addFollowingFields((PathField) fields[6][4]);
+            fields[6][4].addFollowingFields((PathField) fields[7][4]);
+            fields[7][4].addFollowingFields((PathField) fields[8][4]);
+            fields[8][4].addFollowingFields((PathField) fields[9][4]);
+
+            fields[9][4].addFollowingFields((PathField) fields[9][5]);
+            fields[9][5].addFollowingFields((PathField) fields[9][6]);
+            fields[9][6].addFollowingFields((PathField) fields[9][7]);
+            fields[9][7].addFollowingFields((PathField) fields[9][8]);
+
+            fields[9][8].addFollowingFields((PathField) fields[10][8]);
+            fields[10][8].addFollowingFields((PathField) fields[11][8]);
+            fields[11][8].addFollowingFields((PathField) fields[12][8]);
+            fields[12][8].addFollowingFields((PathField) fields[13][8]);
+            fields[13][8].addFollowingFields((PathField) fields[14][8]);
+
+            fields[14][8].addFollowingFields((PathField) fields[14][9]);
+            fields[14][9].addFollowingFields((PathField) fields[14][10]);
+            fields[14][10].addFollowingFields((PathField) fields[14][11]);
+            fields[14][11].addFollowingFields((PathField) fields[14][12]);
+
             fields[0][4].addFollowingFields((PathField) fields[0][5]);
             fields[0][5].addFollowingFields((PathField) fields[0][6]);
             fields[0][6].addFollowingFields((PathField) fields[0][7]);

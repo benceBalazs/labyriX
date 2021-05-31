@@ -15,7 +15,6 @@ import com.labyrix.game.Models.Player;
 
 public class HUD {
     private Stage stage;
-    private Stage stageTwo;
     private Viewport viewport;
 
     private String zugSpieler;
@@ -107,7 +106,6 @@ public class HUD {
         shapeRenderer.end();
 
         stage.draw();
-        stageTwo.draw();
 
 
     }
@@ -119,7 +117,6 @@ public class HUD {
 
     public void update(Player player){
         stage = new Stage(viewport, batch);
-        stageTwo = new Stage(viewport, batch);
         scale = 4;
 
         //topbar
@@ -172,7 +169,7 @@ public class HUD {
         tableSideBar.row();
         tableSideBar.add(lastEventLabel).padBottom(Gdx.graphics.getHeight() * 0.09f);;
 
-        stageTwo.addActor(tableSideBar);
+        stage.addActor(tableSideBar);
     }
 
     public String getZugSpieler() {

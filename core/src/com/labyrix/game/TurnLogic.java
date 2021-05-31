@@ -182,38 +182,36 @@ public class TurnLogic {
                 this.arrowActors.setInputProcess();
                 turnValueText = new Texture("selectPath.png");
                 System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
-                if (this.arrowActors.getArrowActorLeft() == null && this.arrowActors.getArrowActorRight() == null && this.arrowActors.getArrowActorUp() == null && this.arrowActors.getArrowActorDown() == null) {
-                    int i = 0;
-                    this.arrowActors.setInputProcess();
-                    for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
-                        //Arrow Spawn for all 4 possible followingFields
-                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                            ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowUp", this, i);
+                int i = 0;
+                this.arrowActors.setInputProcess();
+                for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
+                    //Arrow Spawn for all 4 possible followingFields
+                    if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
+                        ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowUp", this, i);
 
-                            this.arrowActors.setArrowActorUp(actorUp);
-                            this.arrowActors.getStage().addActor(actorUp);
+                        this.arrowActors.setArrowActorUp(actorUp);
+                        this.arrowActors.getStage().addActor(actorUp);
 
-                        }
-                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                            ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowLeft", this, i);
-                            this.arrowActors.setArrowActorLeft(actorLeft);
-                            this.arrowActors.getStage().addActor(actorLeft);
-                        }
-                        if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                            ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowDown", this, i);
-                            this.arrowActors.setArrowActorDown(actorDown);
-                            this.arrowActors.getStage().addActor(actorDown);
-                        }
-                        if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                            ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowRight", this, i);
-                            this.arrowActors.setArrowActorRight(actorRight);
-                            this.arrowActors.getStage().addActor(actorRight);
-                        }
-                        i++;
-                        if (this.getArrowActors().isIsHidden()) {
-                            this.arrowActors.render();
-                            this.getArrowActors().setIsHidden(false);
-                        }
+                    }
+                    if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
+                        ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowLeft", this, i);
+                        this.arrowActors.setArrowActorLeft(actorLeft);
+                        this.arrowActors.getStage().addActor(actorLeft);
+                    }
+                    if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
+                        ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowDown", this, i);
+                        this.arrowActors.setArrowActorDown(actorDown);
+                        this.arrowActors.getStage().addActor(actorDown);
+                    }
+                    if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
+                        ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowRight", this, i);
+                        this.arrowActors.setArrowActorRight(actorRight);
+                        this.arrowActors.getStage().addActor(actorRight);
+                    }
+                    i++;
+                    if (this.getArrowActors().isIsHidden()) {
+                        this.arrowActors.render();
+                        this.getArrowActors().setIsHidden(false);
                     }
                 }
             }

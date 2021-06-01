@@ -24,7 +24,6 @@ import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Player;
 
 public class HUD {
-    LabyrixMain labyrixMain;
     private Stage stage;
     private Viewport viewport;
 
@@ -46,7 +45,7 @@ public class HUD {
 
     private Table tableTopBar;
     private Table tableSideBar;
-    Table buttonTabel;
+    private Table buttonTabel;
 
     private ShapeRenderer shapeRenderer;
     private Label.LabelStyle labelStyle;
@@ -55,14 +54,17 @@ public class HUD {
 
     private Player player;
 
-    SpriteBatch batch;
+    private SpriteBatch batch;
 
-    Skin skin;
-    TextButton cheatButton;
+    private Skin skin;
+    private TextButton cheatButton;
+
+    private final LabyrixMain labyrixMain;
 
     // https://github.com/libgdx/libgdx/wiki/Table
 
     public HUD(SpriteBatch spriteBatch, Player player){
+        labyrixMain = LabyrixMain.getINSTANCE();
         shapeRenderer = new ShapeRenderer();
         batch = spriteBatch;
 
@@ -72,9 +74,12 @@ public class HUD {
 
         this.player = player;
 
-        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+        skin = new Skin();
+        skin.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
+        skin.add("default-font", labyrixMain.getFontMedium());
+        skin.load(Gdx.files.internal("ui/uiskins.json"));
 
-        cheatButton = new TextButton("Cheat aktivieren", skin);
+        cheatButton = new TextButton("Cheat", skin);
         cheatButton.getLabel().setFontScale(2);
 
         cheatButton.addListener(new ClickListener() {

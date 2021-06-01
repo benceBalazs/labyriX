@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Player;
 
@@ -23,9 +24,11 @@ public class HUD {
     private Stage stage;
     private Viewport viewport;
 
-    private String zugSpieler;
-    private Integer cheatsLeft;
-    private Integer defuse;
+    private String hudSpielerName;          // Zeigt den Spielernamen
+    private TurnValue hudTurnval;           // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
+    private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
+    private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
+    private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
 
     private Label zugSpielerLabel;
     private Label cheatsLeftLabel;
@@ -155,17 +158,17 @@ public class HUD {
         scale = 4;
 
         //topbar
-        zugSpieler = player.getName();
-        cheatsLeft = player.getRemainingCheats();
-        defuse = 1;                                                 //TODO method call missing
+        hudSpielerName = player.getName();
+        hudTurnval = TurnValue.MOVEMENT;        //player.getRemainingCheats();
+        hudRemSteps = 1;                                                 //TODO method call missing
 
         tableTopBar = new Table();
         tableTopBar.bottom();
         tableTopBar.setFillParent(true);
 
-        zugSpielerLabel = new Label("Zug: " + zugSpieler, labelStyle);
-        cheatsLeftLabel = new Label("Cheats left: "+ cheatsLeft, labelStyle);
-        defuseLabel = new Label("Defuses left: "+defuse, labelStyle);
+        zugSpielerLabel = new Label("Zug: " + hudSpielerName, labelStyle);
+        cheatsLeftLabel = new Label("Cheats left: "+ hudTurnval, labelStyle);
+        defuseLabel = new Label("Defuses left: "+ hudRemSteps, labelStyle);
 
         zugSpielerLabel.setFontScale(scale);
         cheatsLeftLabel.setFontScale(scale);
@@ -209,28 +212,28 @@ public class HUD {
         stage.addActor(buttonTabel);
     }
 
-    public String getZugSpieler() {
-        return zugSpieler;
+    public String getHudSpielerName() {
+        return hudSpielerName;
     }
 
-    public void setZugSpieler(String zugSpieler) {
-        this.zugSpieler = zugSpieler;
+    public void setHudSpielerName(String spielerName) {
+        this.hudSpielerName = spielerName;
     }
 
-    public Integer getCheatsLeft() {
-        return cheatsLeft;
+    public TurnValue getHudTurnval() {
+        return hudTurnval;
     }
 
-    public void setCheatsLeft(Integer cheatsLeft) {
-        this.cheatsLeft = cheatsLeft;
+    public void setHudTurnval(TurnValue turnval) {
+        this.hudTurnval = turnval;
     }
 
-    public Integer getDefuse() {
-        return defuse;
+    public Integer getHudRemSteps() {
+        return hudRemSteps;
     }
 
-    public void setDefuse(Integer defuse) {
-        this.defuse = defuse;
+    public void setHudRemSteps(Integer remSteps) {
+        this.hudRemSteps = remSteps;
     }
 
     public String getLastEvent() {

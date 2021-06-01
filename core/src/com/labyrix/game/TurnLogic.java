@@ -250,7 +250,6 @@ public class TurnLogic {
                             this.trapRender.setMovementDefuse(movementDefuse);
                             this.trapRender.addToStage(this.trapRender.getMovementDefuse().getTable());
                         }
-
                         if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE){
                             if (this.trapRender.getMovementDefuse().dontMove()){
                                 this.turnValue = TurnValue.DICEROLL;
@@ -280,20 +279,6 @@ public class TurnLogic {
                             trapRender.setMovementDefuse(null);
                             this.turnDone = true;
                         }
-
-                        /*
-                        if (this.player.getCurrentField().getTrap().getEvent().TrapDefuse() == false) {
-                            this.turnValue = TurnValue.DICEROLL;
-                        }
-                        else if (this.player.getNumberOfFails() < 1){
-                            this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                        }
-                        else {
-                            this.turnValue = TurnValue.DICEROLL;
-                        }
-                        this.turnDone = true;
-
-                         */
                     }
 
                 }catch (InterruptedException e ){

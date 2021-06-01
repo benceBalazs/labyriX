@@ -3,18 +3,12 @@ package com.labyrix.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.Defusions.BombDefuse;
-import com.labyrix.game.Defusions.BombRender;
+import com.labyrix.game.Defusions.MovementDefuse;
+import com.labyrix.game.Defusions.TrapRender;
 import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.Models.*;
@@ -28,7 +22,7 @@ public class TurnLogic {
     private TurnValue turnValue;
     private Client client;
     private ArrowActors arrowActors;
-    private BombRender bombRender;
+    private TrapRender trapRender;
     int animationCounter = 20;
     private Texture turnValueText;
     private Texture dicerollImg;
@@ -39,7 +33,7 @@ public class TurnLogic {
         this.client = ClientNetworkHandler.getInstance().getClient();
         this.turnDone = false;
         this.turnValue = TurnValue.DICEROLL;
-        this.bombRender = new BombRender(camera);
+        this.trapRender = new TrapRender(camera);
         arrowActors = new ArrowActors(camera);
         turnValueText = new Texture("rollDice.png");
     }
@@ -249,7 +243,6 @@ public class TurnLogic {
 
     public void defuseTrap() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
-            turnValueText = new Texture("schriftApp.jpg");
             if (this.animationCounter != 0) {
                 turnValueText = new Texture("trapActive.png");
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
@@ -262,34 +255,38 @@ public class TurnLogic {
             } else {
                 try {
                     if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB) {
-                        this.bombRender.setInputProcess();
+                        this.trapRender.setInputProcess();
 
-                        if (this.bombRender.getBombDefuse() == null) {
+                        if (this.trapRender.getBombDefuse() == null) {
                             BombDefuse defuse = new BombDefuse(this.player.getCurrentField().getCoordinates().x, this.player.getCurrentField().getCoordinates().y);
-                            this.bombRender.setBombDefuse(defuse);
-                            this.bombRender.addToStage(this.bombRender.getBombDefuse().getTable());
+                            this.trapRender.setBombDefuse(defuse);
+                            this.trapRender.addToStage(this.trapRender.getBombDefuse().getTable());
 
                             Timer timer = new Timer();
                             timer.scheduleTask(new Timer.Task() {
+                                int count = 0;
                                 @Override
                                 public void run() {
-                                    bombRender.getStage().clear();
+                                    if (trapRender.getBombDefuse().bombResult()){
+                                        trapRender.getStage().clear();
+                                    }
+                                    else if (count == 5){
+                                        trapRender.getStage().clear();
+                                    }
+                                    count++;
                                 }
-                            }, 6);
+                            }, 1,1,10);
                         }
 
-                        if (this.bombRender.getStage().getActors().isEmpty() == true) {
-                            if (bombRender.getBombDefuse().bombResult() == true) {
-                                System.out.println("Success!!!!!!!!!!");
-                                bombRender.setBombDefuse(null);
+
+                        if (this.trapRender.getStage().getActors().isEmpty() == true){
+                            if (trapRender.getBombDefuse().bombResult() == true){
+                                trapRender.setBombDefuse(null);
                                 this.turnValue = TurnValue.DICEROLL;
-                            } else if (this.player.getNumberOfFails() < 3) {
-                                System.out.println("You lose!!!!!!!!");
-                                this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                                this.player.setMovementSpeed((int) (this.player.getMovementSpeed() * 0.75));
-                                bombRender.setBombDefuse(null);
-                            } else {
-                                bombRender.setBombDefuse(null);
+                            }
+                            else {
+                                trapRender.setBombDefuse(null);
+
                                 this.turnValue = TurnValue.DICEROLL;
                             }
 
@@ -314,9 +311,7 @@ public class TurnLogic {
                             this.player.setNumberOfFails(0);
                             this.turnValue = TurnValue.DICEROLL;
                         }
-                        this.turnDone = true;
                     }
-
                 } catch (InterruptedException e) {
                     System.out.println("Trapdefuse was Interrupted!");
                 }
@@ -358,7 +353,7 @@ public class TurnLogic {
         this.turnValue = turnValue;
     }
 
-    public BombRender getBombRender() {
-        return bombRender;
+    public TrapRender getTrapRender() {
+        return trapRender;
     }
 }

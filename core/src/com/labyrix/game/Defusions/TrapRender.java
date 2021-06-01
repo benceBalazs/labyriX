@@ -7,13 +7,14 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class BombRender {
+public class TrapRender {
     private Viewport viewport;
     private Stage stage;
 
     private BombDefuse bombDefuse = null;
+    private MovementDefuse movementDefuse = null;
 
-    public BombRender(Camera camera){
+    public TrapRender(Camera camera){
         this.viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight(),camera);
         this.stage = new Stage(viewport);
     }
@@ -37,6 +38,14 @@ public class BombRender {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public MovementDefuse getMovementDefuse() {
+        return movementDefuse;
+    }
+
+    public void setMovementDefuse(MovementDefuse movementDefuse) {
+        this.movementDefuse = movementDefuse;
     }
 
     public BombDefuse getBombDefuse() {

@@ -5,15 +5,26 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Player;
 
 public class HUD {
+    LabyrixMain labyrixMain;
     private Stage stage;
     private Viewport viewport;
 
@@ -35,6 +46,7 @@ public class HUD {
 
     private Table tableTopBar;
     private Table tableSideBar;
+    Table buttonTabel;
 
     private ShapeRenderer shapeRenderer;
     private Label.LabelStyle labelStyle;
@@ -44,6 +56,9 @@ public class HUD {
     private Player player;
 
     SpriteBatch batch;
+
+    Skin skin;
+    TextButton cheatButton;
 
     // https://github.com/libgdx/libgdx/wiki/Table
 
@@ -56,6 +71,25 @@ public class HUD {
         labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
 
         this.player = player;
+
+        skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+
+        cheatButton = new TextButton("Cheat aktivieren", skin);
+        cheatButton.getLabel().setFontScale(2);
+
+        cheatButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                lastEvent = "111111111111";
+            }
+
+        } );
+
+        buttonTabel = new Table(skin);
+        buttonTabel.setX(Gdx.graphics.getWidth() * 0.87f);
+        buttonTabel.setY(Gdx.graphics.getHeight() * 0.65f);
+
+        buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
 
         update(player);
     }
@@ -104,8 +138,8 @@ public class HUD {
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.end();
-
         stage.draw();
+        //textButton.draw(batch, 1);
 
 
     }
@@ -146,7 +180,7 @@ public class HUD {
         //sidebar
         thirdLastEvent = "Spieler 1" + "\n" + "activated Trap";//secondLastEvent;
         secondLastEvent = "Spieler 1" + "\n" + "defused Trap";//lastEvent;
-        lastEvent = "Spieler 2" + "\n" + "rolled 5"; //player.getName() + "\n" + player.getRemainingSteps();    //TODO if something happens, it has to be written in here
+        lastEvent = "1";  //player.getName() + "\n" + player.getRemainingSteps();    //TODO if something happens, it has to be written in here
 
         tableSideBar = new Table();
         tableSideBar.bottom();
@@ -170,6 +204,8 @@ public class HUD {
         tableSideBar.add(lastEventLabel).padBottom(Gdx.graphics.getHeight() * 0.09f);;
 
         stage.addActor(tableSideBar);
+
+        stage.addActor(buttonTabel);
     }
 
     public String getZugSpieler() {

@@ -45,12 +45,12 @@ public class GameScreen implements Screen {
         batch.begin();
         isorend.drawGround();
         tl.doTurn();
-        if (tl.getBombRender().getStage().getActors().size == 0||tl.getBombRender().getStage().getActors() == null){
+        if (tl.getTrapRender().getStage().getActors().size == 0||tl.getTrapRender().getStage().getActors() == null){
             player.render(batch);
         }
         cameraLerp( camera, player.getPosition());
         tl.getArrowActors().render();
-        tl.getBombRender().render();
+        tl.getTrapRender().render();
         batch.end();
 
         hud.render(batch);

@@ -48,7 +48,7 @@ public class TrapEvent {
         //return TrapEventName.QUICKSAND;
         //return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
-/*
+
     public boolean TrapDefuse() throws InterruptedException {
         boolean result = false;
         this.sensorDefuse = new MovementDefuse(3f,3f,TrapEventName.DOOR);
@@ -74,7 +74,7 @@ public class TrapEvent {
         System.out.println(result);
         return result;
     }
-*/
+
     public TrapEventName getEvent() {
         return event;
     }

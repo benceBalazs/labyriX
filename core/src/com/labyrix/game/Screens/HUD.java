@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Player;
+import com.labyrix.game.TurnLogic;
 
 public class HUD {
     private Stage stage;
@@ -30,9 +31,11 @@ public class HUD {
     private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
     private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
 
-    private Label zugSpielerLabel;
-    private Label cheatsLeftLabel;
-    private Label defuseLabel;
+    private Label hudSpielernameLabel;
+    private Label hudTurnvalLabel;
+    private Label hudRemStepsLabel;
+    private Label hudRemFieldsLabel;
+    private Label hudReduMvmtSpeedUntilLabel;
 
     private Label lastEventLabel;
     private Label secondLastEventLabel;
@@ -59,11 +62,13 @@ public class HUD {
     private TextButton cheatButton;
 
     private final LabyrixMain labyrixMain;
+    private TurnLogic turnLogic;
 
     // https://github.com/libgdx/libgdx/wiki/Table
 
-    public HUD(SpriteBatch spriteBatch, Player player){
+    public HUD(SpriteBatch spriteBatch, Player player, TurnLogic turnLogic){
         labyrixMain = LabyrixMain.getINSTANCE();
+        this.turnLogic = turnLogic;
         shapeRenderer = new ShapeRenderer();
         batch = spriteBatch;
 
@@ -159,25 +164,33 @@ public class HUD {
 
         //topbar
         hudSpielerName = player.getName();
-        hudTurnval = TurnValue.MOVEMENT;        //player.getRemainingCheats();
-        hudRemSteps = 1;                                                 //TODO method call missing
+        hudTurnval = turnLogic.getTurnValue();
+        hudRemSteps = player.getRemainingSteps();
+        hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
+        hudReduMvmtSpeedUntil = 5;  // TODO
 
         tableTopBar = new Table();
         tableTopBar.bottom();
         tableTopBar.setFillParent(true);
 
-        zugSpielerLabel = new Label("Zug: " + hudSpielerName, labelStyle);
-        cheatsLeftLabel = new Label("Cheats left: "+ hudTurnval, labelStyle);
-        defuseLabel = new Label("Defuses left: "+ hudRemSteps, labelStyle);
+        hudSpielernameLabel = new Label("Name: " + hudSpielerName, labelStyle);
+        hudTurnvalLabel = new Label("Status: "+ hudTurnval, labelStyle);
+        hudRemStepsLabel = new Label("Schritte: "+ hudRemSteps, labelStyle);
+        hudRemFieldsLabel = new Label("Rem.Fields: " + hudRemFields, labelStyle);
+        hudReduMvmtSpeedUntilLabel = new Label("Rem.Fields: " + hudReduMvmtSpeedUntil, labelStyle);
 
-        zugSpielerLabel.setFontScale(scale);
-        cheatsLeftLabel.setFontScale(scale);
-        defuseLabel.setFontScale(scale);
+        hudSpielernameLabel.setFontScale(scale);
+        hudTurnvalLabel.setFontScale(scale);
+        hudRemStepsLabel.setFontScale(scale);
+        hudRemFieldsLabel.setFontScale(scale);
+        hudReduMvmtSpeedUntilLabel.setFontScale(scale);
 
         float tablePosition = Gdx.graphics.getHeight() * 0.865f;
-        tableTopBar.add(zugSpielerLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(cheatsLeftLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(defuseLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudSpielernameLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudTurnvalLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudRemStepsLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudRemFieldsLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudReduMvmtSpeedUntilLabel).expandX().padBottom(tablePosition);
 
         stage.addActor(tableTopBar);
 

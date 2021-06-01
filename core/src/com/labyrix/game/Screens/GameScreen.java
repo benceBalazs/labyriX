@@ -36,7 +36,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
         tl = new TurnLogic(isorend, player, camera);
-        hud = new HUD(batch, player);
+        hud = new HUD(batch, player, tl);
     }
 
     @Override

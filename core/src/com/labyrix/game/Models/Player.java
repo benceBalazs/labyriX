@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 
 public class Player {
 
@@ -36,6 +38,22 @@ public class Player {
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
     }
+
+    
+    ArrayList<Integer> listAllPath = new ArrayList<>();
+    public void countingFields (Field field, int count){
+        count ++;
+        ArrayList<PathField> followingFieldList = field.getFollowingFields();
+        for(int i= 0; i< followingFieldList.size();i++){
+            countingFields(followingFieldList.get(i),count);
+        }
+        if (followingFieldList.size()==0){
+            listAllPath.add(count);
+        }
+    }
+
+
+
 
     public String getName() {
         return name;

@@ -21,13 +21,14 @@ public class Player {
     private int counterReducedMovementSpeed = 0;
     private int remainingSteps = 0;
     private static Board board = null;
+    private int maxRemainingFields;
+    private int minRemainingFields;
+    private ArrayList<Integer> listAllPath = new ArrayList<>();
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
-
-
 
         //current startposition for testcases
         position = new Vector2(xPos, yPos);
@@ -36,18 +37,13 @@ public class Player {
         }
     }
 
-
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
         maxRemainingFields = maxPathLength(currentField);
         minRemainingFields = minPathLength(currentField);
-
     }
 
-    int maxRemainingFields;
-    int minRemainingFields;
-    ArrayList<Integer> listAllPath = new ArrayList<>();
-    public void countingFields (Field field, int count){
+    private void countingFields (Field field, int count){
         count ++;
         ArrayList<PathField> followingFieldList = field.getFollowingFields();
         for(int i= 0; i< followingFieldList.size();i++){
@@ -57,7 +53,8 @@ public class Player {
             listAllPath.add(count);
         }
     }
-    public int maxPathLength (Field field){
+
+    private int maxPathLength (Field field){
         countingFields(field,0);
         int maxPath = 0;
         for (int i = 0; i< listAllPath.size(); i++){
@@ -68,7 +65,8 @@ public class Player {
         listAllPath = new ArrayList<>();
         return maxPath;
     }
-    public int minPathLength (Field field){
+
+    private int minPathLength (Field field){
         countingFields(field, 0);
         int minPath = listAllPath.get(0);
         for (int i = 0; i< listAllPath.size(); i++){
@@ -79,9 +77,6 @@ public class Player {
         listAllPath = new ArrayList<>();
         return minPath;
     }
-
-
-
 
     public String getName() {
         return name;

@@ -62,6 +62,17 @@ public class Player {
         listAllPath = new ArrayList<>();
         return maxPath;
     }
+    public int minPathLength (Field field){
+        countingFields(field, 0);
+        int minPath = listAllPath.get(0);
+        for (int i = 0; i< listAllPath.size(); i++){
+            if(listAllPath.get(i)< minPath){
+                minPath = listAllPath.get(i);
+            }
+        }
+        listAllPath = new ArrayList<>();
+        return minPath;
+    }
 
 
 

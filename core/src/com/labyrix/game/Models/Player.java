@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 
 public class Player {
 
@@ -19,6 +21,9 @@ public class Player {
     private int counterReducedMovementSpeed = 0;
     private int remainingSteps = 0;
     private static Board board = null;
+    private int maxRemainingFields;
+    private int minRemainingFields;
+    private ArrayList<Integer> listAllPath = new ArrayList<>();
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
@@ -32,9 +37,45 @@ public class Player {
         }
     }
 
-
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
+        maxRemainingFields = maxPathLength(currentField);
+        minRemainingFields = minPathLength(currentField);
+    }
+
+    private void countingFields (Field field, int count){
+        count ++;
+        ArrayList<PathField> followingFieldList = field.getFollowingFields();
+        for(int i= 0; i< followingFieldList.size();i++){
+            countingFields(followingFieldList.get(i),count);
+        }
+        if (followingFieldList.size()==0){
+            listAllPath.add(count);
+        }
+    }
+
+    private int maxPathLength (Field field){
+        countingFields(field,0);
+        int maxPath = 0;
+        for (int i = 0; i< listAllPath.size(); i++){
+            if(listAllPath.get(i)> maxPath){
+                maxPath = listAllPath.get(i);
+            }
+        }
+        listAllPath = new ArrayList<>();
+        return maxPath;
+    }
+
+    private int minPathLength (Field field){
+        countingFields(field, 0);
+        int minPath = listAllPath.get(0);
+        for (int i = 0; i< listAllPath.size(); i++){
+            if(listAllPath.get(i)< minPath){
+                minPath = listAllPath.get(i);
+            }
+        }
+        listAllPath = new ArrayList<>();
+        return minPath;
     }
 
     public String getName() {
@@ -115,5 +156,13 @@ public class Player {
 
     public void setRemainingSteps(int remainingSteps) {
         this.remainingSteps = remainingSteps;
+    }
+
+    public int getMaxRemainingFields() {
+        return maxRemainingFields;
+    }
+
+    public int getMinRemainingFields() {
+        return minRemainingFields;
     }
 }

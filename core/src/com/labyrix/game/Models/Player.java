@@ -39,7 +39,7 @@ public class Player {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
     }
 
-    
+
     ArrayList<Integer> listAllPath = new ArrayList<>();
     public void countingFields (Field field, int count){
         count ++;
@@ -50,6 +50,17 @@ public class Player {
         if (followingFieldList.size()==0){
             listAllPath.add(count);
         }
+    }
+    public int maxPathLength (Field field){
+        countingFields(field,0);
+        int maxPath = 0;
+        for (int i = 0; i< listAllPath.size(); i++){
+            if(listAllPath.get(i)> maxPath){
+                maxPath = listAllPath.get(i);
+            }
+        }
+        listAllPath = new ArrayList<>();
+        return maxPath;
     }
 
 

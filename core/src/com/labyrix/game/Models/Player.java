@@ -27,6 +27,8 @@ public class Player {
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
 
+
+
         //current startposition for testcases
         position = new Vector2(xPos, yPos);
         if (this.board == null) {
@@ -37,9 +39,13 @@ public class Player {
 
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
+        maxRemainingFields = maxPathLength(currentField);
+        minRemainingFields = minPathLength(currentField);
+
     }
 
-
+    int maxRemainingFields;
+    int minRemainingFields;
     ArrayList<Integer> listAllPath = new ArrayList<>();
     public void countingFields (Field field, int count){
         count ++;
@@ -155,5 +161,13 @@ public class Player {
 
     public void setRemainingSteps(int remainingSteps) {
         this.remainingSteps = remainingSteps;
+    }
+
+    public int getMaxRemainingFields() {
+        return maxRemainingFields;
+    }
+
+    public int getMinRemainingFields() {
+        return minRemainingFields;
     }
 }

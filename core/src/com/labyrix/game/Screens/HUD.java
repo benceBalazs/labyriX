@@ -177,7 +177,7 @@ public class HUD {
         hudTurnvalLabel = new Label("Status: "+ hudTurnval, labelStyle);
         hudRemStepsLabel = new Label("Schritte: "+ hudRemSteps, labelStyle);
         hudRemFieldsLabel = new Label("Rem.Fields: " + hudRemFields, labelStyle);
-        hudReduMvmtSpeedUntilLabel = new Label("Rem.Fields: " + hudReduMvmtSpeedUntil, labelStyle);
+        hudReduMvmtSpeedUntilLabel = new Label("Debuff: " + hudReduMvmtSpeedUntil, labelStyle);
 
         hudSpielernameLabel.setFontScale(scale);
         hudTurnvalLabel.setFontScale(scale);

@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Player;
@@ -52,6 +53,7 @@ public class HUD {
     private TurnLogic turnLogic;
 
     // https://github.com/libgdx/libgdx/wiki/Table
+    // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
 
     public HUD(SpriteBatch spriteBatch, Player player, TurnLogic turnLogic){
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -72,11 +74,20 @@ public class HUD {
         if (turnLogic.getTurnValue() == TurnValue.DICEROLL){
             hudTurnval = "Roll the Dice!";
         } else if (turnLogic.getTurnValue() == TurnValue.MOVEMENT){
-            hudTurnval = "Already on my way.";
+            hudTurnval = "On my way.";
         } else if (turnLogic.getTurnValue() == TurnValue.PATHSELECTION){
             hudTurnval = "Select a Path please.";
         } else if (turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED){
-            hudTurnval = "Oh nooo, do something!";
+            TrapEventName currentTrap = this.player.getCurrentField().getTrap().getEvent().getEvent();
+            if (currentTrap == TrapEventName.ZOMBIE){
+                hudTurnval = "Oh nooo, a Zombie!";
+            } else if (currentTrap == TrapEventName.BOMB){
+                hudTurnval = "A bomb... we'll DIEEE! D:";
+            } else if (currentTrap == TrapEventName.QUICKSAND){
+                hudTurnval = "Quicksand? You serious?";
+            } else if (currentTrap == TrapEventName.DOOR){
+                hudTurnval = "*klick* AAAAAAaaaaaaahh...";
+            }
         } else if (turnLogic.getTurnValue() == TurnValue.TRAPCHECK){
             hudTurnval = "Huch?";
         } else if (turnLogic.getTurnValue() == TurnValue.WON){

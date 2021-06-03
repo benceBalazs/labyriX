@@ -339,7 +339,8 @@ public class TurnLogic {
                             p.setCurrentField(p.getCurrentField().getFollowingField(0));
                         }
                     }
-                    p.setPosition(p.getCurrentField().getCoordinates());
+                    Vector2 playerPosition = new Vector2(p.getCurrentField().getCoordinates().x + 64, p.getCurrentField().getCoordinates().y + 184);
+                    p.setPosition(playerPosition);
                 }
                 this.turnDone = false;
             }

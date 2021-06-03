@@ -71,6 +71,9 @@ public class MovementDefuse {
 
     public boolean dontMove() throws InterruptedException {
         double time = System.currentTimeMillis();
+        double accX = Gdx.input.getAccelerometerX();
+        double accY = Gdx.input.getAccelerometerY();
+        double accZ = Gdx.input.getAccelerometerZ();
         while (System.currentTimeMillis() < time + 7000) {
             if (successCount > 50) {
                 successCount = 0;
@@ -80,7 +83,7 @@ public class MovementDefuse {
                 return false;
             }
 
-            if (Gdx.input.getAccelerometerX() < 11 && Gdx.input.getAccelerometerY() < 2 && Gdx.input.getAccelerometerZ() < 2 && Gdx.input.getAccelerometerX() > 8.5 && Gdx.input.getAccelerometerY() > -2 && Gdx.input.getAccelerometerZ() > -2) {
+            if (Gdx.input.getAccelerometerX() < accX + 3 && Gdx.input.getAccelerometerY() < accY + 2 && Gdx.input.getAccelerometerZ() < accZ + 3 && Gdx.input.getAccelerometerX() > accX - 3 && Gdx.input.getAccelerometerY() > accY - 2 && Gdx.input.getAccelerometerZ() > accZ - 3) {
                 successCount += 1;
                 System.out.println("Succ : " + successCount);
             } else {

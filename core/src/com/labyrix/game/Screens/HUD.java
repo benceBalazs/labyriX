@@ -105,8 +105,13 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(stage.getCamera().combined);
+        createTopBarElement();
+        createSideBarElement();
+        stage.draw();
 
-        //TopBar
+    }
+
+    public void createTopBarElement() {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
         shapeRenderer.rect(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.85f, Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.1f);
@@ -118,8 +123,9 @@ public class HUD {
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
         shapeRenderer.end();
+    }
 
-        //SideBar
+    public void createSideBarElement(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
         shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.05f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.7f);
@@ -147,9 +153,6 @@ public class HUD {
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.end();
-        stage.draw();
-        //textButton.draw(batch, 1);
-
 
     }
 

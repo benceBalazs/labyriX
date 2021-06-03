@@ -26,7 +26,7 @@ public class HUD {
     private Viewport viewport;
 
     private String hudSpielerName;          // Zeigt den Spielernamen
-    private TurnValue hudTurnval;           // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
+    private String hudTurnval;           // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
     private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
     private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
     private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
@@ -105,10 +105,23 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         hudSpielerName = player.getName();
-        hudTurnval = turnLogic.getTurnValue();
         hudRemSteps = player.getRemainingSteps();
         hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
-        hudReduMvmtSpeedUntil = 0;  // TODO
+        hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();  // TODO
+
+        if (turnLogic.getTurnValue() == TurnValue.DICEROLL){
+            hudTurnval = "Roll the Dice!";
+        } else if (turnLogic.getTurnValue() == TurnValue.MOVEMENT){
+            hudTurnval = "Already on my way.";
+        } else if (turnLogic.getTurnValue() == TurnValue.PATHSELECTION){
+            hudTurnval = "Select a Path please.";
+        } else if (turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED){
+            hudTurnval = "Oh nooo, do something!";
+        } else if (turnLogic.getTurnValue() == TurnValue.TRAPCHECK){
+            hudTurnval = "Huch?";
+        } else if (turnLogic.getTurnValue() == TurnValue.WON){
+            hudTurnval = "YEEEEEAH :D";
+        }
 
         stage = new Stage(viewport, batch);
         batch.setProjectionMatrix(stage.getCamera().combined);
@@ -120,7 +133,7 @@ public class HUD {
         float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
         createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", hudSpielerName);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", hudTurnval.toString());
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", hudTurnval);
         createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", hudRemSteps.toString());
 
         createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", hudRemFields.toString());
@@ -281,11 +294,11 @@ public class HUD {
         this.hudSpielerName = spielerName;
     }
 
-    public TurnValue getHudTurnval() {
+    public String getHudTurnval() {
         return hudTurnval;
     }
 
-    public void setHudTurnval(TurnValue turnval) {
+    public void setHudTurnval(String turnval) {
         this.hudTurnval = turnval;
     }
 

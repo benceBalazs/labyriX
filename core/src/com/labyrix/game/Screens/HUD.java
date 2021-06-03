@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.labyrix.game.ENUMS.TurnValue;
@@ -93,12 +94,12 @@ public class HUD {
         float yCoordinate = Gdx.graphics.getHeight() * 0.91f;
         float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
-        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", hudSpielerName);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", hudTurnval);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", hudRemSteps.toString());
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", hudSpielerName, true);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", hudTurnval, true);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", hudRemSteps.toString(), false);
 
-        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", hudRemFields.toString());
-        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", hudReduMvmtSpeedUntil.toString());
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", hudRemFields.toString(), false);
+        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", hudReduMvmtSpeedUntil.toString(), true);
 
         createSideBarElement();
         stage.draw();
@@ -117,14 +118,18 @@ public class HUD {
         currentElementLabel.setFontScale(scaleFont);
 
         if (textCenter){
-            tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
-            tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
-            stage.addActor(tableTopBarElement);
+            currentElementLabel.setAlignment(Align.center);
+            tableTopBarElement.add(currentElementLabel).width(barLenght).height(barHeight);
+            tableTopBarElement.setPosition(xCoordinate, yCoordinate);
+            tableTopBarElement.left();
+            tableTopBarElement.setFillParent(true);
+            //tableTopBarElement.debugAll();  //TODO delete if it is finished
         } else {
             tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
             tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
-            stage.addActor(tableTopBarElement);
+            //tableTopBarElement.debugAll();  //TODO delete if it is finished
         }
+        stage.addActor(tableTopBarElement);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 

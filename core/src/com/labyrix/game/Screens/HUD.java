@@ -53,39 +53,13 @@ public class HUD {
     // https://github.com/libgdx/libgdx/wiki/Table
 
     public HUD(SpriteBatch spriteBatch, Player player, TurnLogic turnLogic){
-        labyrixMain = LabyrixMain.getINSTANCE();
+        this.labyrixMain = LabyrixMain.getINSTANCE();
         this.turnLogic = turnLogic;
-        shapeRenderer = new ShapeRenderer();
-        batch = spriteBatch;
-
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
-
-        labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
         this.player = player;
-
-        skin = new Skin();
-        skin.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
-        skin.add("default-font", labyrixMain.getFontMedium());
-        skin.load(Gdx.files.internal("ui/uiskins.json"));
-
-        cheatButton = new TextButton("Cheat", skin);
-        cheatButton.getLabel().setFontScale(2);
-
-        cheatButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                lastEvent = "111111111111";
-            }
-
-        } );
-
-        buttonTabel = new Table(skin);
-        buttonTabel.setX(Gdx.graphics.getWidth() * 0.87f);
-        buttonTabel.setY(Gdx.graphics.getHeight() * 0.65f);
-
-        buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
-        
+        this.shapeRenderer = new ShapeRenderer();
+        this.batch = spriteBatch;
+        this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
+        this.labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
     }
 
     public void render(SpriteBatch batch) {
@@ -131,7 +105,7 @@ public class HUD {
 
     }
 
-    public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue) {
+    public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter) {
         Table tableTopBarElement = new Table();
         tableTopBarElement.bottom();
         tableTopBarElement.setFillParent(true);
@@ -142,9 +116,15 @@ public class HUD {
 
         currentElementLabel.setFontScale(scaleFont);
 
-        tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
-        tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight*0.15f);
-        stage.addActor(tableTopBarElement);
+        if (textCenter){
+            tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+            tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
+            stage.addActor(tableTopBarElement);
+        } else {
+            tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+            tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
+            stage.addActor(tableTopBarElement);
+        }
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -193,6 +173,33 @@ public class HUD {
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.end();
 
+        buttonCreation();
+    }
+
+    public void buttonCreation () {
+        this.skin = new Skin();
+        this.skin.addRegions(this.labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
+        this.skin.add("default-font", this.labyrixMain.getFontMedium());
+        this.skin.load(Gdx.files.internal("ui/uiskins.json"));
+
+        cheatButton = new TextButton("Cheat", skin);
+        cheatButton.getLabel().setFontScale(2);
+
+        cheatButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                lastEvent = "111111111111";
+            }
+
+        } );
+
+        buttonTabel = new Table(skin);
+        buttonTabel.setX(Gdx.graphics.getWidth() * 0.87f);
+        buttonTabel.setY(Gdx.graphics.getHeight() * 0.65f);
+
+        buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
+
+        stage.addActor(buttonTabel);
     }
 
     /**

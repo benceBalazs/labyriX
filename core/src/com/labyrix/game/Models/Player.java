@@ -3,6 +3,7 @@ package com.labyrix.game.Models;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.labyrix.game.ENUMS.TurnValue;
 
 import java.util.ArrayList;
 
@@ -23,13 +24,14 @@ public class Player {
     private static Board board = null;
     private int maxRemainingFields;
     private int minRemainingFields;
+    public TurnValue turnValue;
     private ArrayList<Integer> listAllPath = new ArrayList<>();
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
-
+                
         //current startposition for testcases
         position = new Vector2(xPos, yPos);
         if (this.board == null) {
@@ -164,5 +166,14 @@ public class Player {
 
     public int getMinRemainingFields() {
         return minRemainingFields;
+    }
+
+
+    public TurnValue getTurnValue() {
+        return turnValue;
+    }
+
+    public void setTurnValue(TurnValue turnValue) {
+        this.turnValue = turnValue;
     }
 }

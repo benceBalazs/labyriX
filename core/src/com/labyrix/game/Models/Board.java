@@ -23,7 +23,7 @@ public class Board {
         }
 
         Image snow = new Image("bodenLabyrixSnow.png");
-        Image ziel = new Image("bodenLabyrixZiel.png");
+        Image ziel = new Image("bodenLabyrixZiel2.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
         Image stone = new Image("bodenLabyrixstone.png");
         Image dach = new Image("bodenLabyrixdach.png");

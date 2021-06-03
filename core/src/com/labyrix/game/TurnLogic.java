@@ -14,36 +14,39 @@ import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.Models.*;
 import com.labyrix.game.Network.ClientNetworkHandler;
 
+import java.util.ArrayList;
+
 public class TurnLogic {
 
     private Board board;
     private Player player;
     private boolean turnDone;
-    private TurnValue turnValue;
     private Client client;
     private ArrowActors arrowActors;
     private TrapRender trapRender;
     int animationCounter = 20;
     private Texture turnValueText;
     private Texture dicerollImg;
+    private ArrayList<Player> players = new ArrayList<Player>();
 
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
         this.player = player;
         this.client = ClientNetworkHandler.getInstance().getClient();
         this.turnDone = false;
-        this.turnValue = TurnValue.DICEROLL;
+        this.player.turnValue = TurnValue.DICEROLL;
         this.trapRender = new TrapRender(camera);
         arrowActors = new ArrowActors(camera);
         turnValueText = new Texture("rollDice.png");
+
     }
 
     public void doTurn() throws IllegalArgumentException {
         board.getBatch().draw(turnValueText, this.player.getPosition().x - Gdx.graphics.getWidth() / 8f, this.player.getPosition().y);
 
         if (this.turnDone == false) {
-            System.out.println(this.turnValue);
-            switch (this.turnValue) {
+            System.out.println(this.player.turnValue);
+            switch (this.player.turnValue) {
                 case DICEROLL:
                     rollDice();
                     break;
@@ -72,7 +75,7 @@ public class TurnLogic {
     }
 
     public void rollDice() throws IllegalArgumentException {
-        if (this.turnValue == TurnValue.DICEROLL && turnDone == false) {
+        if (this.player.turnValue == TurnValue.DICEROLL && turnDone == false) {
             if (this.player.getRemainingSteps() == 0) {
                 animationCounter = 120;
             }
@@ -114,7 +117,7 @@ public class TurnLogic {
 
             if (this.animationCounter == 0 && this.player.getRemainingSteps() > 0) {
                 this.animationCounter = 20;
-                this.turnValue = TurnValue.MOVEMENT;
+                this.player.turnValue = TurnValue.MOVEMENT;
                 this.dicerollImg = null;
             }
 
@@ -124,7 +127,7 @@ public class TurnLogic {
     }
 
     public void move() throws IllegalArgumentException {
-        if (this.turnValue == TurnValue.MOVEMENT && turnDone == false) {
+        if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
             if (this.getArrowActors().getArrowActorDown() != null) {
                 this.getArrowActors().setArrowActorDown(null);
             }
@@ -144,7 +147,7 @@ public class TurnLogic {
 
 
             if (this.player.getRemainingSteps() <= 0) {
-                this.turnValue = TurnValue.TRAPCHECK;
+                this.player.turnValue = TurnValue.TRAPCHECK;
             }
 
             if (this.player.getCurrentField().getFollowingFields().size() == 1) {
@@ -155,13 +158,13 @@ public class TurnLogic {
                     this.player.setPosition(playerPosition);
                     animationCounter = 20;
                     if (this.player.getCurrentField().getFieldImage().getImg().equals(new Texture("bodenLabyrixZiel.png"))) {
-                        this.turnValue = TurnValue.WON;
+                        this.player.turnValue = TurnValue.WON;
                     }
                 }
                 animationCounter--;
             }
             if (this.player.getCurrentField().getFollowingFields().size() > 1 && this.player.getRemainingSteps() > 0) {
-                this.turnValue = TurnValue.PATHSELECTION;
+                this.player.turnValue = TurnValue.PATHSELECTION;
             }
         } else {
             throw new IllegalArgumentException();
@@ -170,7 +173,7 @@ public class TurnLogic {
 
 
     public void selectPath() throws IllegalArgumentException {
-        if (this.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
+        if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
             if (this.player.getRemainingSteps() > 0) {
                 this.arrowActors.setInputProcess();
@@ -215,11 +218,11 @@ public class TurnLogic {
     }
 
     public void checkTrap() throws IllegalArgumentException {
-        if (this.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
+        if (this.player.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
             turnValueText = new Texture("checkTrap.png");
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
 
-                this.turnValue = TurnValue.TRAPACTIVATED;
+                this.player.turnValue = TurnValue.TRAPACTIVATED;
                 int x, y;
                 if (this.player.getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.ZOMBIE) {
                     x = (int) this.player.getCurrentField().getCoordinates().x;
@@ -233,7 +236,7 @@ public class TurnLogic {
                 this.player.getCurrentField().getTrap().getEvent().getEventImage().setCoordinates(trapCoordinates);
                 this.animationCounter = 120;
             } else {
-                this.turnValue = TurnValue.DICEROLL;
+                this.player.turnValue = TurnValue.DICEROLL;
             }
             this.turnDone = true;
         } else {
@@ -242,7 +245,7 @@ public class TurnLogic {
     }
 
     public void defuseTrap() throws IllegalArgumentException {
-        if (this.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
+        if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
             if (this.animationCounter != 0) {
                 turnValueText = new Texture("trapActive.png");
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
@@ -282,25 +285,25 @@ public class TurnLogic {
                         if (this.trapRender.getStage().getActors().isEmpty() == true){
                             if (trapRender.getBombDefuse().bombResult() == true){
                                 trapRender.setBombDefuse(null);
-                                this.turnValue = TurnValue.DICEROLL;
+                                this.player.turnValue = TurnValue.DICEROLL;
                             }
                             else {
                                 trapRender.setBombDefuse(null);
 
-                                this.turnValue = TurnValue.DICEROLL;
+                                this.player.turnValue = TurnValue.DICEROLL;
                             }
 
                             if (player.getNumberOfFails() >= 3) {
                                 this.player.setCounterReducedMovementSpeed(4);
                                 this.player.setNumberOfFails(0);
-                                this.turnValue = TurnValue.DICEROLL;
+                                this.player.turnValue = TurnValue.DICEROLL;
                             }
 
                             this.turnDone = true;
                         }
                     } else {
                         if (this.player.getCurrentField().getTrap().getEvent().TrapDefuse() == true) {
-                            this.turnValue = TurnValue.DICEROLL;
+                            this.player.turnValue = TurnValue.DICEROLL;
                         } else if (this.player.getNumberOfFails() < 3) {
                             this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
                             this.player.setMovementSpeed((int) (this.player.getMovementSpeed() * 0.75));
@@ -309,7 +312,7 @@ public class TurnLogic {
                         if (player.getNumberOfFails() >= 3) {
                             this.player.setCounterReducedMovementSpeed(4);
                             this.player.setNumberOfFails(0);
-                            this.turnValue = TurnValue.DICEROLL;
+                            this.player.turnValue = TurnValue.DICEROLL;
                         }
                     }
                 } catch (InterruptedException e) {
@@ -330,6 +333,15 @@ public class TurnLogic {
 
             if (Gdx.input.justTouched()) {
                 System.out.println("server has done its stuff");
+                for (Player p: this.players) {
+                    for (int i = 0; ((Math.random()*10) % 6) + 1 > i ; i++) {
+                        if (p.getCurrentField().getFollowingFields().size() > 0) {
+                            p.setCurrentField(p.getCurrentField().getFollowingField(0));
+                        }
+                    }
+                    Vector2 playerPosition = new Vector2(p.getCurrentField().getCoordinates().x + 64, p.getCurrentField().getCoordinates().y + 184);
+                    p.setPosition(playerPosition);
+                }
                 this.turnDone = false;
             }
         } else {
@@ -345,15 +357,18 @@ public class TurnLogic {
         return player;
     }
 
-    public TurnValue getTurnValue() {
-        return turnValue;
-    }
-
-    public void setTurnValue(TurnValue turnValue) {
-        this.turnValue = turnValue;
-    }
-
     public TrapRender getTrapRender() {
         return trapRender;
     }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void addPlayer(Player player) {
+        if (this.players.size() < 3) {
+            this.players.add(player);
+        }
+    }
+
 }

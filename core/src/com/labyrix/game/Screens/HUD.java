@@ -105,23 +105,30 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(stage.getCamera().combined);
-        createTopBarElement();
+        createTopBarElement(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.7f, Gdx.graphics.getWidth() * 0.25f, Gdx.graphics.getHeight() * 0.1f);
+        createTopBarElement(Gdx.graphics.getWidth() * 0.30f, Gdx.graphics.getHeight() * 0.3f, Gdx.graphics.getWidth() * 0.35f, Gdx.graphics.getHeight() * 0.2f);
+
         createSideBarElement();
         stage.draw();
 
     }
 
-    public void createTopBarElement() {
+    public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHight) {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.85f, Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.1f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.05f);
+        shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHight/2, barHight/2);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHight/2, barHight/2);
+
+        float elementEdge = 0.005f;
+        float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
         shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.855f, Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.09f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
+        shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHight - percentHeight*2);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHight/2, barHight/2 - percentHeight);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHight/2, barHight/2 - percentHeight);
+
         shapeRenderer.end();
     }
 
@@ -163,7 +170,7 @@ public class HUD {
 
     public void update(Player player){
         stage = new Stage(viewport, batch);
-        scale = 4;
+        scale = Gdx.graphics.getHeight() * 0.0035f;
 
         //topbar
         hudSpielerName = player.getName();

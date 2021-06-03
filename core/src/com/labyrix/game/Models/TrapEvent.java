@@ -29,7 +29,7 @@ public class TrapEvent {
                 defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
             case DOOR:
-                this.eventImage = new Image("door.png");
+                this.eventImage = new Image("cage.png");
                 defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
@@ -42,11 +42,7 @@ public class TrapEvent {
     }
 
     public TrapEventName randomTrapEvent() {
-        return TrapEventName.BOMB;
-        //return TrapEventName.ZOMBIE;
-        //return TrapEventName.DOOR;
-        //return TrapEventName.QUICKSAND;
-        //return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
+        return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
     public boolean TrapDefuse() throws InterruptedException {

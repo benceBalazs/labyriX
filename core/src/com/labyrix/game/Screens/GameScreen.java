@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.Player;
@@ -61,8 +62,14 @@ public class GameScreen implements Screen {
             }
             player.render(batch);
         }
+        /*if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
+            tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
+
+        }*/
         cameraLerp( camera, player.getPosition());
-        tl.getArrowActors().render();
+        if (tl.getArrowActors() != null) {
+            tl.getArrowActors().render();
+        }
         tl.getTrapRender().render();
         batch.end();
 

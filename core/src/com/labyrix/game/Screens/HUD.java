@@ -125,7 +125,7 @@ public class HUD {
         //topbar
         zugSpieler = player.getName();
         cheatsLeft = player.getRemainingCheats();
-        defuse = 1;                                                 //TODO method call missing
+        defuse = player.getMaxRemainingFields();                                                 //TODO method call missing
 
         tableTopBar = new Table();
         tableTopBar.bottom();
@@ -133,7 +133,7 @@ public class HUD {
 
         zugSpielerLabel = new Label("Zug: " + zugSpieler, labelStyle);
         cheatsLeftLabel = new Label("Cheats left: "+ cheatsLeft, labelStyle);
-        defuseLabel = new Label("Defuses left: "+defuse, labelStyle);
+        defuseLabel = new Label("Remaining fields: "+defuse, labelStyle);
 
         zugSpielerLabel.setFontScale(scale);
         cheatsLeftLabel.setFontScale(scale);

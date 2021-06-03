@@ -37,6 +37,16 @@ public class GameScreen implements Screen {
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
         tl = new TurnLogic(isorend, player, camera);
         hud = new HUD(batch, player);
+
+        //Serverstuff - fill list of other Players
+        Player p1 = new Player("Herbert", "DinoPink.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+        Player p2 = new Player("Hubert", "DinoOrange.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+        Player p3 = new Player("Hubsi", "DinoBlue.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+
+        tl.addPlayer(p1);
+        tl.addPlayer(p2);
+        tl.addPlayer(p3);
+
     }
 
     @Override
@@ -47,6 +57,9 @@ public class GameScreen implements Screen {
         isorend.drawGround();
         tl.doTurn();
         if (tl.getTrapRender().getStage().getActors().size == 0||tl.getTrapRender().getStage().getActors() == null){
+            for (Player p: tl.getPlayers()) {
+                p.render(batch);
+            }
             player.render(batch);
         }
         /*if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {

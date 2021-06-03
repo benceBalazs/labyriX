@@ -104,6 +104,12 @@ public class HUD {
     }
 
     public void render(SpriteBatch batch) {
+        hudSpielerName = player.getName();
+        hudTurnval = turnLogic.getTurnValue();
+        hudRemSteps = player.getRemainingSteps();
+        hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
+        hudReduMvmtSpeedUntil = 0;  // TODO
+
         stage = new Stage(viewport, batch);
         batch.setProjectionMatrix(stage.getCamera().combined);
 
@@ -113,13 +119,13 @@ public class HUD {
         float yCoordinate = Gdx.graphics.getHeight() * 0.91f;
         float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
-        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", hudSpielerName);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", hudTurnval.toString());
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", hudRemSteps.toString());
 
-        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Spielername: ", "Franz");
-        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Spielername: ", "Franz");
-        
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", hudRemFields.toString());
+        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", hudReduMvmtSpeedUntil.toString());
+
         createSideBarElement();
         stage.draw();
 
@@ -132,7 +138,7 @@ public class HUD {
 
         float scaleFont = barHeight * 0.04f;
 
-        Label currentElementLabel = new Label(labelDescription + labelValue, labelStyle);      // TODO hudspielername
+        Label currentElementLabel = new Label(labelDescription + labelValue, labelStyle);
 
         currentElementLabel.setFontScale(scaleFont);
 

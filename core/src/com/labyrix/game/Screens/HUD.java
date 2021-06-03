@@ -31,28 +31,14 @@ public class HUD {
     private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
     private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
 
-    private Label hudSpielernameLabel;
-    private Label hudTurnvalLabel;
-    private Label hudRemStepsLabel;
-    private Label hudRemFieldsLabel;
-    private Label hudReduMvmtSpeedUntilLabel;
-
-    private Label lastEventLabel;
-    private Label secondLastEventLabel;
-    private Label thirdLastEventLabel;
-
     private String lastEvent;
     private String secondLastEvent;
     private String thirdLastEvent;
 
-    private Table tableTopBar;
-    private Table tableSideBar;
     private Table buttonTabel;
 
     private ShapeRenderer shapeRenderer;
     private Label.LabelStyle labelStyle;
-
-    //private float scale;
 
     private Player player;
 
@@ -99,8 +85,7 @@ public class HUD {
         buttonTabel.setY(Gdx.graphics.getHeight() * 0.65f);
 
         buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
-
-        //update(player);
+        
     }
 
     public void render(SpriteBatch batch) {
@@ -121,6 +106,8 @@ public class HUD {
             hudTurnval = "Huch?";
         } else if (turnLogic.getTurnValue() == TurnValue.WON){
             hudTurnval = "YEEEEEAH :D";
+        } else {
+            hudTurnval = turnLogic.getTurnValue().toString();
         }
 
         stage = new Stage(viewport, batch);

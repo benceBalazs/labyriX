@@ -67,34 +67,11 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         hudSpielerName = player.getName();
+        hudTurnval = turnvalTranslator(turnLogic.getTurnValue());
         hudRemSteps = player.getRemainingSteps();
         hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
         hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();  // TODO
-
-        if (turnLogic.getTurnValue() == TurnValue.DICEROLL){
-            hudTurnval = "Roll the Dice!";
-        } else if (turnLogic.getTurnValue() == TurnValue.MOVEMENT){
-            hudTurnval = "On my way.";
-        } else if (turnLogic.getTurnValue() == TurnValue.PATHSELECTION){
-            hudTurnval = "Select a Path please.";
-        } else if (turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED){
-            TrapEventName currentTrap = this.player.getCurrentField().getTrap().getEvent().getEvent();
-            if (currentTrap == TrapEventName.ZOMBIE){
-                hudTurnval = "Oh nooo, a Zombie!";
-            } else if (currentTrap == TrapEventName.BOMB){
-                hudTurnval = "A bomb... we'll DIEEE! D:";
-            } else if (currentTrap == TrapEventName.QUICKSAND){
-                hudTurnval = "Quicksand? You serious?";
-            } else if (currentTrap == TrapEventName.DOOR){
-                hudTurnval = "*klick* AAAAAAaaaaaaahh...";
-            }
-        } else if (turnLogic.getTurnValue() == TurnValue.TRAPCHECK){
-            hudTurnval = "Huch?";
-        } else if (turnLogic.getTurnValue() == TurnValue.WON){
-            hudTurnval = "YEEEEEAH :D";
-        } else {
-            hudTurnval = turnLogic.getTurnValue().toString();
-        }
+        hudTurnval = turnvalTranslator(turnLogic.getTurnValue());
 
         stage = new Stage(viewport, batch);
         batch.setProjectionMatrix(stage.getCamera().combined);
@@ -114,7 +91,35 @@ public class HUD {
 
         createSideBarElement();
         stage.draw();
+    }
 
+    private String turnvalTranslator (TurnValue turnValue){
+        if (turnValue == TurnValue.DICEROLL){
+            return "Roll the Dice!";
+        } else if (turnValue == TurnValue.MOVEMENT){
+            return "On my way.";
+        } else if (turnValue == TurnValue.PATHSELECTION){
+            return "Select a Path please.";
+        } else if (turnValue == TurnValue.TRAPACTIVATED){
+            TrapEventName currentTrap = this.player.getCurrentField().getTrap().getEvent().getEvent();
+
+            if (currentTrap == TrapEventName.ZOMBIE){
+                return "Oh nooo, a Zombie!";
+            } else if (currentTrap == TrapEventName.BOMB){
+                return "A bomb... we'll DIEEE! D:";
+            } else if (currentTrap == TrapEventName.QUICKSAND){
+                return "Quicksand? You serious?";
+            } else if (currentTrap == TrapEventName.DOOR){
+                return "*klick* AAAAAAaaaaaaahh...";
+            }
+
+        } else if (turnValue == TurnValue.TRAPCHECK){
+            return "Huch?";
+        } else if (turnValue == TurnValue.WON){
+            return "YEEEEEAH :D";
+        }
+
+        return turnLogic.getTurnValue().toString();
     }
 
     public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter) {

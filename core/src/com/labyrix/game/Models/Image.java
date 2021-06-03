@@ -26,4 +26,8 @@ public class Image {
     public void setCoordinates(Vector2 coordinates) {
         this.coordinates = coordinates;
     }
+
+    /*public void render(SpriteBatch batch, float x, float y) {
+        batch.draw(this.img, x - Gdx.graphics.getWidth()/8f, y- Gdx.graphics.getHeight()/8f);
+    }*/
 }

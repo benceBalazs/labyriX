@@ -52,7 +52,7 @@ public class HUD {
     private ShapeRenderer shapeRenderer;
     private Label.LabelStyle labelStyle;
 
-    private float scale;
+    //private float scale;
 
     private Player player;
 
@@ -100,34 +100,60 @@ public class HUD {
 
         buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
 
-        update(player);
+        //update(player);
     }
 
     public void render(SpriteBatch batch) {
+        stage = new Stage(viewport, batch);
         batch.setProjectionMatrix(stage.getCamera().combined);
-        createTopBarElement(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.7f, Gdx.graphics.getWidth() * 0.25f, Gdx.graphics.getHeight() * 0.1f);
-        createTopBarElement(Gdx.graphics.getWidth() * 0.30f, Gdx.graphics.getHeight() * 0.3f, Gdx.graphics.getWidth() * 0.35f, Gdx.graphics.getHeight() * 0.2f);
 
+        float barLenght = Gdx.graphics.getWidth() * 0.28f;
+        float barHeight = Gdx.graphics.getHeight() * 0.08f;
+        float xCoordinate = Gdx.graphics.getWidth() / 3f;
+        float yCoordinate = Gdx.graphics.getHeight() * 0.91f;
+        float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
+
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Spielername: ", "Franz");
+
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Spielername: ", "Franz");
+        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Spielername: ", "Franz");
+        
         createSideBarElement();
         stage.draw();
 
     }
 
-    public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHight) {
+    public void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue) {
+        Table tableTopBarElement = new Table();
+        tableTopBarElement.bottom();
+        tableTopBarElement.setFillParent(true);
+
+        float scaleFont = barHeight * 0.04f;
+
+        Label currentElementLabel = new Label(labelDescription + labelValue, labelStyle);      // TODO hudspielername
+
+        currentElementLabel.setFontScale(scaleFont);
+
+        tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+        tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight*0.15f);
+        stage.addActor(tableTopBarElement);
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
-        shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHight);
-        shapeRenderer.circle(xCoordinate, yCoordinate + barHight/2, barHight/2);
-        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHight/2, barHight/2);
+        shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHeight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2);
 
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
         shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
-        shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHight - percentHeight*2);
-        shapeRenderer.circle(xCoordinate, yCoordinate + barHight/2, barHight/2 - percentHeight);
-        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHight/2, barHight/2 - percentHeight);
+        shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHeight - percentHeight*2);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
 
         shapeRenderer.end();
     }
@@ -168,7 +194,9 @@ public class HUD {
      *
      */
 
+    /*
     public void update(Player player){
+
         stage = new Stage(viewport, batch);
         scale = Gdx.graphics.getHeight() * 0.0035f;
 
@@ -196,11 +224,11 @@ public class HUD {
         hudReduMvmtSpeedUntilLabel.setFontScale(scale);
 
         float tablePosition = Gdx.graphics.getHeight() * 0.865f;
-        tableTopBar.add(hudSpielernameLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(hudTurnvalLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(hudRemStepsLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(hudRemFieldsLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(hudReduMvmtSpeedUntilLabel).expandX().padBottom(tablePosition);
+        tableTopBar.add(hudSpielernameLabel).width(100f).padBottom(100f);                            // TODO <-----------------------------------------
+        //tableTopBar.add(hudTurnvalLabel).expandX().padBottom(tablePosition);
+        //tableTopBar.add(hudRemStepsLabel).expandX().padBottom(tablePosition);
+        //tableTopBar.add(hudRemFieldsLabel).expandX().padBottom(tablePosition);
+        //tableTopBar.add(hudReduMvmtSpeedUntilLabel).expandX().padBottom(tablePosition);
 
         stage.addActor(tableTopBar);
 
@@ -233,7 +261,11 @@ public class HUD {
         stage.addActor(tableSideBar);
 
         stage.addActor(buttonTabel);
+
+
     }
+
+     */
 
     public String getHudSpielerName() {
         return hudSpielerName;

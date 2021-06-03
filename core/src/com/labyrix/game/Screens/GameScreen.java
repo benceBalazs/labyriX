@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
         tl.getBombRender().render();
         batch.end();
         hud.render(batch);
-        hud.update(player);
+        //hud.update(player);
     }
 
     public void cameraLerp(OrthographicCamera camera, Vector2 target) {

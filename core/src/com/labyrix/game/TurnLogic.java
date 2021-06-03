@@ -301,7 +301,7 @@ public class TurnLogic {
                                 else {
                                     this.player.setCounterReducedMovementSpeed(4);
                                     this.player.setNumberOfFails(0);
-                                    this.turnValue = TurnValue.DICEROLL;
+                                    this.player.turnValue = TurnValue.DICEROLL;
                                 }
                             }
                             this.turnDone = true;
@@ -316,7 +316,7 @@ public class TurnLogic {
                         else {
                             if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE) {
                                 if (this.trapRender.getMovementDefuse().dontMove()) {
-                                    this.turnValue = TurnValue.DICEROLL;
+                                    this.player.turnValue = TurnValue.DICEROLL;
                                 } else {
                                     if (this.player.getNumberOfFails() < 3) {
                                         this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
@@ -325,13 +325,13 @@ public class TurnLogic {
                                     else {
                                         this.player.setCounterReducedMovementSpeed(4);
                                         this.player.setNumberOfFails(0);
-                                        this.turnValue = TurnValue.DICEROLL;
+                                        this.player.turnValue = TurnValue.DICEROLL;
                                     }
                                 }
                                 this.trapRender.getStage().clear();
                             } else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.QUICKSAND) {
                                 if (this.trapRender.getMovementDefuse().crawlOut()) {
-                                    this.turnValue = TurnValue.DICEROLL;
+                                    this.player.turnValue = TurnValue.DICEROLL;
                                 } else {
                                     if (this.player.getNumberOfFails() < 3) {
                                         this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
@@ -340,14 +340,14 @@ public class TurnLogic {
                                     else {
                                         this.player.setCounterReducedMovementSpeed(4);
                                         this.player.setNumberOfFails(0);
-                                        this.turnValue = TurnValue.DICEROLL;
+                                        this.player.turnValue = TurnValue.DICEROLL;
                                     }
                                 }
                                 this.trapRender.getStage().clear();
                             }
                             else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR) {
                                 if (this.trapRender.getMovementDefuse().climbUp()) {
-                                    this.turnValue = TurnValue.DICEROLL;
+                                    this.player.turnValue = TurnValue.DICEROLL;
                                 }
                                 else {
                                     if (this.player.getNumberOfFails() < 2) {
@@ -358,7 +358,7 @@ public class TurnLogic {
                                     else {
                                         this.player.setCounterReducedMovementSpeed(4);
                                         this.player.setNumberOfFails(0);
-                                        this.turnValue = TurnValue.DICEROLL;
+                                        this.player.turnValue = TurnValue.DICEROLL;
                                     }
                                 }
                                 this.trapRender.getStage().clear();

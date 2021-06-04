@@ -89,11 +89,11 @@ public class HUD {
         createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", hudRemFields.toString(), false);
         createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", hudReduMvmtSpeedUntil.toString(), true);
 
-        createSideBarElement();
+        createSideBarElement(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.05f, Gdx.graphics.getWidth() * 0.15f, Gdx.graphics.getHeight() * 0.60f);
         stage.draw();
     }
 
-    private String turnvalTranslator (TurnValue turnValue){
+    private String turnvalTranslator (TurnValue turnValue){                 // TODO
         if (turnValue == TurnValue.DICEROLL){
             return "Roll the Dice!";
         } else if (turnValue == TurnValue.MOVEMENT){
@@ -165,25 +165,32 @@ public class HUD {
         shapeRenderer.end();
     }
 
-    public void createSideBarElement(){
+    public void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barheight){
+        float elementEdge = 0.005f;
+        float percentHeight = Gdx.graphics.getHeight() * elementEdge;
+
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.05f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.7f);
-        shapeRenderer.rect((Gdx.graphics.getWidth() * 0.8f - Gdx.graphics.getHeight() * 0.05f), Gdx.graphics.getHeight() * 0.10f, (Gdx.graphics.getWidth()*0.15f + Gdx.graphics.getHeight() * 0.05f * 2f), Gdx.graphics.getHeight()*0.6f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.05f);
+        shapeRenderer.circle(xCoordinate, yCoordinate, radius);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barheight, radius);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barheight, radius);
+        shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barheight + radius * 2f);
+        shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barheight);
 
         shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.055f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.69f);
-        shapeRenderer.rect(((Gdx.graphics.getWidth() * 0.8f - Gdx.graphics.getHeight() * 0.05f) + Gdx.graphics.getHeight() * 0.005f), Gdx.graphics.getHeight() * 0.10f, ((Gdx.graphics.getWidth()*0.15f + Gdx.graphics.getHeight() * 0.05f * 2f) - Gdx.graphics.getHeight() * 0.01f), Gdx.graphics.getHeight()*0.6f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.045f);
+        shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barheight, radius - percentHeight);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barheight, radius - percentHeight);
+        shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLenght, barheight + radius * 2f - percentHeight * 2f);
+        shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLenght + radius * 2f - percentHeight * 2f, barheight);
         shapeRenderer.end();
 
+
+
+        /*
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
         shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.08f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.34f);
@@ -194,7 +201,9 @@ public class HUD {
         shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
         shapeRenderer.end();
 
-        buttonCreation();
+         */
+
+        //buttonCreation();
     }
 
     public void buttonCreation () {

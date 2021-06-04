@@ -174,38 +174,65 @@ public class HUD {
         shapeRenderer.end();
     }
 
-    public void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barheight){
+    public void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
+        Table tableSideBarElement = new Table();
+        tableSideBarElement.bottom();
+        tableSideBarElement.setFillParent(true);
+
+        float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f; // TODO check if it is sclaing right
+
+        Label description = new Label("Remaining Steps:", labelStyle);
+        Label firstMultiplayerPlayer = new Label("Franz: " + 15, labelStyle);   //TODO method call. and if there is no player for the label, der should be a text for it
+        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, labelStyle);
+        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, labelStyle);
+
+        description.setFontScale(scaleFont);
+        firstMultiplayerPlayer.setFontScale(scaleFont);
+        secondMultiplayerPlayer.setFontScale(scaleFont);
+        thirdMultiplayerPlayer.setFontScale(scaleFont);
+
+        tableSideBarElement.add(description).expandX().fillX();
+        tableSideBarElement.row();
+        tableSideBarElement.add(firstMultiplayerPlayer).expandX().fillX();
+        tableSideBarElement.row();
+        tableSideBarElement.add(secondMultiplayerPlayer).expandX().fillX();
+        tableSideBarElement.row();
+        tableSideBarElement.add(thirdMultiplayerPlayer).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+        tableSideBarElement.setPosition(xCoordinate, yCoordinate);
+        //tableSideBarElement.debugAll();  //TODO delete if it is finished
+
+        stage.addActor(tableSideBarElement);
+
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
-
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(new Color(1, 1, 1, 1));
         shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
-        shapeRenderer.circle(xCoordinate, yCoordinate + barheight, radius);
-        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barheight, radius);
-        shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barheight + radius * 2f);
-        shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barheight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
+        shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
+        shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
 
         shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
         shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
         shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
-        shapeRenderer.circle(xCoordinate, yCoordinate + barheight, radius - percentHeight);
-        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barheight, radius - percentHeight);
-        shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLenght, barheight + radius * 2f - percentHeight * 2f);
-        shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLenght + radius * 2f - percentHeight * 2f, barheight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius - percentHeight);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius - percentHeight);
+        shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLenght, barHeight + radius * 2f - percentHeight * 2f);
+        shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLenght + radius * 2f - percentHeight * 2f, barHeight);
 
         radius = radius * 0.5f;
-        barheight = barheight / 3f;
+        barHeight = barHeight / 4f;
 
         shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
         shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
-        shapeRenderer.circle(xCoordinate, yCoordinate + barheight, radius);
-        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barheight, radius);
-        shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barheight + radius * 2f);
-        shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barheight);
+        shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
+        shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
+        shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
+        shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
         shapeRenderer.end();
 
         buttonCreation();
@@ -217,7 +244,7 @@ public class HUD {
         this.skin.add("default-font", this.labyrixMain.getFontMedium());
         this.skin.load(Gdx.files.internal("ui/uiskins.json"));
 
-        cheatButton = new TextButton("Cheat", skin);
+        cheatButton = new TextButton("Dice", skin);
         cheatButton.getLabel().setFontScale(2);
 
         cheatButton.addListener(new ClickListener() {

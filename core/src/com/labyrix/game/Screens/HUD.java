@@ -246,6 +246,10 @@ public class HUD {
         stage.addActor(uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL)); // TODO aufruf in render verschieben
         stage.addActor(cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
         stage.addActor(diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+
+        turnLogic.setUncoverButton(uncoverButton);
+        turnLogic.setCheatButton(cheatButton);
+        turnLogic.setDiceButton(diceButton);
     }
 
     /*

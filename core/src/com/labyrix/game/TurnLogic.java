@@ -31,6 +31,9 @@ public class TurnLogic {
     private BombRender bombRender;
     int animationCounter = 20;
     private Texture turnValueText;
+    HudButton uncoverButton;
+    HudButton cheatButton;
+    HudButton diceButton;
 
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
@@ -41,6 +44,9 @@ public class TurnLogic {
         this.bombRender = new BombRender(camera);
         arrowActors = new ArrowActors(camera);
         turnValueText = new Texture("rollDice.png");
+        uncoverButton = new HudButton();
+        cheatButton = new HudButton();
+        diceButton = new HudButton();
     }
 
     public void doTurn() throws IllegalArgumentException {
@@ -79,7 +85,7 @@ public class TurnLogic {
 
     public void rollDice() throws IllegalArgumentException {
         if (this.turnValue == TurnValue.DICEROLL && turnDone == false) {
-            if (Gdx.input.justTouched()) {
+            if (Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd()) {       // man muss links oben klicken, damit es geht, ich weiß aber nicht warum.
                 this.player.setRemainingSteps((int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed()));
                 this.turnValue = TurnValue.MOVEMENT;
             }
@@ -312,5 +318,17 @@ public class TurnLogic {
 
     public BombRender getBombRender() {
         return bombRender;
+    }
+
+    public void setUncoverButton(HudButton uncoverButton) {
+        this.uncoverButton = uncoverButton;
+    }
+
+    public void setCheatButton(HudButton cheatButton) {
+        this.cheatButton = cheatButton;
+    }
+
+    public void setDiceButton(HudButton diceButton) {
+        this.diceButton = diceButton;
     }
 }

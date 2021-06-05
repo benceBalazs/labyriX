@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
+import com.labyrix.game.Models.HudButton;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.TurnLogic;
 
@@ -47,11 +48,14 @@ public class HUD {
     private SpriteBatch batch;
 
     private Skin skin;
-    private TextButton cheatButton;
 
     private final LabyrixMain labyrixMain;
     private TurnLogic turnLogic;
-    float scaleFont;
+    //float scaleFont;
+
+    HudButton uncoverButton;
+    HudButton cheatButton;
+    HudButton diceButton;
 
     // https://github.com/libgdx/libgdx/wiki/Table
     // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
@@ -64,6 +68,9 @@ public class HUD {
         this.batch = spriteBatch;
         this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
         this.labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        this.uncoverButton = new HudButton(labelStyle, shapeRenderer, turnLogic);
+        this.cheatButton = new HudButton(labelStyle, shapeRenderer, turnLogic);
+        this.diceButton = new HudButton(labelStyle, shapeRenderer, turnLogic);
     }
 
     public void render(SpriteBatch batch) {
@@ -137,7 +144,7 @@ public class HUD {
         tableTopBarElement.bottom();
         tableTopBarElement.setFillParent(true);
 
-        scaleFont = barHeight * 0.04f;
+        float scaleFont = barHeight * 0.04f;
 
         Label currentElementLabel = new Label(labelDescription + labelValue, labelStyle);
 
@@ -236,11 +243,12 @@ public class HUD {
         shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
         shapeRenderer.end();
 
-        buttonCreation("Uncover", xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL); // TODO aufruf in render verschieben
-        buttonCreation("Cheat", xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL);
-        buttonCreation("Dice", xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL);
+        stage.addActor(uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL)); // TODO aufruf in render verschieben
+        stage.addActor(cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+        stage.addActor(diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
     }
 
+    /*
     public void buttonCreation (String name, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue) {
         Table tableSideBarButton = new Table();
         tableSideBarButton.bottom();
@@ -271,6 +279,8 @@ public class HUD {
         }
         shapeRenderer.end();
     }
+
+     */
 
     /**
      * update method should be called every time something changes whats important for the hud

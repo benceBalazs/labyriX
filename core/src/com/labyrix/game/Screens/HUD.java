@@ -23,7 +23,7 @@ public class HUD {
     private Viewport viewport;
 
     private String hudSpielerName;          // Zeigt den Spielernamen
-    private String hudTurnval;           // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
+    private String hudTurnval;              // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
     private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
     private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
     private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
@@ -56,9 +56,8 @@ public class HUD {
         this.hudSpielerName = this.player.getName();
         this.hudTurnval = turnvalTranslator(this.turnLogic.getTurnValue());
         this.hudRemSteps = this.player.getRemainingSteps();
-        this.hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
-        this.hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();  // TODO
-        //hudTurnval = turnvalTranslator(turnLogic.getTurnValue());
+        this.hudRemFields = 8;                                                  // TODO an algorithm that shows the number of fields remaining to the destination must be called.
+        this.hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();
 
         this.stage = new Stage(this.viewport, batch);
         batch.setProjectionMatrix(this.stage.getCamera().combined);
@@ -135,11 +134,11 @@ public class HUD {
             tableTopBarElement.setPosition(xCoordinate, yCoordinate);
             tableTopBarElement.left();
             tableTopBarElement.setFillParent(true);
-            //tableTopBarElement.debugAll();  //TODO delete if it is finished
+            //tableTopBarElement.debugAll();
         } else {
-            tableTopBarElement.add(currentElementLabel).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+            tableTopBarElement.add(currentElementLabel).expandX().fillX();
             tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
-            //tableTopBarElement.debugAll();  //TODO delete if it is finished
+            //tableTopBarElement.debugAll();
         }
 
         this.stage.addActor(tableTopBarElement);
@@ -167,12 +166,12 @@ public class HUD {
         tableSideBar.bottom();
         tableSideBar.setFillParent(true);
 
-        float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f; // TODO check if it is sclaing right
+        float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f;
 
         Label description = new Label("Remaining Steps:", this.labelStyle);
-        Label firstMultiplayerPlayer = new Label("Franz: " + 15, this.labelStyle);   //TODO method call. and if there is no player for the label, der should be a text for it
-        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, this.labelStyle);
-        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, this.labelStyle);
+        Label firstMultiplayerPlayer = new Label("Franz: " + 15, this.labelStyle);      //TODO there is no functionality yet. still has to be inserted.
+        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, this.labelStyle);     //TODO there is no functionality yet. still has to be inserted.
+        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, this.labelStyle);        //TODO there is no functionality yet. still has to be inserted.
 
         description.setFontScale(scaleFont);
         firstMultiplayerPlayer.setFontScale(scaleFont);
@@ -185,9 +184,9 @@ public class HUD {
         tableSideBar.row();
         tableSideBar.add(secondMultiplayerPlayer).expandX().fillX();
         tableSideBar.row();
-        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
         tableSideBar.setPosition(xCoordinate, yCoordinate);
-        //tableSideBar.debugAll();  //TODO delete if it is finished
+        //tableSideBar.debugAll();
 
         this.stage.addActor(tableSideBar);
 

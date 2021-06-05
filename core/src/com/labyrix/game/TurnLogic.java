@@ -31,9 +31,10 @@ public class TurnLogic {
     private BombRender bombRender;
     int animationCounter = 20;
     private Texture turnValueText;
-    HudButton uncoverButton;
-    HudButton cheatButton;
-    HudButton diceButton;
+
+    private HudButton uncoverButton;
+    private HudButton cheatButton;
+    private HudButton diceButton;
 
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
@@ -44,9 +45,10 @@ public class TurnLogic {
         this.bombRender = new BombRender(camera);
         arrowActors = new ArrowActors(camera);
         turnValueText = new Texture("rollDice.png");
-        uncoverButton = new HudButton();
-        cheatButton = new HudButton();
-        diceButton = new HudButton();
+
+        this.uncoverButton = new HudButton();
+        this.cheatButton = new HudButton();
+        this.diceButton = new HudButton();
     }
 
     public void doTurn() throws IllegalArgumentException {

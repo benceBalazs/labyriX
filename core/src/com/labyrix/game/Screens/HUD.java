@@ -37,6 +37,12 @@ public class HUD {
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
+    private Color colorLightGreen;
+    private Color colorDarkGreen;
+    private Color colorWhite;
+    private Color colorRed;
+
+    private int frameCounter;
 
     // https://github.com/libgdx/libgdx/wiki/Table
     // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
@@ -50,6 +56,13 @@ public class HUD {
         this.uncoverButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
         this.cheatButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
         this.diceButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
+
+        this.colorLightGreen = new Color(0.36470588f, 0.47058824f, 0.21568627f, 1);
+        this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
+        this.colorWhite = new Color(1, 1, 1, 1);
+        this.colorRed = new Color(1, 0 , 0, 1);
+
+        this.frameCounter = 0;
     }
 
     public void render(SpriteBatch batch) {
@@ -69,12 +82,12 @@ public class HUD {
         float barHeight = Gdx.graphics.getHeight() * 0.08f;
         float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
-        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudSpielerName, true);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnval, true);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), false);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudSpielerName, true, false);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnval, true, true);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), false, false);
 
-        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), false);
-        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", this.hudReduMvmtSpeedUntil.toString(), true);
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), false, false);
+        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", this.hudReduMvmtSpeedUntil.toString(), true, false);
 
         // side-bar
         xCoordinate = Gdx.graphics.getWidth() * 0.8f;
@@ -117,7 +130,7 @@ public class HUD {
         return this.turnLogic.getTurnValue().toString();
     }
 
-    private void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter) {
+    private void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
         Table tableTopBarElement = new Table();
         tableTopBarElement.bottom();
         tableTopBarElement.setFillParent(true);
@@ -145,7 +158,12 @@ public class HUD {
 
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        this.shapeRenderer.setColor(new Color(1, 1, 1, 1));
+        if (signal && turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 40) {
+            this.shapeRenderer.setColor(colorRed);
+        } else {
+            this.shapeRenderer.setColor(colorWhite);
+        }
+
         this.shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHeight);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2);
@@ -153,12 +171,23 @@ public class HUD {
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
-        this.shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
+        if (signal && turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 15) {
+            this.shapeRenderer.setColor(colorRed);
+        } else {
+            this.shapeRenderer.setColor(colorWhite);
+            if (frameCounter >= 80){
+                frameCounter = 0;
+            }
+        }
+
+        this.shapeRenderer.setColor(colorLightGreen);
         this.shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHeight - percentHeight*2);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
 
         this.shapeRenderer.end();
+
+        this.frameCounter++;
     }
 
     private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
@@ -194,7 +223,7 @@ public class HUD {
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        this.shapeRenderer.setColor(new Color(1, 1, 1, 1));
+        this.shapeRenderer.setColor(colorWhite);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
@@ -202,7 +231,7 @@ public class HUD {
         this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
         this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
 
-        this.shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
+        this.shapeRenderer.setColor(colorLightGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius - percentHeight);
@@ -213,7 +242,7 @@ public class HUD {
         radius = radius * 0.5f;
         barHeight = barHeight / 4f;
 
-        this.shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
+        this.shapeRenderer.setColor(colorDarkGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);

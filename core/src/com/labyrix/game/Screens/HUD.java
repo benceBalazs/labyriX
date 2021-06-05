@@ -51,6 +51,7 @@ public class HUD {
 
     private final LabyrixMain labyrixMain;
     private TurnLogic turnLogic;
+    float scaleFont;
 
     // https://github.com/libgdx/libgdx/wiki/Table
     // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
@@ -71,7 +72,7 @@ public class HUD {
         hudRemSteps = player.getRemainingSteps();
         hudRemFields = 8; // TODO Algorithmus einbinden, der zeigt, wie viele Schritte man noch bis zum Ziel braucht.
         hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();  // TODO
-        hudTurnval = turnvalTranslator(turnLogic.getTurnValue());
+        //hudTurnval = turnvalTranslator(turnLogic.getTurnValue());
 
         stage = new Stage(viewport, batch);
         batch.setProjectionMatrix(stage.getCamera().combined);
@@ -136,7 +137,7 @@ public class HUD {
         tableTopBarElement.bottom();
         tableTopBarElement.setFillParent(true);
 
-        float scaleFont = barHeight * 0.04f;
+        scaleFont = barHeight * 0.04f;
 
         Label currentElementLabel = new Label(labelDescription + labelValue, labelStyle);
 
@@ -175,9 +176,9 @@ public class HUD {
     }
 
     public void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
-        Table tableSideBarElement = new Table();
-        tableSideBarElement.bottom();
-        tableSideBarElement.setFillParent(true);
+        Table tableSideBar = new Table();
+        tableSideBar.bottom();
+        tableSideBar.setFillParent(true);
 
         float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f; // TODO check if it is sclaing right
 
@@ -191,17 +192,17 @@ public class HUD {
         secondMultiplayerPlayer.setFontScale(scaleFont);
         thirdMultiplayerPlayer.setFontScale(scaleFont);
 
-        tableSideBarElement.add(description).expandX().fillX();
-        tableSideBarElement.row();
-        tableSideBarElement.add(firstMultiplayerPlayer).expandX().fillX();
-        tableSideBarElement.row();
-        tableSideBarElement.add(secondMultiplayerPlayer).expandX().fillX();
-        tableSideBarElement.row();
-        tableSideBarElement.add(thirdMultiplayerPlayer).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
-        tableSideBarElement.setPosition(xCoordinate, yCoordinate);
-        //tableSideBarElement.debugAll();  //TODO delete if it is finished
+        tableSideBar.add(description).expandX().fillX();
+        tableSideBar.row();
+        tableSideBar.add(firstMultiplayerPlayer).expandX().fillX();
+        tableSideBar.row();
+        tableSideBar.add(secondMultiplayerPlayer).expandX().fillX();
+        tableSideBar.row();
+        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();  //.width(xCoordinate).padBottom(yCoordinate);
+        tableSideBar.setPosition(xCoordinate, yCoordinate);
+        //tableSideBar.debugAll();  //TODO delete if it is finished
 
-        stage.addActor(tableSideBarElement);
+        stage.addActor(tableSideBar);
 
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
@@ -235,33 +236,40 @@ public class HUD {
         shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
         shapeRenderer.end();
 
-        buttonCreation();
+        buttonCreation("Uncover", xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL); // TODO aufruf in render verschieben
+        buttonCreation("Cheat", xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL);
+        buttonCreation("Dice", xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL);
     }
 
-    public void buttonCreation () {
-        this.skin = new Skin();
-        this.skin.addRegions(this.labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
-        this.skin.add("default-font", this.labyrixMain.getFontMedium());
-        this.skin.load(Gdx.files.internal("ui/uiskins.json"));
+    public void buttonCreation (String name, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue) {
+        Table tableSideBarButton = new Table();
+        tableSideBarButton.bottom();
+        tableSideBarButton.setFillParent(true);
 
-        cheatButton = new TextButton("Dice", skin);
-        cheatButton.getLabel().setFontScale(2);
+        Label buttonName = new Label(name, labelStyle);
 
-        cheatButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                lastEvent = "111111111111";
-            }
+        buttonName.setFontScale(scaleFont*1.3f);
 
-        } );
+        buttonName.setAlignment(Align.center);
+        tableSideBarButton.add(buttonName).width(lenght).height(height);
+        tableSideBarButton.setPosition(xCoordinate, yCoordinate + height);
+        tableSideBarButton.left();
+        tableSideBarButton.setFillParent(true);
+        //tableSideBarButton.debugAll();  //TODO delete if it is finished
 
-        buttonTabel = new Table(skin);
-        buttonTabel.setX(Gdx.graphics.getWidth() * 0.87f);
-        buttonTabel.setY(Gdx.graphics.getHeight() * 0.65f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(new Color(1, 1, 1, 1));
+        shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
 
-        buttonTabel.add(cheatButton).size(Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.1f);
-
-        stage.addActor(buttonTabel);
+        if (turnLogic.getTurnValue().equals(turnValue)) {
+            shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
+            shapeRenderer.rect(xCoordinate + edge, yCoordinate + height * 1.05f + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
+            stage.addActor(tableSideBarButton);
+        } else {
+            shapeRenderer.setColor(new Color(0.53333333f, 0.53333333f, 0.53333333f, 1));
+            shapeRenderer.rect(xCoordinate + edge, yCoordinate + height * 1.05f + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
+        }
+        shapeRenderer.end();
     }
 
     /**

@@ -37,10 +37,10 @@ public class HUD {
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
-    private Color colorLightGreen;
-    private Color colorDarkGreen;
-    private Color colorWhite;
-    private Color colorRed;
+    private final Color colorLightGreen;
+    private final Color colorDarkGreen;
+    private final Color colorWhite;
+    private final Color colorRed;
 
     private int frameCounter;
 

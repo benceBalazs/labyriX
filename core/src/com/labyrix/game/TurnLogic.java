@@ -29,6 +29,10 @@ public class TurnLogic {
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
 
+    private HudButton uncoverButton;
+    private HudButton cheatButton;
+    private HudButton diceButton;
+
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
         this.player = player;
@@ -39,6 +43,9 @@ public class TurnLogic {
         arrowActors = new ArrowActors(camera);
         turnValueText = new Texture("rollDice.png");
 
+        this.uncoverButton = new HudButton();
+        this.cheatButton = new HudButton();
+        this.diceButton = new HudButton();
     }
 
     public void doTurn() throws IllegalArgumentException {
@@ -79,7 +86,7 @@ public class TurnLogic {
             if (this.player.getRemainingSteps() == 0) {
                 animationCounter = 120;
             }
-            if (Gdx.input.justTouched() && animationCounter == 120) {
+            if (Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd() && animationCounter == 120) {
                 int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
                 this.player.setRemainingSteps(steps);
 
@@ -425,4 +432,15 @@ public class TurnLogic {
         }
     }
 
+    public void setUncoverButton(HudButton uncoverButton) {
+        this.uncoverButton = uncoverButton;
+    }
+
+    public void setCheatButton(HudButton cheatButton) {
+        this.cheatButton = cheatButton;
+    }
+
+    public void setDiceButton(HudButton diceButton) {
+        this.diceButton = diceButton;
+    }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.LabyrixMain;
@@ -36,7 +37,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
         tl = new TurnLogic(isorend, player, camera);
-        hud = new HUD(batch, player);
+        hud = new HUD(player, tl);
 
         //Serverstuff - fill list of other Players
         Player p1 = new Player("Herbert", "DinoPink.png", isorend.getPathFieldByID(1), 70, 180, isorend);
@@ -46,7 +47,6 @@ public class GameScreen implements Screen {
         tl.addPlayer(p1);
         tl.addPlayer(p2);
         tl.addPlayer(p3);
-
     }
 
     @Override
@@ -74,7 +74,6 @@ public class GameScreen implements Screen {
         batch.end();
 
         hud.render(batch);
-        hud.update(player);
     }
 
     public void cameraLerp(OrthographicCamera camera, Vector2 target) {

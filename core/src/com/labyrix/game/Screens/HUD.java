@@ -9,217 +9,319 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.labyrix.game.ENUMS.TrapEventName;
+import com.labyrix.game.ENUMS.TurnValue;
+import com.labyrix.game.Models.HudButton;
 import com.labyrix.game.Models.Player;
+import com.labyrix.game.TurnLogic;
 
 public class HUD {
     private Stage stage;
-    private Stage stageTwo;
     private Viewport viewport;
 
-    private String zugSpieler;
-    private Integer cheatsLeft;
-    private Integer defuse;
-
-    private Label zugSpielerLabel;
-    private Label cheatsLeftLabel;
-    private Label defuseLabel;
-
-    private Label lastEventLabel;
-    private Label secondLastEventLabel;
-    private Label thirdLastEventLabel;
-
-    private String lastEvent;
-    private String secondLastEvent;
-    private String thirdLastEvent;
-
-    private Table tableTopBar;
-    private Table tableSideBar;
+    private String hudSpielerName;          // Zeigt den Spielernamen
+    private String hudTurnval;              // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
+    private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
+    private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
+    private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
 
     private ShapeRenderer shapeRenderer;
     private Label.LabelStyle labelStyle;
 
-    private float scale;
-
     private Player player;
+    private TurnLogic turnLogic;
 
-    SpriteBatch batch;
+    private HudButton uncoverButton;
+    private HudButton cheatButton;
+    private HudButton diceButton;
+    private final Color colorLightGreen;
+    private final Color colorDarkGreen;
+    private final Color colorWhite;
+    private final Color colorRed;
+
+    private int frameCounter;
 
     // https://github.com/libgdx/libgdx/wiki/Table
+    // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
 
-    public HUD(SpriteBatch spriteBatch, Player player){
-        shapeRenderer = new ShapeRenderer();
-        batch = spriteBatch;
-
-        viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
-
-        labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
-
+    public HUD(Player player, TurnLogic turnLogic){
+        this.turnLogic = turnLogic;
         this.player = player;
+        this.shapeRenderer = new ShapeRenderer();
+        this.viewport = new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), new OrthographicCamera());
+        this.labelStyle = new Label.LabelStyle(new BitmapFont(), Color.WHITE);
+        this.uncoverButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
+        this.cheatButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
+        this.diceButton = new HudButton(this.labelStyle, this.shapeRenderer, turnLogic);
 
-        update(player);
+        this.colorLightGreen = new Color(0.36470588f, 0.47058824f, 0.21568627f, 1);
+        this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
+        this.colorWhite = new Color(1, 1, 1, 1);
+        this.colorRed = new Color(1, 0 , 0, 1);
+
+        this.frameCounter = 0;
     }
 
     public void render(SpriteBatch batch) {
-        batch.setProjectionMatrix(stage.getCamera().combined);
+        this.hudSpielerName = this.player.getName();
+        this.hudTurnval = turnvalTranslator(this.turnLogic.getPlayer().getTurnValue());
+        this.hudRemSteps = this.player.getRemainingSteps();
+        this.hudRemFields = this.player.getMaxRemainingFields();                                                  // TODO an algorithm that shows the number of fields remaining to the destination must be called.
+        this.hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();
 
-        //TopBar
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(1, 1, 1, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.85f, Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.1f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.05f);
+        this.stage = new Stage(this.viewport, batch);
+        batch.setProjectionMatrix(this.stage.getCamera().combined);
 
-        shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.855f, Gdx.graphics.getWidth() * 0.9f, Gdx.graphics.getHeight() * 0.09f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.05f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.90f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.end();
+        // top-bars
+        float xCoordinate = Gdx.graphics.getWidth() / 3f;
+        float yCoordinate = Gdx.graphics.getHeight() * 0.91f;
+        float barLenght = Gdx.graphics.getWidth() * 0.28f;
+        float barHeight = Gdx.graphics.getHeight() * 0.08f;
+        float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
-        //SideBar
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(1, 1, 1, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.05f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.7f);
-        shapeRenderer.rect((Gdx.graphics.getWidth() * 0.8f - Gdx.graphics.getHeight() * 0.05f), Gdx.graphics.getHeight() * 0.10f, (Gdx.graphics.getWidth()*0.15f + Gdx.graphics.getHeight() * 0.05f * 2f), Gdx.graphics.getHeight()*0.6f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.05f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.05f);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudSpielerName, true, false);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnval, true, true);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), true, false);
 
-        shapeRenderer.setColor(new Color(0.36470588f, 0.47058824f, 0.21568627f, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.055f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.69f);
-        shapeRenderer.rect(((Gdx.graphics.getWidth() * 0.8f - Gdx.graphics.getHeight() * 0.05f) + Gdx.graphics.getHeight() * 0.005f), Gdx.graphics.getHeight() * 0.10f, ((Gdx.graphics.getWidth()*0.15f + Gdx.graphics.getHeight() * 0.05f * 2f) - Gdx.graphics.getHeight() * 0.01f), Gdx.graphics.getHeight()*0.6f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.70f, Gdx.graphics.getHeight() * 0.045f);
-        shapeRenderer.end();
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), true, false);
+        createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", this.hudReduMvmtSpeedUntil.toString(), true, false);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.08f, Gdx.graphics.getWidth()*0.15f, Gdx.graphics.getHeight()*0.34f);
-        shapeRenderer.rect(Gdx.graphics.getWidth() * 0.8f - Gdx.graphics.getHeight() * 0.02f, Gdx.graphics.getHeight() * 0.1f, Gdx.graphics.getWidth()*0.15f + Gdx.graphics.getHeight() * 0.02f * 2, Gdx.graphics.getHeight()*0.3f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.02f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.10f, Gdx.graphics.getHeight() * 0.02f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.95f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
-        shapeRenderer.circle(Gdx.graphics.getWidth() * 0.8f, Gdx.graphics.getHeight() * 0.40f, Gdx.graphics.getHeight() * 0.02f);
-        shapeRenderer.end();
+        // side-bar
+        xCoordinate = Gdx.graphics.getWidth() * 0.8f;
+        yCoordinate = Gdx.graphics.getHeight() * 0.10f;
+        float radius = Gdx.graphics.getHeight() * 0.05f;
+        barLenght = Gdx.graphics.getWidth() * 0.15f;
+        barHeight = Gdx.graphics.getHeight() * 0.60f;
 
-        stage.draw();
-        stageTwo.draw();
+        createSideBarElement(xCoordinate, yCoordinate, radius, barLenght, barHeight);
 
-
+        this.stage.draw();
     }
 
-    /**
-     * update method should be called every time something changes whats important for the hud
-     *
-     */
+    private String turnvalTranslator (TurnValue turnValue){
+        if (turnValue == TurnValue.DICEROLL){
+            return "Roll the Dice!";
+        } else if (turnValue == TurnValue.MOVEMENT){
+            return "On my way.";
+        } else if (turnValue == TurnValue.PATHSELECTION){
+            return "Select a Path please.";
+        } else if (turnValue == TurnValue.TRAPACTIVATED){
+            TrapEventName currentTrap = this.player.getCurrentField().getTrap().getEvent().getEvent();
 
-    public void update(Player player){
-        stage = new Stage(viewport, batch);
-        stageTwo = new Stage(viewport, batch);
-        scale = 4;
+            if (currentTrap == TrapEventName.ZOMBIE){
+                return "Oh nooo, a Zombie!";
+            } else if (currentTrap == TrapEventName.BOMB){
+                return "A bomb... we'll DIEEE! D:";
+            } else if (currentTrap == TrapEventName.QUICKSAND){
+                return "Quicksand? You serious?";
+            } else if (currentTrap == TrapEventName.DOOR){
+                return "*klick* AAAAAAaaaaaaahh...";
+            }
 
-        //topbar
-        zugSpieler = player.getName();
-        cheatsLeft = player.getRemainingCheats();
-        defuse = player.getMaxRemainingFields();                                                 //TODO method call missing
+        } else if (turnValue == TurnValue.TRAPCHECK){
+            return "Huch?";
+        } else if (turnValue == TurnValue.WON){
+            return "YEEEEEAH :D";
+        }
 
-        tableTopBar = new Table();
-        tableTopBar.bottom();
-        tableTopBar.setFillParent(true);
+        return this.turnLogic.getPlayer().getTurnValue().toString();
+    }
 
-        zugSpielerLabel = new Label("Zug: " + zugSpieler, labelStyle);
-        cheatsLeftLabel = new Label("Cheats left: "+ cheatsLeft, labelStyle);
-        defuseLabel = new Label("Remaining fields: "+defuse, labelStyle);
+    private void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
+        Table tableTopBarElement = new Table();
+        tableTopBarElement.bottom();
+        tableTopBarElement.setFillParent(true);
 
-        zugSpielerLabel.setFontScale(scale);
-        cheatsLeftLabel.setFontScale(scale);
-        defuseLabel.setFontScale(scale);
+        float scaleFont = barHeight * 0.04f;
 
-        float tablePosition = Gdx.graphics.getHeight() * 0.865f;
-        tableTopBar.add(zugSpielerLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(cheatsLeftLabel).expandX().padBottom(tablePosition);
-        tableTopBar.add(defuseLabel).expandX().padBottom(tablePosition);
+        Label currentElementLabel = new Label(labelDescription + labelValue, this.labelStyle);
 
-        stage.addActor(tableTopBar);
+        currentElementLabel.setFontScale(scaleFont);
 
-        //sidebar
-        thirdLastEvent = "Spieler 1" + "\n" + "activated Trap";//secondLastEvent;
-        secondLastEvent = "Spieler 1" + "\n" + "defused Trap";//lastEvent;
-        lastEvent = "Spieler 2" + "\n" + "rolled 5"; //player.getName() + "\n" + player.getRemainingSteps();    //TODO if something happens, it has to be written in here
+        if (textCenter){
+            currentElementLabel.setAlignment(Align.center);
+            tableTopBarElement.add(currentElementLabel).width(barLenght).height(barHeight);
+            tableTopBarElement.setPosition(xCoordinate, yCoordinate);
+            tableTopBarElement.left();
+            tableTopBarElement.setFillParent(true);
+            //tableTopBarElement.debugAll();
+        } else {
+            tableTopBarElement.add(currentElementLabel).expandX().fillX();
+            tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
+            //tableTopBarElement.debugAll();
+        }
 
-        tableSideBar = new Table();
+        this.stage.addActor(tableTopBarElement);
+
+        this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 40) {
+            this.shapeRenderer.setColor(colorRed);
+        } else {
+            this.shapeRenderer.setColor(colorWhite);
+        }
+
+        this.shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHeight);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2);
+
+        float elementEdge = 0.005f;
+        float percentHeight = Gdx.graphics.getHeight() * elementEdge;
+
+        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 15) {
+            this.shapeRenderer.setColor(colorRed);
+        } else {
+            this.shapeRenderer.setColor(colorWhite);
+            if (frameCounter >= 80){
+                frameCounter = 0;
+            }
+        }
+
+        this.shapeRenderer.setColor(colorLightGreen);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHeight - percentHeight*2);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
+
+        this.shapeRenderer.end();
+
+        this.frameCounter++;
+    }
+
+    private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
+        Table tableSideBar = new Table();
+
         tableSideBar.bottom();
         tableSideBar.setFillParent(true);
 
-        lastEventLabel = new Label(lastEvent, labelStyle);
-        secondLastEventLabel = new Label(secondLastEvent, labelStyle);
-        thirdLastEventLabel = new Label(thirdLastEvent, labelStyle);
+        float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f;
 
-        scale *= 0.75f;
-        lastEventLabel.setFontScale(scale);
-        secondLastEventLabel.setFontScale(scale);
-        thirdLastEventLabel.setFontScale(scale);
+        Label description = new Label("Remaining Steps:", this.labelStyle);
+        Label firstMultiplayerPlayer = new Label("Franz: " + 15, this.labelStyle);      //TODO there is no functionality yet. still has to be inserted.
+        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, this.labelStyle);     //TODO there is no functionality yet. still has to be inserted.
+        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, this.labelStyle);        //TODO there is no functionality yet. still has to be inserted.
 
-        //tablePosition = Gdx.graphics.getWidth() * 0.75f ;
-        tableSideBar.defaults().width(Gdx.graphics.getWidth()* (-0.6f));
-        tableSideBar.add(thirdLastEventLabel).padBottom(5);
+        description.setFontScale(scaleFont);
+        firstMultiplayerPlayer.setFontScale(scaleFont);
+        secondMultiplayerPlayer.setFontScale(scaleFont);
+        thirdMultiplayerPlayer.setFontScale(scaleFont);
+
+        tableSideBar.add(description).expandX().fillX();
         tableSideBar.row();
-        tableSideBar.add(secondLastEventLabel).padBottom(5);;
+        tableSideBar.add(firstMultiplayerPlayer).expandX().fillX();
         tableSideBar.row();
-        tableSideBar.add(lastEventLabel).padBottom(Gdx.graphics.getHeight() * 0.09f);;
+        tableSideBar.add(secondMultiplayerPlayer).expandX().fillX();
+        tableSideBar.row();
+        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
+        tableSideBar.setPosition(xCoordinate, yCoordinate);
+        //tableSideBar.debugAll();
 
-        stageTwo.addActor(tableSideBar);
+        this.stage.addActor(tableSideBar);
+
+        float elementEdge = 0.005f;
+        float percentHeight = Gdx.graphics.getHeight() * elementEdge;
+
+        this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        this.shapeRenderer.setColor(colorWhite);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
+
+        this.shapeRenderer.setColor(colorLightGreen);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius - percentHeight);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius - percentHeight);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLenght, barHeight + radius * 2f - percentHeight * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLenght + radius * 2f - percentHeight * 2f, barHeight);
+
+        radius = radius * 0.5f;
+        barHeight = barHeight / 4f;
+
+        this.shapeRenderer.setColor(colorDarkGreen);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
+        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
+        this.shapeRenderer.end();
+
+        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL)); // TODO aufruf in render verschieben
+        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+
+        this.turnLogic.setUncoverButton(this.uncoverButton);
+        this.turnLogic.setCheatButton(this.cheatButton);
+        this.turnLogic.setDiceButton(this.diceButton);
     }
 
-    public String getZugSpieler() {
-        return zugSpieler;
+    public String getHudSpielerName() {
+        return this.hudSpielerName;
     }
 
-    public void setZugSpieler(String zugSpieler) {
-        this.zugSpieler = zugSpieler;
+    public void setHudSpielerName(String spielerName) {
+        this.hudSpielerName = spielerName;
     }
 
-    public Integer getCheatsLeft() {
-        return cheatsLeft;
+    public String getHudTurnval() {
+        return this.hudTurnval;
     }
 
-    public void setCheatsLeft(Integer cheatsLeft) {
-        this.cheatsLeft = cheatsLeft;
+    public void setHudTurnval(String turnval) {
+        this.hudTurnval = turnval;
     }
 
-    public Integer getDefuse() {
-        return defuse;
+    public Integer getHudRemSteps() {
+        return this.hudRemSteps;
     }
 
-    public void setDefuse(Integer defuse) {
-        this.defuse = defuse;
+    public void setHudRemSteps(Integer remSteps) {
+        this.hudRemSteps = remSteps;
     }
 
-    public String getLastEvent() {
-        return lastEvent;
+    public Integer getHudRemFields() {
+        return hudRemFields;
     }
 
-    public void setLastEvent(String lastEvent) {
-        this.lastEvent = lastEvent;
+    public void setHudRemFields(Integer hudRemFields) {
+        this.hudRemFields = hudRemFields;
     }
 
-    public String getSecondLastEvent() {
-        return secondLastEvent;
+    public Integer getHudReduMvmtSpeedUntil() {
+        return hudReduMvmtSpeedUntil;
     }
 
-    public void setSecondLastEvent(String secondLastEvent) {
-        this.secondLastEvent = secondLastEvent;
+    public void setHudReduMvmtSpeedUntil(Integer hudReduMvmtSpeedUntil) {
+        this.hudReduMvmtSpeedUntil = hudReduMvmtSpeedUntil;
     }
 
-    public String getThirdLastEvent() {
-        return thirdLastEvent;
+    public HudButton getUncoverButton() {
+        return uncoverButton;
     }
 
-    public void setThirdLastEvent(String thirdLastEvent) {
-        this.thirdLastEvent = thirdLastEvent;
+    public void setUncoverButton(HudButton uncoverButton) {
+        this.uncoverButton = uncoverButton;
+    }
+
+    public HudButton getCheatButton() {
+        return cheatButton;
+    }
+
+    public void setCheatButton(HudButton cheatButton) {
+        this.cheatButton = cheatButton;
+    }
+
+    public HudButton getDiceButton() {
+        return diceButton;
+    }
+
+    public void setDiceButton(HudButton diceButton) {
+        this.diceButton = diceButton;
     }
 }

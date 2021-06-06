@@ -9,22 +9,31 @@ import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.TurnLogic;
 
 public class HudButton {
-    Label.LabelStyle labelStyle;
-    ShapeRenderer shapeRenderer;
-    TurnLogic turnLogic;
-    float xCoordinateButtonBegin = 0;
-    float yCoordinateButtonBegin = 0;
-    float xCoordinateButtonEnd = 0;
-    float yCoordinateButtonEnd = 0;
+    private Label.LabelStyle labelStyle;
+    private ShapeRenderer shapeRenderer;
+    private TurnLogic turnLogic;
+    private float xCoordinateButtonBegin = 0;
+    private float yCoordinateButtonBegin = 0;
+    private float xCoordinateButtonEnd = 0;
+    private float yCoordinateButtonEnd = 0;
+    private final Color colorGray;
+    private final Color colorDarkGreen;
+    private final Color colorWhite;
 
 
     public HudButton(Label.LabelStyle labelStyle, ShapeRenderer shapeRenderer, TurnLogic turnLogic){
         this.labelStyle = labelStyle;
         this.shapeRenderer = shapeRenderer;
         this.turnLogic = turnLogic;
+        this.colorGray = new Color(0.53333333f, 0.53333333f, 0.53333333f, 1);
+        this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
+        this.colorWhite = new Color(1, 1, 1, 1);
     }
 
     public HudButton(){
+        this.colorGray = new Color(0.53333333f, 0.53333333f, 0.53333333f, 1);
+        this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
+        this.colorWhite = new Color(1, 1, 1, 1);
     }
 
     public Table buttonCreation (String name, float scaleFont, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue) {
@@ -38,14 +47,14 @@ public class HudButton {
         yCoordinateButtonEnd = yCoordinate + height * 1.05f + height * 0.9f;
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(new Color(1, 1, 1, 1));
+        shapeRenderer.setColor(colorWhite);
         shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
 
         if (turnLogic.getTurnValue().equals(turnValue)) {
-            shapeRenderer.setColor(new Color(0.07843137f, 0.10980292f, 0, 1));
+            shapeRenderer.setColor(colorDarkGreen);
             shapeRenderer.rect(xCoordinateButtonBegin, yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
         } else {
-            shapeRenderer.setColor(new Color(0.53333333f, 0.53333333f, 0.53333333f, 1));
+            shapeRenderer.setColor(colorGray);
             shapeRenderer.rect(xCoordinateButtonBegin, yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
             name = "Wait...";
         }

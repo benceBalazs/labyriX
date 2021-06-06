@@ -29,7 +29,7 @@ public class TrapEvent {
                 defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
             case DOOR:
-                this.eventImage = new Image("door.png");
+                this.eventImage = new Image("cage.png");
                 defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
@@ -42,14 +42,12 @@ public class TrapEvent {
     }
 
     public TrapEventName randomTrapEvent() {
-        //return TrapEventName.BOMB;
-        return TrapEventName.ZOMBIE;
-        //return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
+        return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
     public boolean TrapDefuse() throws InterruptedException {
         boolean result = false;
-        this.sensorDefuse = new MovementDefuse();
+        this.sensorDefuse = new MovementDefuse(3f,3f,TrapEventName.DOOR);
 
         switch (defuseMethod){
             case DEFUSEBOMB:
@@ -64,7 +62,7 @@ public class TrapEvent {
                 result = sensorDefuse.dontMove();
                 break;
             case WAVE:
-                result = sensorDefuse.wave();
+                //result = sensorDefuse.wave();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + defuseMethod);

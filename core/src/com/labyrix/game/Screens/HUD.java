@@ -192,6 +192,7 @@ public class HUD {
 
     private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
         Table tableSideBar = new Table();
+
         tableSideBar.bottom();
         tableSideBar.setFillParent(true);
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.Player;
@@ -37,21 +38,41 @@ public class GameScreen implements Screen {
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
         tl = new TurnLogic(isorend, player, camera);
         hud = new HUD(player, tl);
+
+        //Serverstuff - fill list of other Players
+        Player p1 = new Player("Herbert", "DinoPink.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+        Player p2 = new Player("Hubert", "DinoOrange.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+        Player p3 = new Player("Hubsi", "DinoBlue.png", isorend.getPathFieldByID(1), 70, 180, isorend);
+
+        tl.addPlayer(p1);
+        tl.addPlayer(p2);
+        tl.addPlayer(p3);
     }
 
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
         batch.setProjectionMatrix(camera.combined);
-
         batch.begin();
         isorend.drawGround();
         tl.doTurn();
-        player.render(batch);
+        if (tl.getTrapRender().getStage().getActors().size == 0||tl.getTrapRender().getStage().getActors() == null){
+            for (Player p: tl.getPlayers()) {
+                p.render(batch);
+            }
+            player.render(batch);
+        }
+        /*if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
+            tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
+
+        }*/
         cameraLerp( camera, player.getPosition());
-        tl.getArrowActors().render();
-        tl.getBombRender().render();
+        if (tl.getArrowActors() != null) {
+            tl.getArrowActors().render();
+        }
+        tl.getTrapRender().render();
         batch.end();
+
         hud.render(batch);
     }
 

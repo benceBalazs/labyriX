@@ -50,7 +50,7 @@ public class HudButton {
         shapeRenderer.setColor(colorWhite);
         shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
 
-        if (turnLogic.getTurnValue().equals(turnValue)) {
+        if (turnLogic.getPlayer().getTurnValue().equals(turnValue)) {
             shapeRenderer.setColor(colorDarkGreen);
             shapeRenderer.rect(xCoordinateButtonBegin, yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
         } else {

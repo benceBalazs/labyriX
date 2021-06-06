@@ -67,9 +67,9 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         this.hudSpielerName = this.player.getName();
-        this.hudTurnval = turnvalTranslator(this.turnLogic.getTurnValue());
+        this.hudTurnval = turnvalTranslator(this.turnLogic.getPlayer().getTurnValue());
         this.hudRemSteps = this.player.getRemainingSteps();
-        this.hudRemFields = 8;                                                  // TODO an algorithm that shows the number of fields remaining to the destination must be called.
+        this.hudRemFields = this.player.getMaxRemainingFields();                                                  // TODO an algorithm that shows the number of fields remaining to the destination must be called.
         this.hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();
 
         this.stage = new Stage(this.viewport, batch);
@@ -84,9 +84,9 @@ public class HUD {
 
         createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudSpielerName, true, false);
         createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnval, true, true);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), false, false);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), true, false);
 
-        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), false, false);
+        createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), true, false);
         createTopBarElement(xCoordinate - barLenght / 2 + xCoordinate, yCoordinateLowerBar, barLenght, barHeight, "Debuff until: ", this.hudReduMvmtSpeedUntil.toString(), true, false);
 
         // side-bar
@@ -127,7 +127,7 @@ public class HUD {
             return "YEEEEEAH :D";
         }
 
-        return this.turnLogic.getTurnValue().toString();
+        return this.turnLogic.getPlayer().getTurnValue().toString();
     }
 
     private void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
@@ -158,7 +158,7 @@ public class HUD {
 
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        if (signal && turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 40) {
+        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 40) {
             this.shapeRenderer.setColor(colorRed);
         } else {
             this.shapeRenderer.setColor(colorWhite);
@@ -171,7 +171,7 @@ public class HUD {
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
-        if (signal && turnLogic.getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 15) {
+        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 15) {
             this.shapeRenderer.setColor(colorRed);
         } else {
             this.shapeRenderer.setColor(colorWhite);

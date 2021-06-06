@@ -229,6 +229,7 @@ public class Board {
             fields[14][21].addFollowingFields((PathField) fields[14][22]);
 
             fields[14][12].addFollowingFields((PathField) fields[15][12]);
+            fields[15][12].addFollowingFields((PathField) fields[16][12]);
             fields[16][12].addFollowingFields((PathField) fields[17][12]);
 
             fields[17][12].addFollowingFields((PathField) fields[17][13]);

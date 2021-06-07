@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
-import com.labyrix.game.Models.Player;
+import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Network.ClientNetworkHandler;
 
 import java.util.ArrayList;
@@ -36,11 +36,12 @@ public class LobbyScreen extends ScreenAdapter {
     private TextButton buttonPlay, playerProfile1, playerProfile2, playerProfile3, playerProfile4;
     private Image logoImg, backgroundImg;
     private Label lobbycode;
-    private ArrayList<Player> players = new ArrayList<>();
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<>();
     public ClientNetworkHandler clientNetworkHandler;
     public Client client;
     private String lobbyCodeReturn;
     private JoinScreen joinScreen;
+    private boolean inLobby;
 
     public LobbyScreen(JoinScreen joinScreen) {
         this.joinScreen = joinScreen;
@@ -49,14 +50,15 @@ public class LobbyScreen extends ScreenAdapter {
         clientNetworkHandler = ClientNetworkHandler.getInstance();
         clientNetworkHandler.addLobbyToClient(this);
         client = clientNetworkHandler.getClient();
+        inLobby = false;
     }
 
-    public ArrayList<Player> getPlayers() {
-        return players;
+    public ArrayList<NetworkPlayer> getNetworkPlayers() {
+        return networkPlayers;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
+    public void setNetworkPlayers(ArrayList<NetworkPlayer> networkPlayers) {
+        this.networkPlayers = networkPlayers;
     }
 
     public Label getLobbycode() {
@@ -67,20 +69,27 @@ public class LobbyScreen extends ScreenAdapter {
         this.lobbycode.setText("Code: "+lobbycode);
     }
 
+    public boolean isInLobby() {
+        return inLobby;
+    }
+
+    public void setInLobby(boolean inLobby) {
+        this.inLobby = inLobby;
+    }
+
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.clear();
-        this.players = joinScreen.getPlayers();
         this.lobbyCodeReturn = joinScreen.getLobbyCodeReturn();
         this.skinMedium = new Skin();
         this.skinMedium.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
         this.skinMedium.add("default-font", labyrixMain.getFontMedium());
         this.skinMedium.load(Gdx.files.internal("ui/uiskins.json"));
         initScreen();
-        for (int i = 1; i <= 4; i++) {
-            addPlayerToLobby(i);
-        }
+        this.networkPlayers.addAll(joinScreen.getNetworkPlayers());
+        updatePlayers(networkPlayers.size());
+        inLobby = true;
     }
 
     private void update(float delta) {
@@ -120,33 +129,122 @@ public class LobbyScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    public void addPlayerToLobby(Integer player) {
+    public void updatePlayers(int size) {
         //TODO serverToClient --> JoinRespone in Lobby
-        switch (player){
-            case(1):    //playerProfile1 = new TextButton(players.get(0).getName(), skinMedium, "default");
-                playerProfile1 = new TextButton("Player1", skinMedium, "default");
+        if(playerProfile1 != null){
+            stage.getActors().removeValue(playerProfile1,true);
+        }
+        if(playerProfile2 != null){
+            stage.getActors().removeValue(playerProfile2,true);
+        }
+        if(playerProfile3 != null){
+            stage.getActors().removeValue(playerProfile3,true);
+        }
+        if(playerProfile4 != null){
+            stage.getActors().removeValue(playerProfile4,true);
+        }
+        switch (size){
+            case(1):
+                playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
                 playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
                 playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile1);
-                break;
-            case(2):    //playerProfile2 = new TextButton(players.get(1).getName(), skinMedium, "default");
-                playerProfile2 = new TextButton("Player2", skinMedium, "default");
+
+                playerProfile2 = new TextButton("Waiting ....", skinMedium, "default");
+                playerProfile2.setColor(Color.GRAY);
                 playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
                 playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile2);
-                break;
-            case(3):    //playerProfile3 = new TextButton(players.get(2).getName(), skinMedium, "default");
-                playerProfile3 = new TextButton("Player3", skinMedium, "default");
+
+                playerProfile3 = new TextButton("Waiting ....", skinMedium, "default");
+                playerProfile3.setColor(Color.GRAY);
                 playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
                 playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile3);
-                break;
-            case(4):    //playerProfile4 = new TextButton(players.get(3).getName(), skinMedium, "default");
-                playerProfile4 = new TextButton("Waiting...", skinMedium, "default");
+
+                playerProfile4 = new TextButton("Waiting ....", skinMedium, "default");
                 playerProfile4.setColor(Color.GRAY);
+                playerProfile4.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile4.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*1.875f);
+                playerProfile4.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile4);
+                break;
+            case(2):
+                playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
+                playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile1);
+
+                playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
+                playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile2);
+
+                playerProfile3 = new TextButton("Waiting ....", skinMedium, "default");
+                playerProfile3.setColor(Color.GRAY);
+                playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
+                playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile3);
+
+                playerProfile4 = new TextButton("Waiting ....", skinMedium, "default");
+                playerProfile4.setColor(Color.GRAY);
+                playerProfile4.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile4.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*1.875f);
+                playerProfile4.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile4);
+                break;
+            case(3):
+                playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
+                playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile1);
+
+                playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
+                playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile2);
+
+                playerProfile3 = new TextButton(networkPlayers.get(2).getName(), skinMedium, "default");
+                playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
+                playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile3);
+
+                playerProfile4 = new TextButton("Waiting ....", skinMedium, "default");
+                playerProfile4.setColor(Color.GRAY);
+                playerProfile4.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile4.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*1.875f);
+                playerProfile4.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile4);
+                break;
+            case(4):
+                playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
+                playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile1);
+
+                playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
+                playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile2);
+
+                playerProfile3 = new TextButton(networkPlayers.get(2).getName(), skinMedium, "default");
+                playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
+                playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
+                playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+                stage.addActor(playerProfile3);
+
+                playerProfile4 = new TextButton(networkPlayers.get(3).getName(), skinMedium, "default");
                 playerProfile4.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile4.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*1.875f);
                 playerProfile4.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));

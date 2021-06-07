@@ -39,6 +39,11 @@ public class Player {
         }
     }
 
+    public Player(String name, String playerImagePath) {
+        this.name = name;
+        this.playerImage = new Image(playerImagePath);
+    }
+
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
         maxRemainingFields = maxPathLength(currentField);
@@ -168,6 +173,13 @@ public class Player {
         return minRemainingFields;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public TurnValue getTurnValue() {
         return turnValue;

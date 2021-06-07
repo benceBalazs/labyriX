@@ -8,10 +8,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.Player;
+import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.TurnLogic;
 
 public class GameScreen implements Screen {
@@ -24,9 +26,14 @@ public class GameScreen implements Screen {
     private int cameraWidth = Gdx.graphics.getWidth();
     private TurnLogic tl;
     private HUD hud;
+    private ClientNetworkHandler clientNetworkHandler;
+    private Client client;
 
     public GameScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
+        clientNetworkHandler = ClientNetworkHandler.getInstance();
+        clientNetworkHandler.addGameToClient(this);
+        client = clientNetworkHandler.getClient();
     }
 
     @Override

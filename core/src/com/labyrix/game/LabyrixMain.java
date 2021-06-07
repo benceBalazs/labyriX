@@ -8,6 +8,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.esotericsoftware.kryonet.Client;
+import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LoadingScreen;
@@ -30,6 +32,8 @@ public class LabyrixMain extends Game {
 	private LobbyScreen lobbyScreen;
 	private JoinScreen joinScreen;
 	private BitmapFont fontBig, fontMedium, fontMediumError;
+	private ClientNetworkHandler clientNetworkHandler;
+	private Client client;
 
 	LabyrixMain(){
 
@@ -50,6 +54,8 @@ public class LabyrixMain extends Game {
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
 		assets = new AssetManager();
 		splashScreen = new SplashScreen();
+		clientNetworkHandler = ClientNetworkHandler.getInstance();
+		client = clientNetworkHandler.getClient();
 		gameScreen = new GameScreen();
 		loadingScreen = new LoadingScreen();
 		titleScreen = new TitleScreen();

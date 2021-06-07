@@ -1,17 +1,22 @@
 package com.labyrix.game.Network;
 
+import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
+import com.labyrix.game.NetworkModels.LobbyCreateRequest;
+import com.labyrix.game.NetworkModels.LobbyCreateResponse;
+import com.labyrix.game.NetworkModels.LobbyJoinRequest;
+import com.labyrix.game.NetworkModels.LobbyJoinResponse;
+import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
+import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LobbyScreen;
-import com.labyrix.game.Screens.TitleScreen;
 
 import java.io.IOException;
 
 public class ClientNetworkHandler {
     private static Client client;
     private static ClientNetworkHandler handler;
-    private LobbyScreen lobbyscreen;
-    private JoinScreen joinScreen;
+    private ClientRequestListener clientRequestListener;
 
     private ClientNetworkHandler(){ }
 
@@ -25,7 +30,17 @@ public class ClientNetworkHandler {
     public Client getClient(){
         if (client == null) {
             client = new Client();
-            client.addListener(new ClientRequestListener(client));
+            Kryo kryo = client.getKryo();
+            kryo.register(LobbyCreateRequest.class);
+            kryo.register(LobbyCreateResponse.class);
+            kryo.register(LobbyJoinRequest.class);
+            kryo.register(LobbyJoinResponse.class);
+            kryo.register(LobbyLeaveResponse.class);
+            kryo.register(com.labyrix.game.Models.NetworkPlayer.class);
+            kryo.register(java.util.ArrayList.class);
+            kryo.register(com.labyrix.game.ENUMS.TurnValue.class);
+            clientRequestListener = new ClientRequestListener(client);
+            client.addListener(clientRequestListener);
         }
         return client;
     }
@@ -33,17 +48,21 @@ public class ClientNetworkHandler {
     public void startConnection(){
         new Thread(client).start();
         try {
-            client.connect(6000, "yourIpAddress", ClientNetworkConfig.TCP, ClientNetworkConfig.UDP);
+            client.connect(6000, "192.168.0.206", ClientNetworkConfig.TCP);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void addJoinToClient(JoinScreen joinScreen) {
-        this.joinScreen = joinScreen;
+        this.clientRequestListener.addJoinToListener(joinScreen);
     }
 
     public void addLobbyToClient(LobbyScreen lobbyScreen) {
-        this.lobbyscreen = lobbyScreen;
+        this.clientRequestListener.addLobbyToListener(lobbyScreen);
+    }
+
+    public void addGameToClient(GameScreen gameScreen) {
+        this.clientRequestListener.addGameToListener(gameScreen);
     }
 }

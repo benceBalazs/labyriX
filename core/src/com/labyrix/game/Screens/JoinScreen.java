@@ -17,9 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
+import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.Models.TextFieldFilter;
 import com.labyrix.game.Network.ClientNetworkHandler;
+import com.labyrix.game.NetworkModels.LobbyCreateRequest;
+import com.labyrix.game.NetworkModels.LobbyJoinRequest;
 
 import java.util.ArrayList;
 
@@ -37,10 +40,10 @@ public class JoinScreen implements Screen {
     private TextField username, lobbyCode;
     private TextButton buttonJoin, buttonCreate;
     private Image backgroundImg;
-    private ArrayList<Player> players = new ArrayList<>();
     private ClientNetworkHandler clientNetworkHandler;
     private Client client;
     private String lobbyCodeReturn;
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<>();
 
     public JoinScreen(){
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -67,6 +70,7 @@ public class JoinScreen implements Screen {
         this.skinMediumError.add("default-font", labyrixMain.getFontMediumError());
         this.skinMediumError.load(Gdx.files.internal("ui/uiskins.json"));
         initScreen();
+        clientNetworkHandler.startConnection();
     }
 
     @Override
@@ -75,6 +79,10 @@ public class JoinScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
+    }
+
+    public void changeToLobby(){
+        labyrixMain.setScreen(labyrixMain.getLobbyScreen());
     }
 
     private void initScreen() {
@@ -92,9 +100,11 @@ public class JoinScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if(!username.getText().equals("") && !lobbyCode.getText().equals("")){
-                    clientNetworkHandler.startConnection();
                     //TODO client send JoinRequest
-                    labyrixMain.setScreen(labyrixMain.getLobbyScreen());
+                    networkPlayers.add(new NetworkPlayer(username.getText(),"DinoOrange.png"));
+                    setLobbyCodeReturn(lobbyCode.getText());
+                    LobbyJoinRequest lobbyJoinRequest = new LobbyJoinRequest(networkPlayers.get(0),Integer.parseInt(lobbyCode.getText()));
+                    client.sendTCP(lobbyJoinRequest);
                 } else if(username.getText().equals("")) {
                     username = new TextField("", skinMediumError);
                     username.setMessageText("Enter Username");
@@ -140,7 +150,9 @@ public class JoinScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 if(!username.getText().equals("")){
                     //TODO client send CreateRequest
-                    labyrixMain.setScreen(labyrixMain.getLobbyScreen());
+                    networkPlayers.add(new NetworkPlayer(username.getText(),"DinoOrange.png"));
+                    LobbyCreateRequest lobbyCreateRequest = new LobbyCreateRequest(networkPlayers.get(0));
+                    client.sendTCP(lobbyCreateRequest);
                 } else if(username.getText().equals("")) {
                     stage.getActors().removeValue(username,true);
                     username = new TextField("", skinMediumError);
@@ -211,20 +223,20 @@ public class JoinScreen implements Screen {
         stage.addActor(lobbyCodeLabel);
     }
 
+    public ArrayList<NetworkPlayer> getNetworkPlayers() {
+        return networkPlayers;
+    }
+
+    public void setNetworkPlayers(ArrayList<NetworkPlayer> networkPlayers) {
+        this.networkPlayers = networkPlayers;
+    }
+
     public String getLobbyCodeReturn() {
         return lobbyCodeReturn;
     }
 
     public void setLobbyCodeReturn(String lobbyCodeReturn) {
         this.lobbyCodeReturn = lobbyCodeReturn;
-    }
-
-    public ArrayList<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
     }
 
     @Override

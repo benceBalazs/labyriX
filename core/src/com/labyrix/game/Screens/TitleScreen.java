@@ -69,7 +69,7 @@ public class TitleScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 /*TODO Change back to joinScreen*/
-                labyrixMain.setScreen(labyrixMain.getJoinScreen());
+                labyrixMain.setScreen(labyrixMain.getGameScreen());
             }
         });
 

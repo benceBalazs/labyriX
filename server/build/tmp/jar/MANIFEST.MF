@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Implementation-Title: Labyrix official Server
-Main-Class: com.labyrix.server.Main
-

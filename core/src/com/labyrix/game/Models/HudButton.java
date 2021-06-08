@@ -19,7 +19,7 @@ public class HudButton {
     private final Color colorGray;
     private final Color colorDarkGreen;
     private final Color colorWhite;
-
+    private boolean isAktiv;
 
     public HudButton(Label.LabelStyle labelStyle, ShapeRenderer shapeRenderer, TurnLogic turnLogic){
         this.labelStyle = labelStyle;
@@ -28,12 +28,14 @@ public class HudButton {
         this.colorGray = new Color(0.53333333f, 0.53333333f, 0.53333333f, 1);
         this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
         this.colorWhite = new Color(1, 1, 1, 1);
+        this.isAktiv = true;
     }
 
     public HudButton(){
         this.colorGray = new Color(0.53333333f, 0.53333333f, 0.53333333f, 1);
         this.colorDarkGreen = new Color(0.07843137f, 0.10980292f, 0, 1);
         this.colorWhite = new Color(1, 1, 1, 1);
+        this.isAktiv = true;
     }
 
     public Table buttonCreation (String name, float scaleFont, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue, int terminationCondition) {
@@ -50,17 +52,17 @@ public class HudButton {
         this.shapeRenderer.setColor(colorWhite);
         this.shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
 
-        if (this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0) {
+        if (this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0  && isAktiv) {
             this.shapeRenderer.setColor(this.colorDarkGreen);
             this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
-        } else {
+        } else if (!this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0 || !isAktiv){
             this.shapeRenderer.setColor(this.colorGray);
             this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
-            if (terminationCondition > 0) {
-                name = "Wait...";
-            } else {
-                name = "Inactiv";
-            }
+            name = "Wait...";
+        } else if (terminationCondition <= 0){
+            this.shapeRenderer.setColor(this.colorGray);
+            this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
+            name = "Inactiv";
         }
         this.shapeRenderer.end();
 
@@ -92,5 +94,9 @@ public class HudButton {
 
     public float getyCoordinateButtonEnd() {
         return yCoordinateButtonEnd;
+    }
+
+    public void setAktiv(boolean aktiv) {
+        isAktiv = aktiv;
     }
 }

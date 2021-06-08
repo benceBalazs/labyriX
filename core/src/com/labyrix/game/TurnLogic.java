@@ -123,6 +123,7 @@ public class TurnLogic {
                 this.player.setCounterReducedMovementSpeed(0);
                 this.player.setRemainingCheats(this.player.getRemainingCheats()-1);
                 this.clicker = false;
+                this.cheatButton.setAktiv(false);
             }
 
             if (this.animationCounter > 0 && this.player.getRemainingSteps() > 0) {
@@ -144,6 +145,7 @@ public class TurnLogic {
     public void move() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
             this.clicker = true;
+            this.cheatButton.setAktiv(true);
 
             if (this.getArrowActors().getArrowActorDown() != null) {
                 this.getArrowActors().setArrowActorDown(null);
@@ -453,9 +455,5 @@ public class TurnLogic {
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
-    }
-
-    public boolean isClicker() {
-        return clicker;
     }
 }

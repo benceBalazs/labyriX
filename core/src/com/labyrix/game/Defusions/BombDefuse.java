@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.labyrix.game.LabyrixMain;
 
+import java.util.ArrayList;
+
 public class BombDefuse extends Actor {
     private final LabyrixMain labyrixMain;
     private String bombcode;
@@ -18,6 +20,7 @@ public class BombDefuse extends Actor {
     private Skin skin;
     private Table table;
     private TextButton buttonOne, buttonTwo, buttonThree, buttonFour, buttonFive, buttonSix, buttonSeven, buttonEight, buttonNine, clear;
+    private ArrayList<TextButton> numpadButtons = new ArrayList<TextButton>();
     private TextField userinputTextfield, bombcodeTextfield;
     private boolean bombDefuse;
 
@@ -49,78 +52,89 @@ public class BombDefuse extends Actor {
         userinputTextfield.setText(userinput);
         userinputTextfield.setAlignment(1);
 
-        buttonOne = new TextButton("1",skin);
-        buttonTwo = new TextButton("2", skin);
-        buttonThree = new TextButton("3", skin);
-        buttonFour = new TextButton("4",skin);
-        buttonFive = new TextButton("5", skin);
-        buttonSix = new TextButton("6", skin);
-        buttonSeven = new TextButton("7",skin);
-        buttonEight = new TextButton("8", skin);
-        buttonNine = new TextButton("9", skin);
+        for (int i = 1; i <= 9; i++) {
+            numpadButtons.add(new TextButton("" + i,skin));
+        }
         clear = new TextButton("clear", skin);
 
-        buttonOne.addListener(new ClickListener() {
+        numpadButtons.get(0).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 1;
-                updateUserInputTextField();
-            }
-
-        } );
-        buttonTwo.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                userinput += 2;
+                if (userinput.length()<4){
+                    userinput += 1;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonThree.addListener(new ClickListener() {
+        numpadButtons.get(1).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 3;
+                if (userinput.length()<4){
+                    userinput += 2;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonFour.addListener(new ClickListener() {
+        numpadButtons.get(2).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 4;
+                if (userinput.length()<4){
+                    userinput += 3;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonFive.addListener(new ClickListener() {
+        numpadButtons.get(3).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 5;
+                if (userinput.length()<4){
+                    userinput += 4;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonSix.addListener(new ClickListener() {
+        numpadButtons.get(4).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 6;
+                if (userinput.length()<4){
+                    userinput += 5;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonSeven.addListener(new ClickListener() {
+        numpadButtons.get(5).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 7;
+                if (userinput.length()<4){
+                    userinput += 6;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonEight.addListener(new ClickListener() {
+        numpadButtons.get(6).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 8;
+                if (userinput.length()<4){
+                    userinput += 7;
+                }
                 updateUserInputTextField();
             }
         } );
-        buttonNine.addListener(new ClickListener() {
+        numpadButtons.get(7).addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                userinput += 9;
+                if (userinput.length()<4){
+                    userinput += 8;
+                }
+                updateUserInputTextField();
+            }
+        } );
+        numpadButtons.get(8).addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (userinput.length()<4){
+                    userinput += 9;
+                }
                 updateUserInputTextField();
             }
         } );
@@ -136,17 +150,17 @@ public class BombDefuse extends Actor {
         table.add(userinputTextfield).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(clear).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.row();
-        table.add(buttonOne).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonTwo).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonThree).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(0)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(1)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(2)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.row();
-        table.add(buttonFour).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonFive).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonSix).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(3)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(4)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(5)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.row();
-        table.add(buttonSeven).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonEight).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
-        table.add(buttonNine).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(6)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(7)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
+        table.add(numpadButtons.get(8)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
     }
 
     public boolean bombResult(){
@@ -166,7 +180,8 @@ public class BombDefuse extends Actor {
 
     private void updateUserInputTextField() {
         userinputTextfield.setText(userinput);
-        if (bombcode.contains(userinput)){
+        String bombcodePart = bombcode.substring(0, userinput.length());
+        if (bombcodePart.contains(userinput)){
             userinputTextfield.setColor(0,255,0,5);
         }
         else userinputTextfield.setColor(255,0,0,5);

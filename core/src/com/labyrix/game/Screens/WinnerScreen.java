@@ -29,7 +29,7 @@ public class WinnerScreen implements Screen {
     private Skin skin;
     private Image backgroundImg;
     private TextButton buttonBackToTitleScreen;
-    private Image logoImg;
+    private Image winnerImg;
 
     public WinnerScreen() {
         this.labyrixMain= LabyrixMain.getINSTANCE();
@@ -73,8 +73,15 @@ public class WinnerScreen implements Screen {
             }
         });
 
+        Texture splashTex = labyrixMain.getAssets().get("winnerImg.png", Texture.class);
+        winnerImg = new Image(splashTex);
+        winnerImg.setSize(labyrixMain.getWIDTH()/1.5f,labyrixMain.getHEIGHT()/3f );
+        winnerImg.setPosition(labyrixMain.getWIDTH()/2f-winnerImg.getWidth()/2, labyrixMain.getHEIGHT()/2f);
+        winnerImg.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+
         stage.addActor(backgroundImg);
         stage.addActor(buttonBackToTitleScreen);
+        stage.addActor(winnerImg);
     }
 
     @Override

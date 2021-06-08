@@ -36,31 +36,35 @@ public class HudButton {
         this.colorWhite = new Color(1, 1, 1, 1);
     }
 
-    public Table buttonCreation (String name, float scaleFont, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue) {
+    public Table buttonCreation (String name, float scaleFont, float xCoordinate, float yCoordinate, float lenght, float height, float edge, TurnValue turnValue, int terminationCondition) {
         Table tableSideBarButton = new Table();
         tableSideBarButton.bottom();
         tableSideBarButton.setFillParent(true);
 
-        xCoordinateButtonBegin = xCoordinate + edge;
-        xCoordinateButtonEnd = xCoordinate + edge + lenght - edge * 2f;
-        yCoordinateButtonBegin = yCoordinate + height * 1.05f;
-        yCoordinateButtonEnd = yCoordinate + height * 1.05f + height * 0.9f;
+        this.xCoordinateButtonBegin = xCoordinate + edge;
+        this.xCoordinateButtonEnd = xCoordinate + edge + lenght - edge * 2f;
+        this.yCoordinateButtonBegin = yCoordinate + height * 1.05f;
+        this.yCoordinateButtonEnd = yCoordinate + height * 1.05f + height * 0.9f;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(colorWhite);
-        shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
+        this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        this.shapeRenderer.setColor(colorWhite);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, lenght, height * 0.9f);
 
-        if (turnLogic.getPlayer().getTurnValue().equals(turnValue)) {
-            shapeRenderer.setColor(colorDarkGreen);
-            shapeRenderer.rect(xCoordinateButtonBegin, yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
+        if (this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0) {
+            this.shapeRenderer.setColor(this.colorDarkGreen);
+            this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
         } else {
-            shapeRenderer.setColor(colorGray);
-            shapeRenderer.rect(xCoordinateButtonBegin, yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
-            name = "Wait...";
+            this.shapeRenderer.setColor(this.colorGray);
+            this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, lenght - edge * 2f, height * 0.9f - edge * 2f);
+            if (terminationCondition > 0) {
+                name = "Wait...";
+            } else {
+                name = "Inactiv";
+            }
         }
-        shapeRenderer.end();
+        this.shapeRenderer.end();
 
-        Label buttonName = new Label(name, labelStyle);
+        Label buttonName = new Label(name, this.labelStyle);
 
         buttonName.setFontScale(scaleFont*1.3f);
 

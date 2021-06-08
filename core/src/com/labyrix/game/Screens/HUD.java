@@ -44,6 +44,8 @@ public class HUD {
 
     private int frameCounter;
 
+    private TurnValue buttonStatus;
+
     // https://github.com/libgdx/libgdx/wiki/Table
     // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
 
@@ -63,6 +65,7 @@ public class HUD {
         this.colorRed = new Color(1, 0 , 0, 1);
 
         this.frameCounter = 0;
+        this.buttonStatus = TurnValue.DICEROLL;
     }
 
     public void render(SpriteBatch batch) {
@@ -252,9 +255,9 @@ public class HUD {
         this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
         this.shapeRenderer.end();
 
-        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL)); // TODO aufruf in render verschieben
-        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
-        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1)); // TODO aufruf in render verschieben
+        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, buttonStatus, this.player.getRemainingCheats()));
+        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1));
 
         this.turnLogic.setUncoverButton(this.uncoverButton);
         this.turnLogic.setCheatButton(this.cheatButton);
@@ -323,5 +326,9 @@ public class HUD {
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
+    }
+
+    public void setButtonStatus(TurnValue buttonStatus) {
+        this.buttonStatus = buttonStatus;
     }
 }

@@ -6,16 +6,21 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
 public class WinnerScreen implements Screen {
@@ -56,7 +61,20 @@ public class WinnerScreen implements Screen {
         backgroundImg.setSize(Gdx.graphics.getWidth()+2*Gdx.graphics.getWidth()/8f, Gdx.graphics.getHeight()+2*Gdx.graphics.getHeight()/8f);
         backgroundImg.addAction(sequence(alpha(0),fadeIn(.5f)));
 
+        buttonBackToTitleScreen = new TextButton("Back", skin, "default");
+        buttonBackToTitleScreen.setSize(labyrixMain.getWIDTH()/3.5f, labyrixMain.getHEIGHT()/9f);
+        buttonBackToTitleScreen.setPosition(labyrixMain.getWIDTH()/2f-buttonBackToTitleScreen.getWidth()/2, labyrixMain.getHEIGHT()/2f-labyrixMain.getHEIGHT()/4f);
+        buttonBackToTitleScreen.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
+        buttonBackToTitleScreen.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+
+                labyrixMain.setScreen(labyrixMain.getTitleScreen());
+            }
+        });
+
         stage.addActor(backgroundImg);
+        stage.addActor(buttonBackToTitleScreen);
     }
 
     @Override

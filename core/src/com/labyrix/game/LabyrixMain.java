@@ -16,6 +16,7 @@ import com.labyrix.game.Screens.LoadingScreen;
 import com.labyrix.game.Screens.LobbyScreen;
 import com.labyrix.game.Screens.SplashScreen;
 import com.labyrix.game.Screens.TitleScreen;
+import com.labyrix.game.Screens.WinnerScreen;
 
 
 public class LabyrixMain extends Game {
@@ -31,6 +32,7 @@ public class LabyrixMain extends Game {
 	private TitleScreen titleScreen;
 	private LobbyScreen lobbyScreen;
 	private JoinScreen joinScreen;
+	private WinnerScreen winnerScreen;
 	private BitmapFont fontBig, fontMedium, fontMediumError;
 	private ClientNetworkHandler clientNetworkHandler;
 	private Client client;
@@ -60,6 +62,7 @@ public class LabyrixMain extends Game {
 		loadingScreen = new LoadingScreen();
 		titleScreen = new TitleScreen();
 		joinScreen = new JoinScreen();
+		winnerScreen = new WinnerScreen();
 		lobbyScreen = new LobbyScreen(joinScreen);
 		initFonts();
 		this.setScreen(loadingScreen);
@@ -194,4 +197,8 @@ public class LabyrixMain extends Game {
 	public void setJoinScreen(JoinScreen joinScreen) {
 		this.joinScreen = joinScreen;
 	}
+
+	public WinnerScreen getWinnerScreen() { return winnerScreen; }
+
+	public void setWinnerScreen(WinnerScreen winnerScreen) { this.winnerScreen = winnerScreen; }
 }

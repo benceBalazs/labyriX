@@ -2,6 +2,7 @@ package com.labyrix.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +24,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 
-public class WinnerScreen implements Screen {
+public class WinnerScreen extends ScreenAdapter {
     private final LabyrixMain labyrixMain;
     private Stage stage;
     private Skin skin;
@@ -44,7 +45,7 @@ public class WinnerScreen implements Screen {
         this.skin.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
         this.skin.add("default-font", labyrixMain.getFontBig());
         this.skin.load(Gdx.files.internal("ui/uiskins.json"));
-        Screen();
+        initScreen();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class WinnerScreen implements Screen {
         stage.act(delta);
         stage.draw();
     }
-    public void Screen(){
+    public void initScreen(){
         Texture backgroundTex = labyrixMain.getAssets().get("background.png", Texture.class);
         backgroundImg = new Image(backgroundTex);
         backgroundImg.setPosition(0-Gdx.graphics.getWidth()/8f, 0-Gdx.graphics.getHeight()/8f);
@@ -85,29 +86,16 @@ public class WinnerScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
+    public void hide() {
+        stage.clear();
     }
 
     @Override
     public void dispose() {
-
+    stage.dispose();
     }
 
-    @Override
-    public void pause() {
 
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
 
 
 }

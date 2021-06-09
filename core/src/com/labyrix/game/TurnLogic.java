@@ -28,6 +28,8 @@ public class TurnLogic {
     private Texture turnValueText;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
+    private boolean defuseCompleted;
+    private boolean defuseSuccess;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -251,7 +253,7 @@ public class TurnLogic {
 
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
-            if (this.animationCounter != 0) {
+            if (this.animationCounter != 0 && this.trapRender.getMovementDefuse() == null && this.trapRender.getBombDefuse() == null) {
                 turnValueText = new Texture("trapActive.png");
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
@@ -280,10 +282,12 @@ public class TurnLogic {
                                         if (trapRender.getBombDefuse().bombResult()){
                                             trapRender.getStage().clear();
                                             bombrender = false;
+                                            animationCounter = 120;
                                         }
                                         else if (count == 5){
                                             trapRender.getStage().clear();
                                             bombrender = false;
+                                            animationCounter = 120;
                                         }
                                         count++;
                                     }
@@ -292,35 +296,63 @@ public class TurnLogic {
                         }
 
                         if (this.trapRender.getStage().getActors().isEmpty() == true){
-                            if (trapRender.getBombDefuse().bombResult() == true){
-                                trapRender.setBombDefuse(null);
-                                this.player.turnValue = TurnValue.DICEROLL;
-                            }
-                            else {
-                                trapRender.setBombDefuse(null);
+                            if (animationCounter!= 0){
+                                if (trapRender.getBombDefuse().bombResult()){
+                                    Texture success = new Texture("success.png");
+                                    board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+                                }else{
+                                    Texture fail = new Texture("fail.png");
+                                    board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+                                }
+                                animationCounter--;
+                            }else {
+                                if (trapRender.getBombDefuse().bombResult() == true) {
+                                    trapRender.setBombDefuse(null);
+                                    this.player.turnValue = TurnValue.DICEROLL;
+                                } else {
+                                    trapRender.setBombDefuse(null);
 
-                                setFailDisadvantage();
+                                    setFailDisadvantage();
+                                }
+                                this.turnDone = true;
                             }
-                            this.turnDone = true;
                         }
-
                     } else {
                         if (this.trapRender.getMovementDefuse() == null){
                             MovementDefuse movementDefuse1 = new MovementDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y, this.player.getCurrentField().getTrap().getEvent().getEvent());
                             this.trapRender.setMovementDefuse(movementDefuse1);
                             this.trapRender.addToStage(this.trapRender.getMovementDefuse().getTable());
-                        }
-                        else {
-                            if (getTrapOutcome()) {
-                                this.player.turnValue = TurnValue.DICEROLL;
-                            } else {
-                                setFailDisadvantage();
+                        } else {
+                            if (!defuseCompleted){
+                                if (getTrapOutcome()) {
+                                    animationCounter = 120;
+                                    defuseSuccess = true;
+                                } else {
+                                    setFailDisadvantage();
+                                    animationCounter = 120;
+                                    defuseSuccess = false;
+                                }
+                                this.trapRender.getStage().clear();
+                                defuseCompleted = true;
                             }
-                            this.trapRender.getStage().clear();
 
                             if (this.trapRender.getStage().getActors().isEmpty()) {
-                                trapRender.setMovementDefuse(null);
-                                this.turnDone = true;
+                                if (animationCounter!= 0){
+                                    if (defuseSuccess){
+                                        Texture success = new Texture("success.png");
+                                        board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+                                    }else{
+                                        Texture fail = new Texture("fail.png");
+                                        board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+                                    }
+                                    animationCounter--;
+                                }else {
+                                    if (defuseSuccess || this.player.getNumberOfFails() == 2){
+                                        this.player.turnValue = TurnValue.DICEROLL;
+                                    }
+                                    trapRender.setMovementDefuse(null);
+                                    this.turnDone = true;
+                                }
                             }
                         }
                     }

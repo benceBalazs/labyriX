@@ -28,7 +28,7 @@ public class TurnLogic {
     private Texture turnValueText;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
-    private boolean defuseCompleted;
+    private boolean defuseCompleted = false;
     private boolean defuseSuccess;
 
     private HudButton uncoverButton;
@@ -328,8 +328,15 @@ public class TurnLogic {
                                     animationCounter = 120;
                                     defuseSuccess = true;
                                 } else {
-                                    setFailDisadvantage();
-                                    animationCounter = 120;
+                                    if (this.player.getNumberOfFails() < 2) {
+                                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
+                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
+                                        this.animationCounter = 120;
+                                    }
+                                    else {
+                                        this.player.setCounterReducedMovementSpeed(4);
+                                        this.player.setNumberOfFails(0);
+                                    }
                                     defuseSuccess = false;
                                 }
                                 this.trapRender.getStage().clear();
@@ -350,6 +357,8 @@ public class TurnLogic {
                                     if (defuseSuccess || this.player.getNumberOfFails() == 2){
                                         this.player.turnValue = TurnValue.DICEROLL;
                                     }
+                                    defuseCompleted = false;
+                                    animationCounter = 120;
                                     trapRender.setMovementDefuse(null);
                                     this.turnDone = true;
                                 }

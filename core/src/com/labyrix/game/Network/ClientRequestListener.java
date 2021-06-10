@@ -6,6 +6,8 @@ import com.esotericsoftware.kryonet.Listener;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinResponse;
 import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
+import com.labyrix.game.NetworkModels.PlayerStatusResponse;
+import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
 import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LobbyScreen;
@@ -61,6 +63,14 @@ public class ClientRequestListener extends Listener {
         if (object instanceof LobbyLeaveResponse){
             lobbyScreen.setNetworkPlayers(((LobbyLeaveResponse) object).getNetworkPlayerList());
             lobbyScreen.updatePlayers(((LobbyLeaveResponse) object).getNetworkPlayerList().size());
+        }
+
+        if (object instanceof PlayerStatusResponse){
+            gameScreen.getTl().playerReturnServer(((PlayerStatusResponse) object).getNetworkPlayerList());
+        }
+
+        if (object instanceof PlayerWinIdResponse){
+            gameScreen.switchToEnd(((PlayerWinIdResponse) object).isWinCondition());
         }
     }
 

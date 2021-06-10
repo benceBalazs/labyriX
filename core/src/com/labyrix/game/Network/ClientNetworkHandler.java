@@ -48,7 +48,7 @@ public class ClientNetworkHandler {
     public void startConnection(){
         new Thread(client).start();
         try {
-            client.connect(6000, "192.168.0.206", ClientNetworkConfig.TCP);
+            client.connect(6000, "se2-demo.aau.at", ClientNetworkConfig.TCP);
         } catch (IOException e) {
             e.printStackTrace();
         }

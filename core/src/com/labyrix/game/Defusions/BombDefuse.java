@@ -47,10 +47,12 @@ public class BombDefuse extends Actor {
         bombcodeTextfield = new TextField("bombcode", skin);
         bombcodeTextfield.setText(bombcode);
         bombcodeTextfield.setAlignment(1);
+        bombcodeTextfield.setDisabled(true);
 
         userinputTextfield = new TextField("userinput", skin);
         userinputTextfield.setText(userinput);
         userinputTextfield.setAlignment(1);
+        userinputTextfield.setDisabled(true);
 
         for (int i = 1; i <= 9; i++) {
             numpadButtons.add(new TextButton("" + i,skin));

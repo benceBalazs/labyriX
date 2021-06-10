@@ -7,6 +7,10 @@ import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinRequest;
 import com.labyrix.game.NetworkModels.LobbyJoinResponse;
 import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
+import com.labyrix.game.NetworkModels.PlayerStatusRequest;
+import com.labyrix.game.NetworkModels.PlayerStatusResponse;
+import com.labyrix.game.NetworkModels.PlayerWinIdRequest;
+import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
 import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LobbyScreen;
@@ -36,6 +40,10 @@ public class ClientNetworkHandler {
             kryo.register(LobbyJoinRequest.class);
             kryo.register(LobbyJoinResponse.class);
             kryo.register(LobbyLeaveResponse.class);
+            kryo.register(PlayerWinIdResponse.class);
+            kryo.register(PlayerWinIdRequest.class);
+            kryo.register(PlayerStatusResponse.class);
+            kryo.register(PlayerStatusRequest.class);
             kryo.register(com.labyrix.game.Models.NetworkPlayer.class);
             kryo.register(java.util.ArrayList.class);
             kryo.register(com.labyrix.game.ENUMS.TurnValue.class);
@@ -48,7 +56,7 @@ public class ClientNetworkHandler {
     public void startConnection(){
         new Thread(client).start();
         try {
-            client.connect(6000, "192.168.0.206", ClientNetworkConfig.TCP);
+            client.connect(6000, "se2-demo.aau.at", ClientNetworkConfig.TCP);
         } catch (IOException e) {
             e.printStackTrace();
         }

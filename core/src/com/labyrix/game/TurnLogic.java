@@ -391,7 +391,7 @@ public class TurnLogic {
             //RECEIVE UPDATES FROM SERVER
             this.turnValueText = new Texture("serverstuff.png");
             System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
-
+            // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
             if (Gdx.input.justTouched()) {
                 System.out.println("server has done its stuff");
                 for (Player p: this.players) {
@@ -408,6 +408,12 @@ public class TurnLogic {
         } else {
             throw new IllegalArgumentException();
         }
+    }
+
+    public void playerReturnServer(ArrayList<NetworkPlayer> networkplayers){
+        /* TODO networkplayer to normal player einbinden | Unterschied nur String statt Image
+            Methode wird automatisch aufgerufen nachdem jeder seinen Zug gemacht hat
+         */
     }
 
     public ArrowActors getArrowActors() {

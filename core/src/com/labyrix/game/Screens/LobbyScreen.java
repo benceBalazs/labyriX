@@ -254,10 +254,6 @@ public class LobbyScreen extends ScreenAdapter {
         }
     }
 
-    private void removePlayerFromLobby() {
-        //TODO serverToClient --> LeaveResponse
-    }
-
     private void initScreen() {
         Texture backgroundTex = labyrixMain.getAssets().get("background.png", Texture.class);
         backgroundImg = new Image(backgroundTex);

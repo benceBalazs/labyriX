@@ -91,6 +91,23 @@ public class GameScreen implements Screen {
         camera.update();
     }
 
+    public TurnLogic getTl() {
+        return tl;
+    }
+
+    public void setTl(TurnLogic tl) {
+        this.tl = tl;
+    }
+
+    public void switchToEnd(boolean condition){
+        if (condition){
+            // TODO switch to winScreen with labyrixMain.setScreen(labyrixMain.getWinScreen())
+        }else {
+            // TODO switch to looseScreen with labyrixMain.setScreen(labyrixMain.getLooseScreen())
+        }
+        client.stop();
+    }
+
     @Override
     public void resize(int width, int height) {
 

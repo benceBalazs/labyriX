@@ -26,6 +26,7 @@ public class Player {
     private int minRemainingFields;
     public TurnValue turnValue;
     private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private int hasCheated = 0;
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
@@ -187,5 +188,13 @@ public class Player {
 
     public void setTurnValue(TurnValue turnValue) {
         this.turnValue = turnValue;
+    }
+
+    public int getHasCheated() {
+        return hasCheated;
+    }
+
+    public void setHasCheated(int hasCheated) {
+        this.hasCheated = hasCheated;
     }
 }

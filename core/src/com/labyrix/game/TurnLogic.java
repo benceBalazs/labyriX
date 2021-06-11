@@ -90,7 +90,16 @@ public class TurnLogic {
                 int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
                 this.player.setRemainingSteps(steps);
 
-                this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() - 1);
+                if (this.player.getCounterReducedMovementSpeed() > 0) {
+                    this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() - 1);
+                }
+                if (this.player.getCounterReducedMovementSpeed() == 0) {
+                    this.player.setMovementSpeed(1);
+                }
+                if (this.player.getHasCheated() > 0) {
+                    this.player.setHasCheated(this.player.getHasCheated()-1);
+                }
+
                 this.animationCounter = 120;
                 switch (steps) {
                     case 1:
@@ -125,6 +134,10 @@ public class TurnLogic {
                 this.animationCounter = 20;
                 this.player.turnValue = TurnValue.MOVEMENT;
                 this.dicerollImg = null;
+            }
+
+            if (Gdx.input.getX() >= uncoverButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= uncoverButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonEnd()) {
+            //Logic for Uncover Cheat
             }
 
         } else {

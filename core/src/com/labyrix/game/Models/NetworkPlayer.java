@@ -21,11 +21,22 @@ public class NetworkPlayer {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
-    private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
+    private boolean isUpdated;
 
     public NetworkPlayer(String name, String playerImagePath) {
         this.name = name;
         this.imagePath = playerImagePath;
+    }
+
+    public NetworkPlayer(int id, int lobbyId, Vector2 position, PathField currentField, int maxRemainingFields, int minRemainingFields, boolean isUpdated) {
+        this.id = id;
+        this.lobbyId = lobbyId;
+        this.position = position;
+        this.currentField = currentField;
+        this.maxRemainingFields = maxRemainingFields;
+        this.minRemainingFields = minRemainingFields;
+        this.isUpdated = isUpdated;
     }
 
     public NetworkPlayer() {
@@ -158,5 +169,13 @@ public class NetworkPlayer {
 
     public void setListAllPath(ArrayList<Integer> listAllPath) {
         this.listAllPath = listAllPath;
+    }
+
+    public boolean isUpdated() {
+        return isUpdated;
+    }
+
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
     }
 }

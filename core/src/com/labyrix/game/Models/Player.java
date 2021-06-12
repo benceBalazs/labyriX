@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.labyrix.game.ENUMS.TurnValue;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 
 public class Player {
 
     private int id;
+    private int lobbyId;
     private String name;
     private Image playerImage;
     private Vector2 position;
@@ -25,8 +27,9 @@ public class Player {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
-    private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
     private int hasCheated = 0;
+    private boolean isUpdated = false;
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
@@ -70,7 +73,7 @@ public class Player {
                 maxPath = listAllPath.get(i);
             }
         }
-        listAllPath = new ArrayList<>();
+        listAllPath = new ArrayList<Integer>();
         return maxPath;
     }
 
@@ -82,7 +85,7 @@ public class Player {
                 minPath = listAllPath.get(i);
             }
         }
-        listAllPath = new ArrayList<>();
+        listAllPath = new ArrayList<Integer>();
         return minPath;
     }
 
@@ -196,5 +199,29 @@ public class Player {
 
     public void setHasCheated(int hasCheated) {
         this.hasCheated = hasCheated;
+    }
+
+    public int getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(int lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public boolean isUpdated() {
+        return isUpdated;
+    }
+
+    public void setUpdated(boolean updated) {
+        isUpdated = updated;
+    }
+
+    public void setMaxRemainingFields(int maxRemainingFields) {
+        this.maxRemainingFields = maxRemainingFields;
+    }
+
+    public void setMinRemainingFields(int minRemainingFields) {
+        this.minRemainingFields = minRemainingFields;
     }
 }

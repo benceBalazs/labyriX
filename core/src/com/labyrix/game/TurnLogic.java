@@ -13,6 +13,7 @@ import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.Models.*;
 import com.labyrix.game.Network.ClientNetworkHandler;
+import com.labyrix.game.NetworkModels.PlayerStatusRequest;
 
 import java.util.ArrayList;
 
@@ -412,12 +413,14 @@ public class TurnLogic {
 
     public void doServerStuff() throws IllegalArgumentException {
         if (this.turnDone == true) {
-            //SEND STUFF TO SERVER
-            //RECEIVE UPDATES FROM SERVER
             this.turnValueText = new Texture("serverstuff.png");
             System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
+
             // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
-            if (Gdx.input.justTouched()) {
+            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getCurrentField(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
+            client.sendTCP(new PlayerStatusRequest(np));
+
+            /*if (Gdx.input.justTouched()) {
                 System.out.println("server has done its stuff");
                 for (Player p: this.players) {
                     for (int i = 0; ((Math.random()*10) % 6) + 1 > i ; i++) {
@@ -429,16 +432,31 @@ public class TurnLogic {
                     p.setPosition(playerPosition);
                 }
                 this.turnDone = false;
-            }
+            }*/
+
         } else {
             throw new IllegalArgumentException();
         }
     }
 
+    /**
+     * wird automatisch vom aufgerufen, wenn Daten vom Server an Game geschickt werden
+     *
+     * */
     public void playerReturnServer(ArrayList<NetworkPlayer> networkplayers){
-        /* TODO networkplayer to normal player einbinden | Unterschied nur String statt Image
-            Methode wird automatisch aufgerufen nachdem jeder seinen Zug gemacht hat
-         */
+        if (this.turnDone == true) {
+            for (NetworkPlayer np: networkplayers) {
+                if (np.getId() != this.player.getId()) {
+                    Player p = this.getPlayerById(np.getId());
+                    if (p != null) {
+                        p.setCurrentField(np.getCurrentField());
+                        p.setPosition(np.getPosition());
+                        p.setMaxRemainingFields(np.getMaxRemainingFields());
+                        p.setMinRemainingFields(np.getMinRemainingFields());
+                    }
+                }
+            }
+        }
     }
 
     public ArrowActors getArrowActors() {
@@ -473,5 +491,23 @@ public class TurnLogic {
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
+    }
+
+    public Player getPlayerById(int id) {
+        Player p = null;
+        if (this.player.getId() == id) {
+            p = this.player;
+        }
+
+        else {
+            for (Player pl: players) {
+                if (pl.getId() == id) {
+                    p = pl;
+                    break;
+                }
+            }
+        }
+
+        return p;
     }
 }

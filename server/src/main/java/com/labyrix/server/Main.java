@@ -32,6 +32,7 @@ public class Main {
         kryo.register(com.labyrix.game.ENUMS.TurnValue.class);
         kryo.register(com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest.class);
         kryo.register(com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse.class);
+        kryo.register(com.badlogic.gdx.math.Vector2.class);
         kryo.register(com.labyrix.game.Models.PathField.class);
         new Thread(server).start();
         try {

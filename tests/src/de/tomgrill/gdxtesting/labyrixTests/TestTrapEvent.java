@@ -1,5 +1,4 @@
-package test;
-
+package de.tomgrill.gdxtesting.labyrixTests;
 import com.labyrix.game.Models.Image;
 import com.labyrix.game.ENUMS.TrapDefuseMethod;
 import com.labyrix.game.Models.TrapEvent;

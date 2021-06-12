@@ -1,4 +1,4 @@
-package test;
+package de.tomgrill.gdxtesting.labyrixTests;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.labyrix.game.Models.Board;
@@ -66,3 +66,4 @@ public class TestBoard {
         }
     }*/
 }
+

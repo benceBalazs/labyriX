@@ -32,6 +32,7 @@ public class TurnLogic {
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
+    private boolean clicker;
 
     public TurnLogic(Board board, Player player, Camera camera) {
         this.board = board;
@@ -46,6 +47,7 @@ public class TurnLogic {
         this.uncoverButton = new HudButton();
         this.cheatButton = new HudButton();
         this.diceButton = new HudButton();
+        this.clicker = true;
     }
 
     public void doTurn() throws IllegalArgumentException {
@@ -125,6 +127,14 @@ public class TurnLogic {
                 }
             }
 
+            if (Gdx.input.getX() >= cheatButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= cheatButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonEnd() && this.player.getRemainingCheats() > 0 && clicker) {
+                this.player.setMovementSpeed(1);
+                this.player.setCounterReducedMovementSpeed(0);
+                this.player.setRemainingCheats(this.player.getRemainingCheats()-1);
+                this.clicker = false;
+                this.cheatButton.setActive(false);
+            }
+
             if (this.animationCounter > 0 && this.player.getRemainingSteps() > 0) {
                 this.animationCounter--;
                 board.getBatch().draw(dicerollImg, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
@@ -147,6 +157,9 @@ public class TurnLogic {
 
     public void move() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
+            this.clicker = true;
+            this.cheatButton.setActive(true);
+
             if (this.getArrowActors().getArrowActorDown() != null) {
                 this.getArrowActors().setArrowActorDown(null);
             }
@@ -189,7 +202,6 @@ public class TurnLogic {
             throw new IllegalArgumentException();
         }
     }
-
 
     public void selectPath() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {

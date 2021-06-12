@@ -1,4 +1,4 @@
-package test;
+package de.tomgrill.gdxtesting.labyrixTests;
 
 public class TestPathField {
 

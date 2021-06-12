@@ -1,20 +1,20 @@
-package test;
+package de.tomgrill.gdxtesting.labyrixTests;
 
 import com.labyrix.game.Models.Trap;
 import com.labyrix.game.Models.TrapEvent;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+@RunWith(GdxTestRunner.class)
 public class TestTrap {
-
-    /**
-     * Test-Names should be created like the following convention:
-     * methodName_expectedBehavior_condition
-     * if it is not important, the condition does not have to be added.
-     */
 
     private float probability;
     private Trap trap;
@@ -93,5 +93,4 @@ public class TestTrap {
         this.trap.setEvent(trapEvent);
         Assert.assertSame(trapEvent, this.trap.getEvent());
     }
-
 }

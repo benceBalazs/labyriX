@@ -20,19 +20,19 @@ import com.labyrix.game.TurnLogic;
 
 public class HUD {
     private Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
 
-    private String hudSpielerName;          // Zeigt den Spielernamen
-    private String hudTurnval;              // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
+    private String hudPlayerName;          // Zeigt den Spielernamen
+    private String hudTurnVal;              // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
     private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
     private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
     private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
 
-    private ShapeRenderer shapeRenderer;
-    private Label.LabelStyle labelStyle;
+    private final ShapeRenderer shapeRenderer;
+    private final Label.LabelStyle labelStyle;
 
-    private Player player;
-    private TurnLogic turnLogic;
+    private final Player player;
+    private final TurnLogic turnLogic;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -44,8 +44,7 @@ public class HUD {
 
     private int frameCounter;
 
-    // https://github.com/libgdx/libgdx/wiki/Table
-    // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
+    private TurnValue buttonStatus;
 
     public HUD(Player player, TurnLogic turnLogic){
         this.turnLogic = turnLogic;
@@ -63,14 +62,15 @@ public class HUD {
         this.colorRed = new Color(1, 0 , 0, 1);
 
         this.frameCounter = 0;
+        this.buttonStatus = TurnValue.DICEROLL;
     }
 
     public void render(SpriteBatch batch) {
-        this.hudSpielerName = this.player.getName();
-        this.hudTurnval = turnvalTranslator(this.turnLogic.getPlayer().getTurnValue());
+        this.hudPlayerName = this.player.getName();
+        this.hudTurnVal = turnValTranslator(this.turnLogic.getPlayer().getTurnValue());
         this.hudRemSteps = this.player.getRemainingSteps();
-        this.hudRemFields = this.player.getMaxRemainingFields();                                                  // TODO an algorithm that shows the number of fields remaining to the destination must be called.
-        this.hudReduMvmtSpeedUntil = player.getCounterReducedMovementSpeed();
+        this.hudRemFields = this.player.getMaxRemainingFields();
+        this.hudReduMvmtSpeedUntil = this.player.getCounterReducedMovementSpeed();
 
         this.stage = new Stage(this.viewport, batch);
         batch.setProjectionMatrix(this.stage.getCamera().combined);
@@ -82,8 +82,8 @@ public class HUD {
         float barHeight = Gdx.graphics.getHeight() * 0.08f;
         float yCoordinateLowerBar = Gdx.graphics.getHeight() * 0.91f - Gdx.graphics.getHeight() * 0.09f;
 
-        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudSpielerName, true, false);
-        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnval, true, true);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2, yCoordinate, barLenght, barHeight, "Name: ", this.hudPlayerName, true, false);
+        createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate, yCoordinate, barLenght, barHeight, "", this.hudTurnVal, true, true);
         createTopBarElement(xCoordinate / 2 - barLenght / 2 + xCoordinate * 2, yCoordinate, barLenght, barHeight, "Steps left this Round: ", this.hudRemSteps.toString(), true, false);
 
         createTopBarElement(xCoordinate - barLenght / 2, yCoordinateLowerBar, barLenght, barHeight, "Distance to Target: ", this.hudRemFields.toString(), true, false);
@@ -101,7 +101,7 @@ public class HUD {
         this.stage.draw();
     }
 
-    private String turnvalTranslator (TurnValue turnValue){
+    private String turnValTranslator(TurnValue turnValue){
         if (turnValue == TurnValue.DICEROLL){
             return "Roll the Dice!";
         } else if (turnValue == TurnValue.MOVEMENT){
@@ -118,7 +118,7 @@ public class HUD {
             } else if (currentTrap == TrapEventName.QUICKSAND){
                 return "Quicksand? You serious?";
             } else if (currentTrap == TrapEventName.DOOR){
-                return "*klick* AAAAAAaaaaaaahh...";
+                return "*klick* Nooo, I'm trapped...";
             }
 
         } else if (turnValue == TurnValue.TRAPCHECK){
@@ -130,7 +130,7 @@ public class HUD {
         return this.turnLogic.getPlayer().getTurnValue().toString();
     }
 
-    private void createTopBarElement(float xCoordinate, float yCoordinate, float barLenght, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
+    private void createTopBarElement(float xCoordinate, float yCoordinate, float barLength, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
         Table tableTopBarElement = new Table();
         tableTopBarElement.bottom();
         tableTopBarElement.setFillParent(true);
@@ -143,47 +143,45 @@ public class HUD {
 
         if (textCenter){
             currentElementLabel.setAlignment(Align.center);
-            tableTopBarElement.add(currentElementLabel).width(barLenght).height(barHeight);
+            tableTopBarElement.add(currentElementLabel).width(barLength).height(barHeight);
             tableTopBarElement.setPosition(xCoordinate, yCoordinate);
             tableTopBarElement.left();
             tableTopBarElement.setFillParent(true);
-            //tableTopBarElement.debugAll();
         } else {
             tableTopBarElement.add(currentElementLabel).expandX().fillX();
             tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
-            //tableTopBarElement.debugAll();
         }
 
         this.stage.addActor(tableTopBarElement);
 
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 40) {
-            this.shapeRenderer.setColor(colorRed);
+        if (signal && this.turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && this.frameCounter < 40) {
+            this.shapeRenderer.setColor(this.colorRed);
         } else {
-            this.shapeRenderer.setColor(colorWhite);
+            this.shapeRenderer.setColor(this.colorWhite);
         }
 
-        this.shapeRenderer.rect(xCoordinate, yCoordinate, barLenght, barHeight);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate, barLength, barHeight);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate + barHeight/2, barHeight/2);
 
         float elementEdge = 0.005f;
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
-        if (signal && turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && frameCounter < 15) {
-            this.shapeRenderer.setColor(colorRed);
+        if (signal && this.turnLogic.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && this.frameCounter < 15) {
+            this.shapeRenderer.setColor(this.colorRed);
         } else {
-            this.shapeRenderer.setColor(colorWhite);
-            if (frameCounter >= 80){
-                frameCounter = 0;
+            this.shapeRenderer.setColor(this.colorWhite);
+            if (this.frameCounter >= 80){
+                this.frameCounter = 0;
             }
         }
 
-        this.shapeRenderer.setColor(colorLightGreen);
-        this.shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLenght, barHeight - percentHeight*2);
+        this.shapeRenderer.setColor(this.colorLightGreen);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate + percentHeight, barLength, barHeight - percentHeight*2);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate + barHeight/2, barHeight/2 - percentHeight);
 
         this.shapeRenderer.end();
 
@@ -216,7 +214,6 @@ public class HUD {
         tableSideBar.row();
         tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
         tableSideBar.setPosition(xCoordinate, yCoordinate);
-        //tableSideBar.debugAll();
 
         this.stage.addActor(tableSideBar);
 
@@ -224,7 +221,7 @@ public class HUD {
         float percentHeight = Gdx.graphics.getHeight() * elementEdge;
 
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        this.shapeRenderer.setColor(colorWhite);
+        this.shapeRenderer.setColor(this.colorWhite);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
@@ -232,7 +229,7 @@ public class HUD {
         this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
         this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
 
-        this.shapeRenderer.setColor(colorLightGreen);
+        this.shapeRenderer.setColor(this.colorLightGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius - percentHeight);
@@ -243,7 +240,7 @@ public class HUD {
         radius = radius * 0.5f;
         barHeight = barHeight / 4f;
 
-        this.shapeRenderer.setColor(colorDarkGreen);
+        this.shapeRenderer.setColor(this.colorDarkGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
@@ -252,29 +249,29 @@ public class HUD {
         this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
         this.shapeRenderer.end();
 
-        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL)); // TODO aufruf in render verschieben
-        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
-        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL));
+        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1));
+        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, this.buttonStatus, this.player.getRemainingCheats()));
+        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1));
 
         this.turnLogic.setUncoverButton(this.uncoverButton);
         this.turnLogic.setCheatButton(this.cheatButton);
         this.turnLogic.setDiceButton(this.diceButton);
     }
 
-    public String getHudSpielerName() {
-        return this.hudSpielerName;
+    public String getHudPlayerName() {
+        return this.hudPlayerName;
     }
 
-    public void setHudSpielerName(String spielerName) {
-        this.hudSpielerName = spielerName;
+    public void setHudPlayerName(String spielerName) {
+        this.hudPlayerName = spielerName;
     }
 
-    public String getHudTurnval() {
-        return this.hudTurnval;
+    public String getHudTurnVal() {
+        return this.hudTurnVal;
     }
 
-    public void setHudTurnval(String turnval) {
-        this.hudTurnval = turnval;
+    public void setHudTurnVal(String turnval) {
+        this.hudTurnVal = turnval;
     }
 
     public Integer getHudRemSteps() {
@@ -286,7 +283,7 @@ public class HUD {
     }
 
     public Integer getHudRemFields() {
-        return hudRemFields;
+        return this.hudRemFields;
     }
 
     public void setHudRemFields(Integer hudRemFields) {
@@ -294,7 +291,7 @@ public class HUD {
     }
 
     public Integer getHudReduMvmtSpeedUntil() {
-        return hudReduMvmtSpeedUntil;
+        return this.hudReduMvmtSpeedUntil;
     }
 
     public void setHudReduMvmtSpeedUntil(Integer hudReduMvmtSpeedUntil) {
@@ -302,7 +299,7 @@ public class HUD {
     }
 
     public HudButton getUncoverButton() {
-        return uncoverButton;
+        return this.uncoverButton;
     }
 
     public void setUncoverButton(HudButton uncoverButton) {
@@ -310,7 +307,7 @@ public class HUD {
     }
 
     public HudButton getCheatButton() {
-        return cheatButton;
+        return this.cheatButton;
     }
 
     public void setCheatButton(HudButton cheatButton) {
@@ -318,10 +315,14 @@ public class HUD {
     }
 
     public HudButton getDiceButton() {
-        return diceButton;
+        return this.diceButton;
     }
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
+    }
+
+    public void setButtonStatus(TurnValue buttonStatus) {
+        this.buttonStatus = buttonStatus;
     }
 }

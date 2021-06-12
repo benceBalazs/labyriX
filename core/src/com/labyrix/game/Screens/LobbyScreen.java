@@ -55,6 +55,7 @@ public class LobbyScreen extends ScreenAdapter {
         inLobby = false;
     }
 
+
     public void changeToGame(){
         labyrixMain.setScreen(labyrixMain.getGameScreen());
     }

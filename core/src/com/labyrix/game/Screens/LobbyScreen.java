@@ -36,7 +36,7 @@ public class LobbyScreen extends ScreenAdapter {
     private TextButton buttonPlay, playerProfile1, playerProfile2, playerProfile3, playerProfile4;
     private Image logoImg, backgroundImg;
     private Label lobbycode;
-    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<>();
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
     public ClientNetworkHandler clientNetworkHandler;
     public Client client;
     private String lobbyCodeReturn;

@@ -88,15 +88,17 @@ public class ServerRequestListener extends Listener {
         }
 
         System.out.println("########### All Lobbies ###########");
-        for (Lobby lobby : lobbyHandler.getLobbyList()) {
-            System.out.print("Lobby: "+lobby.getLobbyId());
-            System.out.println("PLAYERS ----------------");
-            for (NetworkPlayer networkPlayer : lobby.getNetworkPlayerList()) {
-                System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
-            }
-            System.out.println("READY ----------------");
-            for (NetworkPlayer networkPlayer : lobby.getReadyPlayers()) {
-                System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+        if (lobbyHandler.getLobbyList().size()>0){
+            for (Lobby lobby : lobbyHandler.getLobbyList()) {
+                System.out.println("Lobby: "+lobby.getLobbyId());
+                System.out.println("PLAYERS ----------------");
+                for (NetworkPlayer networkPlayer : lobby.getNetworkPlayerList()) {
+                    System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+                }
+                System.out.println("READY ----------------");
+                for (NetworkPlayer networkPlayer : lobby.getReadyPlayers()) {
+                    System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+                }
             }
         }
     }

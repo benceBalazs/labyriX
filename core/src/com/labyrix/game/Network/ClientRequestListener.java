@@ -46,6 +46,8 @@ public class ClientRequestListener extends Listener {
             joinScreen.setLobbyCodeReturn(String.valueOf(lobbyId));
             joinScreen.changeToLobby();
             lobbyScreen.setInLobby(true);
+            lobbyScreen.setMainPlayerId(connection.getID());
+            System.out.println(lobbyScreen.getMainPlayerId());
         }
 
         if (object instanceof LobbyJoinResponse){
@@ -53,6 +55,8 @@ public class ClientRequestListener extends Listener {
                 if(!lobbyScreen.isInLobby()){
                     joinScreen.setNetworkPlayers(((LobbyJoinResponse) object).getNetworkPlayerList());
                     joinScreen.changeToLobby();
+                    lobbyScreen.setMainPlayerId(connection.getID());
+                    System.out.println(lobbyScreen.getMainPlayerId());
                 }else {
                     lobbyScreen.setNetworkPlayers(((LobbyJoinResponse) object).getNetworkPlayerList());
                 }

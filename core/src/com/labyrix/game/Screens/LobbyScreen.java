@@ -42,6 +42,7 @@ public class LobbyScreen extends ScreenAdapter {
     private String lobbyCodeReturn;
     private JoinScreen joinScreen;
     private boolean inLobby;
+    private int mainPlayerId;
 
     public LobbyScreen(JoinScreen joinScreen) {
         this.joinScreen = joinScreen;
@@ -127,6 +128,14 @@ public class LobbyScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public int getMainPlayerId() {
+        return mainPlayerId;
+    }
+
+    public void setMainPlayerId(int mainPlayerId) {
+        this.mainPlayerId = mainPlayerId;
     }
 
     public void updatePlayers(int size) {

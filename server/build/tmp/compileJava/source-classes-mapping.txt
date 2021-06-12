@@ -1,3 +1,5 @@
+com/labyrix/server/ServerNetworkConfig.java
+ com.labyrix.server.ServerNetworkConfig
 com/labyrix/server/Main.java
  com.labyrix.server.Main
 com/labyrix/server/ServerRequestListener.java
@@ -6,5 +8,3 @@ com/labyrix/server/Lobby.java
  com.labyrix.server.Lobby
 com/labyrix/server/LobbyHandler.java
  com.labyrix.server.LobbyHandler
-com/labyrix/server/ServerNetworkConfig.java
- com.labyrix.server.ServerNetworkConfig

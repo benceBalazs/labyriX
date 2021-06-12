@@ -4,6 +4,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.labyrix.game.Models.NetworkPlayer;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse;
 import com.labyrix.game.NetworkModels.LobbyCreateRequest;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinRequest;
@@ -85,6 +87,10 @@ public class ServerRequestListener extends Listener {
                     }
                 }
             }
+        }
+
+        if (object instanceof ChangeLobbyToGameRequest){
+            server.sendToAllTCP(new ChangeLobbyToGameResponse());
         }
 
         System.out.println("########### All Lobbies ###########");

@@ -12,9 +12,12 @@ import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.ENUMS.TrapEventName;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
+import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.TurnLogic;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final LabyrixMain labyrixMain;
@@ -28,6 +31,8 @@ public class GameScreen implements Screen {
     private HUD hud;
     private ClientNetworkHandler clientNetworkHandler;
     private Client client;
+    private int mainPlayerId;
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
 
     public GameScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -101,11 +106,27 @@ public class GameScreen implements Screen {
 
     public void switchToEnd(boolean condition){
         if (condition){
-            // TODO switch to winScreen with labyrixMain.setScreen(labyrixMain.getWinScreen())
+            labyrixMain.setScreen(labyrixMain.getWinnerScreen());
         }else {
-            // TODO switch to looseScreen with labyrixMain.setScreen(labyrixMain.getLooseScreen())
+            labyrixMain.setScreen(labyrixMain.getLoserScreen());
         }
         client.stop();
+    }
+
+    public int getMainPlayerId() {
+        return mainPlayerId;
+    }
+
+    public void setMainPlayerId(int mainPlayerId) {
+        this.mainPlayerId = mainPlayerId;
+    }
+
+    public ArrayList<NetworkPlayer> getNetworkPlayers() {
+        return networkPlayers;
+    }
+
+    public void setNetworkPlayers(ArrayList<NetworkPlayer> networkPlayers) {
+        this.networkPlayers = networkPlayers;
     }
 
     @Override

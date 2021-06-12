@@ -3,6 +3,7 @@ package com.labyrix.game.Network;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinResponse;
 import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
@@ -48,6 +49,7 @@ public class ClientRequestListener extends Listener {
             lobbyScreen.setInLobby(true);
             lobbyScreen.setMainPlayerId(connection.getID());
             System.out.println(lobbyScreen.getMainPlayerId());
+            joinScreen.dispose();
         }
 
         if (object instanceof LobbyJoinResponse){
@@ -62,6 +64,7 @@ public class ClientRequestListener extends Listener {
                 }
                 lobbyScreen.updatePlayers(((LobbyJoinResponse) object).getNetworkPlayerList().size());
             }
+            joinScreen.dispose();
         }
 
         if (object instanceof LobbyLeaveResponse){
@@ -75,6 +78,13 @@ public class ClientRequestListener extends Listener {
 
         if (object instanceof PlayerWinIdResponse){
             gameScreen.switchToEnd(((PlayerWinIdResponse) object).isWinCondition());
+            gameScreen.dispose();
+        }
+
+        if (object instanceof ChangeLobbyToGameResponse){
+            lobbyScreen.changeToGame();
+            gameScreen.setMainPlayerId(lobbyScreen.getMainPlayerId());
+            gameScreen.setNetworkPlayers(lobbyScreen.getNetworkPlayers());
         }
     }
 

@@ -19,6 +19,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Network.ClientNetworkHandler;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,10 @@ public class LobbyScreen extends ScreenAdapter {
         clientNetworkHandler.addLobbyToClient(this);
         client = clientNetworkHandler.getClient();
         inLobby = false;
+    }
+
+    public void changeToGame(){
+        labyrixMain.setScreen(labyrixMain.getGameScreen());
     }
 
     public ArrayList<NetworkPlayer> getNetworkPlayers() {
@@ -139,7 +144,6 @@ public class LobbyScreen extends ScreenAdapter {
     }
 
     public void updatePlayers(int size) {
-        //TODO serverToClient --> JoinRespone in Lobby
         if(playerProfile1 != null){
             stage.getActors().removeValue(playerProfile1,true);
         }
@@ -277,7 +281,7 @@ public class LobbyScreen extends ScreenAdapter {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                labyrixMain.setScreen(labyrixMain.getGameScreen());
+                client.sendTCP(new ChangeLobbyToGameRequest());
             }
         });
 

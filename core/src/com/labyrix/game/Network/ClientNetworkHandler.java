@@ -47,6 +47,8 @@ public class ClientNetworkHandler {
             kryo.register(com.labyrix.game.Models.NetworkPlayer.class);
             kryo.register(java.util.ArrayList.class);
             kryo.register(com.labyrix.game.ENUMS.TurnValue.class);
+            kryo.register(com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest.class);
+            kryo.register(com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse.class);
             clientRequestListener = new ClientRequestListener(client);
             client.addListener(clientRequestListener);
         }

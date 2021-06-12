@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.ENUMS.TrapEventName;
+import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.NetworkPlayer;
@@ -45,20 +46,25 @@ public class GameScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         isorend = new Board(batch);
-        player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
+
+        for (NetworkPlayer np: networkPlayers) {
+            if (np.getId() == this.mainPlayerId) {
+                this.player = new Player(np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+            }
+        }
+
         tl = new TurnLogic(isorend, player, camera);
         hud = new HUD(player, tl);
 
         //Serverstuff - fill list of other Players
-        Player p1 = new Player("Herbert", "DinoPink.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-        Player p2 = new Player("Hubert", "DinoOrange.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-        Player p3 = new Player("Hubsi", "DinoBlue.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-
-        tl.addPlayer(p1);
-        tl.addPlayer(p2);
-        tl.addPlayer(p3);
+        for (NetworkPlayer np: networkPlayers) {
+            if (np.getId() != this.mainPlayerId) {
+                Player p = new Player(np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                tl.addPlayer(p);
+            }
+        }
     }
 
     @Override
@@ -74,10 +80,10 @@ public class GameScreen implements Screen {
             }
             player.render(batch);
         }
-        /*if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
+        if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
             tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
 
-        }*/
+        }
         cameraLerp( camera, player.getPosition());
         if (tl.getArrowActors() != null) {
             tl.getArrowActors().render();

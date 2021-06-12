@@ -10,6 +10,8 @@ import org.junit.runners.Suite;
         TestTrap.class
 })
 
+        // chang paths:    "../android/assets/badlogic.jpg"
+
 public class CustomTestSuit {
 
 }

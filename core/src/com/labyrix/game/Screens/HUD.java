@@ -46,9 +46,6 @@ public class HUD {
 
     private TurnValue buttonStatus;
 
-    // https://github.com/libgdx/libgdx/wiki/Table
-    // https://gamedev.stackexchange.com/questions/144814/label-does-not-maintain-correct-position-within-a-table
-
     public HUD(Player player, TurnLogic turnLogic){
         this.turnLogic = turnLogic;
         this.player = player;
@@ -70,7 +67,7 @@ public class HUD {
 
     public void render(SpriteBatch batch) {
         this.hudPlayerName = this.player.getName();
-        this.hudTurnVal = turnvalTranslator(this.turnLogic.getPlayer().getTurnValue());
+        this.hudTurnVal = turnValTranslator(this.turnLogic.getPlayer().getTurnValue());
         this.hudRemSteps = this.player.getRemainingSteps();
         this.hudRemFields = this.player.getMaxRemainingFields();
         this.hudReduMvmtSpeedUntil = this.player.getCounterReducedMovementSpeed();
@@ -104,7 +101,7 @@ public class HUD {
         this.stage.draw();
     }
 
-    private String turnvalTranslator (TurnValue turnValue){
+    private String turnValTranslator(TurnValue turnValue){
         if (turnValue == TurnValue.DICEROLL){
             return "Roll the Dice!";
         } else if (turnValue == TurnValue.MOVEMENT){
@@ -150,11 +147,9 @@ public class HUD {
             tableTopBarElement.setPosition(xCoordinate, yCoordinate);
             tableTopBarElement.left();
             tableTopBarElement.setFillParent(true);
-            //tableTopBarElement.debugAll();
         } else {
             tableTopBarElement.add(currentElementLabel).expandX().fillX();
             tableTopBarElement.setPosition(xCoordinate, yCoordinate + barHeight * 0.15f);
-            //tableTopBarElement.debugAll();
         }
 
         this.stage.addActor(tableTopBarElement);
@@ -219,7 +214,6 @@ public class HUD {
         tableSideBar.row();
         tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
         tableSideBar.setPosition(xCoordinate, yCoordinate);
-        //tableSideBar.debugAll();
 
         this.stage.addActor(tableSideBar);
 

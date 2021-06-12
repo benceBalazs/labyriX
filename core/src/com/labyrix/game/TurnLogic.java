@@ -190,7 +190,6 @@ public class TurnLogic {
         }
     }
 
-
     public void selectPath() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener

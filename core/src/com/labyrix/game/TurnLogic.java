@@ -29,7 +29,7 @@ public class TurnLogic {
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
     private boolean defuseCompleted = false;
-    private boolean defuseSuccess;
+    private boolean defuseSuccess = false;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -296,23 +296,25 @@ public class TurnLogic {
                         }
 
                         if (this.trapRender.getStage().getActors().isEmpty() == true){
+
                             if (animationCounter!= 0){
-                                if (trapRender.getBombDefuse().bombResult()){
-                                    Texture success = new Texture("success.png");
-                                    board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
-                                }else{
-                                    Texture fail = new Texture("fail.png");
-                                    board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
-                                }
-                                animationCounter--;
+                                showTrapResult(trapRender.getBombDefuse().bombResult());
                             }else {
                                 if (trapRender.getBombDefuse().bombResult() == true) {
                                     trapRender.setBombDefuse(null);
                                     this.player.turnValue = TurnValue.DICEROLL;
                                 } else {
                                     trapRender.setBombDefuse(null);
-
-                                    setFailDisadvantage();
+                                    if (this.player.getNumberOfFails() < 2) {
+                                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
+                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
+                                        this.animationCounter = 120;
+                                    }
+                                    else {
+                                        this.player.setCounterReducedMovementSpeed(4);
+                                        this.player.setNumberOfFails(0);
+                                        this.player.turnValue = TurnValue.DICEROLL;
+                                    }
                                 }
                                 this.turnDone = true;
                             }
@@ -324,7 +326,7 @@ public class TurnLogic {
                             this.trapRender.addToStage(this.trapRender.getMovementDefuse().getTable());
                         } else {
                             if (!defuseCompleted){
-                                if (getTrapOutcome()) {
+                                if (getMovementTrapOutcome()) {
                                     animationCounter = 120;
                                     defuseSuccess = true;
                                 } else {
@@ -345,14 +347,7 @@ public class TurnLogic {
 
                             if (this.trapRender.getStage().getActors().isEmpty()) {
                                 if (animationCounter!= 0){
-                                    if (defuseSuccess){
-                                        Texture success = new Texture("success.png");
-                                        board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
-                                    }else{
-                                        Texture fail = new Texture("fail.png");
-                                        board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
-                                    }
-                                    animationCounter--;
+                                    showTrapResult(defuseSuccess);
                                 }else {
                                     if (defuseSuccess || this.player.getNumberOfFails() == 2){
                                         this.player.turnValue = TurnValue.DICEROLL;
@@ -399,20 +394,18 @@ public class TurnLogic {
         }
     }
 
-    public void setFailDisadvantage(){
-        if (this.player.getNumberOfFails() < 2) {
-            this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-            this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
-            this.animationCounter = 120;
+    public void showTrapResult(boolean succ){
+        if (succ){
+            Texture success = new Texture("success.png");
+            board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+        }else{
+            Texture fail = new Texture("fail.png");
+            board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
         }
-        else {
-            this.player.setCounterReducedMovementSpeed(4);
-            this.player.setNumberOfFails(0);
-            this.player.turnValue = TurnValue.DICEROLL;
-        }
+        animationCounter--;
     }
 
-    public boolean getTrapOutcome() throws InterruptedException{
+    public boolean getMovementTrapOutcome() throws InterruptedException{
         if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE){
             return this.trapRender.getMovementDefuse().dontMove();
         }

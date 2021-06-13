@@ -1,12 +1,8 @@
 package com.labyrix.game.Models;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Texture;
-import com.labyrix.game.Defusions.BombDefuse;
 import com.labyrix.game.Defusions.MovementDefuse;
 import com.labyrix.game.ENUMS.TrapDefuseMethod;
 import com.labyrix.game.ENUMS.TrapEventName;
-import com.labyrix.game.Screens.GameScreen;
 
 import java.util.Random;
 

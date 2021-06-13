@@ -83,22 +83,37 @@ project(":tests") {
     sourceSets.test.java.srcDirs = ["src/"]
 
     dependencies {
-        implementation project(":core")
 
-        configurations.all {
-            resolutionStrategy.dependencySubstitution {
-                substitute module('org.hamcrest:hamcrest-core:1.1') with module('junit:junit:4.10')
-            }
-        }
+        /**
+         * If you do have some classes to test in os specific code you may want to uncomment
+         * some of these lines.
+         *
+         * BUT: I recommend to create seperate test sub projects for each platform. Trust me :)
+         *
+         */
 
-        implementation "junit:junit:4.13.2"
+        //compile project("../android")
+//        compile project(":html")
+//        compile project(":desktop")
+
+
+//        if(System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
+//        	compile project(":ios")
+//        }
+
+        implementation project(path: ":core", configuration: "default")
+
+        implementation "junit:junit:4.+"
+        implementation "org.mockito:mockito-all:1.9.+"
 
         implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
-        testImplementation 'junit:junit:4.13.2'
+
+        testImplementation 'junit:junit:4.+'
+        testImplementation "org.mockito:mockito-all:1.9.+"
+
         testImplementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         testImplementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
     }
 }

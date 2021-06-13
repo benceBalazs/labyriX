@@ -26,6 +26,7 @@ public class Player {
     private int minRemainingFields;
     public TurnValue turnValue;
     private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private int hasCheated = 0;
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.name = name;
@@ -37,6 +38,11 @@ public class Player {
         if (this.board == null) {
             this.board = board;
         }
+    }
+
+    public Player(String name, String playerImagePath) {
+        this.name = name;
+        this.playerImage = new Image(playerImagePath);
     }
 
     public void render(SpriteBatch batch) {
@@ -168,6 +174,13 @@ public class Player {
         return minRemainingFields;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public TurnValue getTurnValue() {
         return turnValue;
@@ -175,5 +188,13 @@ public class Player {
 
     public void setTurnValue(TurnValue turnValue) {
         this.turnValue = turnValue;
+    }
+
+    public int getHasCheated() {
+        return hasCheated;
+    }
+
+    public void setHasCheated(int hasCheated) {
+        this.hasCheated = hasCheated;
     }
 }

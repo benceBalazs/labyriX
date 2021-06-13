@@ -56,6 +56,8 @@ public class LoadingScreen implements Screen {
         labyrixMain.getAssets().load("ui/uiskin.atlas", TextureAtlas.class);
         labyrixMain.getAssets().load("logoTitle.png", Texture.class);
         labyrixMain.getAssets().load("background.png", Texture.class);
+        labyrixMain.getAssets().load("winnerImg.png",Texture.class);
+        labyrixMain.getAssets().load("loserImg.png", Texture.class);
     }
 
     @Override

@@ -68,6 +68,7 @@ public class ServerRequestListener extends Listener {
             PlayerStatusResponse playerStatusResponse = new PlayerStatusResponse();
             int networkPlayerLobby = lobbyHandler.getNetworkPlayerById(connection.getID()).getLobbyId();
             if (lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers().size() < lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size()){
+                lobbyHandler.getLobbyById(((PlayerStatusRequest) object).getNetworkPlayer().getLobbyId()).updateNetworkPlayer(((PlayerStatusRequest) object).getNetworkPlayer().getId(),((PlayerStatusRequest) object).getNetworkPlayer());
                 lobbyHandler.getLobbyById(networkPlayerLobby).addReadyPlayer(lobbyHandler.getNetworkPlayerById(connection.getID()));
                 if(lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers().size() == lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size()){
                     playerStatusResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers());

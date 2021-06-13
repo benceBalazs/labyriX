@@ -14,6 +14,7 @@ import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.Models.*;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.NetworkModels.PlayerStatusRequest;
+import com.labyrix.game.NetworkModels.PlayerWinIdRequest;
 
 import java.util.ArrayList;
 
@@ -75,6 +76,10 @@ public class TurnLogic {
                     break;
                 case WON:
                     System.out.println("WON");
+                    if (!sentDataToServer) {
+                        client.sendTCP(new PlayerWinIdRequest(true));
+                        sentDataToServer = true;
+                    }
                     //SOME FANCY SERVER STUFF
                     break;
                 default:
@@ -165,6 +170,9 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
             this.clicker = true;
             this.cheatButton.setActive(true);
+            if (this.player.getCurrentField().isWinField() == true) {
+                this.player.turnValue = TurnValue.WON;
+            }
 
             if (this.getArrowActors().getArrowActorDown() != null) {
                 this.getArrowActors().setArrowActorDown(null);

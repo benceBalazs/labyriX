@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class PathField extends Field {
     private ArrayList<PathField> followingFields;
     private Trap trap;
+    private boolean isWinField = false;
 
     public PathField(int id, Vector2 coordinates, Image fieldImage, float trapProbability) {
         this.setId(id);
@@ -65,4 +66,11 @@ public class PathField extends Field {
         }
     }
 
+    public boolean isWinField() {
+        return isWinField;
+    }
+
+    public void setWinField(boolean winField) {
+        isWinField = winField;
+    }
 }

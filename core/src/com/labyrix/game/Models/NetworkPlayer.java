@@ -177,4 +177,27 @@ public class NetworkPlayer {
     public void setUpdated(boolean updated) {
         isUpdated = updated;
     }
+
+    @Override
+    public String toString() {
+        return "NetworkPlayer{" +
+                "id=" + id +
+                ", lobbyId=" + lobbyId +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", position=" + position +
+                ", currentField=" + currentField +
+                ", roundStatus='" + roundStatus + '\'' +
+                ", movementSpeed=" + movementSpeed +
+                ", remainingCheats=" + remainingCheats +
+                ", numberOfFails=" + numberOfFails +
+                ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
+                ", remainingSteps=" + remainingSteps +
+                ", maxRemainingFields=" + maxRemainingFields +
+                ", minRemainingFields=" + minRemainingFields +
+                ", turnValue=" + turnValue +
+                ", listAllPath=" + listAllPath +
+                ", isUpdated=" + isUpdated +
+                '}';
+    }
 }

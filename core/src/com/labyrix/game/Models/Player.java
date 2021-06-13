@@ -31,7 +31,9 @@ public class Player {
     private int hasCheated = 0;
     private boolean isUpdated = false;
 
-    public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
+    public Player(int id, int lobbyId, String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
+        this.id = id;
+        this.lobbyId = lobbyId;
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
@@ -223,5 +225,29 @@ public class Player {
 
     public void setMinRemainingFields(int minRemainingFields) {
         this.minRemainingFields = minRemainingFields;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", lobbyId=" + lobbyId +
+                ", name='" + name + '\'' +
+                ", playerImage=" + playerImage +
+                ", position=" + position +
+                ", currentField=" + currentField +
+                ", roundStatus='" + roundStatus + '\'' +
+                ", movementSpeed=" + movementSpeed +
+                ", remainingCheats=" + remainingCheats +
+                ", numberOfFails=" + numberOfFails +
+                ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
+                ", remainingSteps=" + remainingSteps +
+                ", maxRemainingFields=" + maxRemainingFields +
+                ", minRemainingFields=" + minRemainingFields +
+                ", turnValue=" + turnValue +
+                ", listAllPath=" + listAllPath +
+                ", hasCheated=" + hasCheated +
+                ", isUpdated=" + isUpdated +
+                '}';
     }
 }

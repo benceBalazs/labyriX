@@ -258,7 +258,9 @@ public class TurnLogic {
             turnValueText = new Texture("checkTrap.png");
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
 
-                this.player.turnValue = TurnValue.TRAPACTIVATED;
+                //this.player.turnValue = TurnValue.TRAPACTIVATED;
+                this.player.turnValue = TurnValue.DICEROLL;
+
                 int x, y;
                 if (this.player.getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.ZOMBIE) {
                     x = (int) this.player.getCurrentField().getCoordinates().x;
@@ -423,6 +425,9 @@ public class TurnLogic {
 
             // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
             NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
+
+            System.out.println(player.toString());
+            System.out.println(np.toString());
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
             System.out.println("Sent stuff");
@@ -456,12 +461,14 @@ public class TurnLogic {
             System.out.println("receiving stuff");
             for (NetworkPlayer np: networkplayers) {
                 if (np.getId() != this.player.getId()) {
-                    Player p = this.getPlayerById(np.getId());
-                    if (p != null) {
-                        p.setCurrentField(np.getCurrentField());
-                        p.setPosition(np.getPosition());
-                        p.setMaxRemainingFields(np.getMaxRemainingFields());
-                        p.setMinRemainingFields(np.getMinRemainingFields());
+
+                    System.out.println(np.toString());
+                    int playerindex = getPlayerIndexById(np.getId());
+                    if (playerindex != -1) {
+                        this.players.get(playerindex).setPosition(np.getPosition());
+                        this.players.get(playerindex).setMaxRemainingFields(np.getMaxRemainingFields());
+                        this.players.get(playerindex).setMinRemainingFields(np.getMinRemainingFields());
+                        System.out.println(this.players.get(playerindex).toString());
                     }
                 }
             }
@@ -520,5 +527,19 @@ public class TurnLogic {
         }
 
         return p;
+    }
+
+    public int getPlayerIndexById(int id) {
+        int pid = -1;
+
+        System.out.println("search for player:");
+        for (Player pl : players) {
+            System.out.println(pl.toString());
+            pid++;
+            if (pl.getId() == id) {
+                break;
+            }
+        }
+        return pid;
     }
 }

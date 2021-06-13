@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 
         for (NetworkPlayer np: networkPlayers) {
             if (np.getId() == this.mainPlayerId) {
-                this.player = new Player(np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                this.player = new Player(mainPlayerId, np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
             }
         }
 
@@ -61,7 +61,7 @@ public class GameScreen implements Screen {
         //Serverstuff - fill list of other Players
         for (NetworkPlayer np: networkPlayers) {
             if (np.getId() != this.mainPlayerId) {
-                Player p = new Player(np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                Player p = new Player(np.getId(), np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
                 tl.addPlayer(p);
             }
         }
@@ -80,6 +80,7 @@ public class GameScreen implements Screen {
             }
             player.render(batch);
         }
+
         if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
             tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
 

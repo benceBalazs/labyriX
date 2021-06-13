@@ -417,7 +417,7 @@ public class TurnLogic {
             System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
 
             // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
-            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getCurrentField(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
+            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
             client.sendTCP(new PlayerStatusRequest(np));
 
             /*if (Gdx.input.justTouched()) {

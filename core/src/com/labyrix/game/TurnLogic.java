@@ -425,6 +425,7 @@ public class TurnLogic {
             NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
+            System.out.println("Sent stuff");
             /*if (Gdx.input.justTouched()) {
                 System.out.println("server has done its stuff");
                 for (Player p: this.players) {
@@ -449,7 +450,10 @@ public class TurnLogic {
      *
      * */
     public void playerReturnServer(ArrayList<NetworkPlayer> networkplayers){
+
         if (this.turnDone == true) {
+
+            System.out.println("receiving stuff");
             for (NetworkPlayer np: networkplayers) {
                 if (np.getId() != this.player.getId()) {
                     Player p = this.getPlayerById(np.getId());
@@ -461,6 +465,8 @@ public class TurnLogic {
                     }
                 }
             }
+            System.out.println("received stuff");
+            this.turnDone = false;
         }
     }
 

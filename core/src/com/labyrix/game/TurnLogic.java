@@ -27,7 +27,6 @@ public class TurnLogic {
     private ArrowActors arrowActors;
     private TrapRender trapRender;
     int animationCounter = 20;
-    private Texture turnValueText;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
     private boolean sentDataToServer = false;
@@ -45,7 +44,6 @@ public class TurnLogic {
         this.player.turnValue = TurnValue.DICEROLL;
         this.trapRender = new TrapRender(camera);
         arrowActors = new ArrowActors(camera);
-        turnValueText = new Texture("rollDice.png");
 
         this.uncoverButton = new HudButton();
         this.cheatButton = new HudButton();
@@ -54,8 +52,6 @@ public class TurnLogic {
     }
 
     public void doTurn() throws IllegalArgumentException {
-        board.getBatch().draw(turnValueText, this.player.getPosition().x - Gdx.graphics.getWidth() / 8f, this.player.getPosition().y);
-
         if (this.turnDone == false) {
             System.out.println(this.player.turnValue);
             switch (this.player.turnValue) {
@@ -187,7 +183,6 @@ public class TurnLogic {
                 this.getArrowActors().setArrowActorUp(null);
             }
 
-            turnValueText = new Texture("move.png");
             System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
             System.out.println("Following Fields: " + this.player.getCurrentField().getFollowingFields().size());
 
@@ -221,7 +216,6 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
             if (this.player.getRemainingSteps() > 0) {
-                turnValueText = new Texture("selectPath.png");
                 System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
                 int i = 0;
                 this.arrowActors.setInputProcess();
@@ -263,7 +257,6 @@ public class TurnLogic {
 
     public void checkTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
-            turnValueText = new Texture("checkTrap.png");
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
 
                 //this.player.turnValue = TurnValue.TRAPACTIVATED;
@@ -293,7 +286,6 @@ public class TurnLogic {
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
             if (this.animationCounter != 0) {
-                turnValueText = new Texture("trapActive.png");
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
                 int y = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().y - (int) (Gdx.graphics.getHeight() / 8f);
@@ -428,7 +420,6 @@ public class TurnLogic {
 
     public void doServerStuff() throws IllegalArgumentException {
         if (this.turnDone == true) {
-            this.turnValueText = new Texture("serverstuff.png");
             System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
 
             // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses

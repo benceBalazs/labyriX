@@ -29,6 +29,7 @@ public class TurnLogic {
     private Texture turnValueText;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
+    private boolean sentDataToServer = false;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -80,7 +81,9 @@ public class TurnLogic {
                     throw new IllegalArgumentException();
             }
         } else if (this.turnDone == true) {
-            doServerStuff();
+            if (this.sentDataToServer == false) {
+                doServerStuff();
+            }
         }
     }
 
@@ -102,6 +105,8 @@ public class TurnLogic {
                 if (this.player.getHasCheated() > 0) {
                     this.player.setHasCheated(this.player.getHasCheated()-1);
                 }
+
+                this.sentDataToServer = false;
 
                 this.animationCounter = 120;
                 switch (steps) {
@@ -419,7 +424,7 @@ public class TurnLogic {
             // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
             NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
             client.sendTCP(new PlayerStatusRequest(np));
-
+            sentDataToServer = true;
             /*if (Gdx.input.justTouched()) {
                 System.out.println("server has done its stuff");
                 for (Player p: this.players) {

@@ -84,6 +84,7 @@ public class TurnLogic {
         } else if (this.turnDone == true) {
             if (this.sentDataToServer == false) {
                 doServerStuff();
+                //TODO reset Gdx.Input or clear Stage or smth like that
             }
         }
     }
@@ -154,7 +155,7 @@ public class TurnLogic {
             }
 
             if (Gdx.input.getX() >= uncoverButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= uncoverButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonEnd()) {
-            //Logic for Uncover Cheat
+                //Logic for Uncover Cheat
             }
 
         } else {
@@ -422,27 +423,11 @@ public class TurnLogic {
         if (this.turnDone == true) {
             System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
 
-            // TODO send with "client.sendTCP(new PlayerStatusRequest())" a player status to the server and wait for playerReturnServer() for all player statuses
             NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
 
-            System.out.println(player.toString());
-            System.out.println(np.toString());
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
             System.out.println("Sent stuff");
-            /*if (Gdx.input.justTouched()) {
-                System.out.println("server has done its stuff");
-                for (Player p: this.players) {
-                    for (int i = 0; ((Math.random()*10) % 6) + 1 > i ; i++) {
-                        if (p.getCurrentField().getFollowingFields().size() > 0) {
-                            p.setCurrentField(p.getCurrentField().getFollowingField(0));
-                        }
-                    }
-                    Vector2 playerPosition = new Vector2(p.getCurrentField().getCoordinates().x + 64, p.getCurrentField().getCoordinates().y + 184);
-                    p.setPosition(playerPosition);
-                }
-                this.turnDone = false;
-            }*/
 
         } else {
             throw new IllegalArgumentException();
@@ -461,13 +446,11 @@ public class TurnLogic {
             for (NetworkPlayer np: networkplayers) {
                 if (np.getId() != this.player.getId()) {
 
-                    System.out.println(np.toString());
                     int playerindex = getPlayerIndexById(np.getId());
                     if (playerindex != -1) {
                         this.players.get(playerindex).setPosition(np.getPosition());
                         this.players.get(playerindex).setMaxRemainingFields(np.getMaxRemainingFields());
                         this.players.get(playerindex).setMinRemainingFields(np.getMinRemainingFields());
-                        System.out.println(this.players.get(playerindex).toString());
                     }
                 }
             }
@@ -508,24 +491,6 @@ public class TurnLogic {
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
-    }
-
-    public Player getPlayerById(int id) {
-        Player p = null;
-        if (this.player.getId() == id) {
-            p = this.player;
-        }
-
-        else {
-            for (Player pl: players) {
-                if (pl.getId() == id) {
-                    p = pl;
-                    break;
-                }
-            }
-        }
-
-        return p;
     }
 
     public int getPlayerIndexById(int id) {

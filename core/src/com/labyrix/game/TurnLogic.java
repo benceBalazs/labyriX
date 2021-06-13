@@ -28,6 +28,8 @@ public class TurnLogic {
     private Texture turnValueText;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
+    private boolean defuseCompleted = false;
+    private boolean defuseSuccess = false;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -276,7 +278,7 @@ public class TurnLogic {
 
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
-            if (this.animationCounter != 0) {
+            if (this.animationCounter != 0 && this.trapRender.getMovementDefuse() == null && this.trapRender.getBombDefuse() == null) {
                 turnValueText = new Texture("trapActive.png");
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
@@ -305,86 +307,32 @@ public class TurnLogic {
                                         if (trapRender.getBombDefuse().bombResult()){
                                             trapRender.getStage().clear();
                                             bombrender = false;
+                                            animationCounter = 120;
                                         }
                                         else if (count == 5){
                                             trapRender.getStage().clear();
                                             bombrender = false;
+                                            animationCounter = 120;
                                         }
                                         count++;
                                     }
-
                                 }
                             }, 1,1,7);
                         }
 
                         if (this.trapRender.getStage().getActors().isEmpty() == true){
-                            if (trapRender.getBombDefuse().bombResult() == true){
-                                trapRender.setBombDefuse(null);
-                                this.player.turnValue = TurnValue.DICEROLL;
-                            }
-                            else {
-                                trapRender.setBombDefuse(null);
 
-                                if (this.player.getNumberOfFails() < 2) {
-                                    this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                                    this.player.setMovementSpeed((float)(this.player.getMovementSpeed() * 0.75));
-                                    this.animationCounter = 120;
-                                }
-                                else {
-                                    this.player.setCounterReducedMovementSpeed(4);
-                                    this.player.setNumberOfFails(0);
-                                    this.player.turnValue = TurnValue.DICEROLL;
-                                }
-                            }
-                            this.turnDone = true;
-                        }
-
-                    } else {
-                        if (this.trapRender.getMovementDefuse() == null){
-                            MovementDefuse movementDefuse1 = new MovementDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y, this.player.getCurrentField().getTrap().getEvent().getEvent());
-                            this.trapRender.setMovementDefuse(movementDefuse1);
-                            this.trapRender.addToStage(this.trapRender.getMovementDefuse().getTable());
-                        }
-                        else {
-                            if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE) {
-                                if (this.trapRender.getMovementDefuse().dontMove()) {
+                            if (animationCounter!= 0){
+                                showTrapResult(trapRender.getBombDefuse().bombResult());
+                            }else {
+                                if (trapRender.getBombDefuse().bombResult() == true) {
+                                    trapRender.setBombDefuse(null);
                                     this.player.turnValue = TurnValue.DICEROLL;
                                 } else {
-                                    if (this.player.getNumberOfFails() < 3) {
-                                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
-                                    }
-                                    else {
-                                        this.player.setCounterReducedMovementSpeed(4);
-                                        this.player.setNumberOfFails(0);
-                                        this.player.turnValue = TurnValue.DICEROLL;
-                                    }
-                                }
-                                this.trapRender.getStage().clear();
-                            } else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.QUICKSAND) {
-                                if (this.trapRender.getMovementDefuse().crawlOut()) {
-                                    this.player.turnValue = TurnValue.DICEROLL;
-                                } else {
-                                    if (this.player.getNumberOfFails() < 3) {
-                                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
-                                    }
-                                    else {
-                                        this.player.setCounterReducedMovementSpeed(4);
-                                        this.player.setNumberOfFails(0);
-                                        this.player.turnValue = TurnValue.DICEROLL;
-                                    }
-                                }
-                                this.trapRender.getStage().clear();
-                            }
-                            else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR) {
-                                if (this.trapRender.getMovementDefuse().climbUp()) {
-                                    this.player.turnValue = TurnValue.DICEROLL;
-                                }
-                                else {
+                                    trapRender.setBombDefuse(null);
                                     if (this.player.getNumberOfFails() < 2) {
                                         this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
-                                        this.player.setMovementSpeed((float)(this.player.getMovementSpeed() * 0.75));
+                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
                                         this.animationCounter = 120;
                                     }
                                     else {
@@ -393,11 +341,47 @@ public class TurnLogic {
                                         this.player.turnValue = TurnValue.DICEROLL;
                                     }
                                 }
-                                this.trapRender.getStage().clear();
-                            }
-                            if (this.trapRender.getStage().getActors().isEmpty()) {
-                                trapRender.setMovementDefuse(null);
                                 this.turnDone = true;
+                            }
+                        }
+                    } else {
+                        if (this.trapRender.getMovementDefuse() == null){
+                            MovementDefuse movementDefuse1 = new MovementDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y, this.player.getCurrentField().getTrap().getEvent().getEvent());
+                            this.trapRender.setMovementDefuse(movementDefuse1);
+                            this.trapRender.addToStage(this.trapRender.getMovementDefuse().getTable());
+                        } else {
+                            if (!defuseCompleted){
+                                if (getMovementTrapOutcome()) {
+                                    animationCounter = 120;
+                                    defuseSuccess = true;
+                                } else {
+                                    if (this.player.getNumberOfFails() < 2) {
+                                        this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
+                                        this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
+                                        this.animationCounter = 120;
+                                    }
+                                    else {
+                                        this.player.setCounterReducedMovementSpeed(4);
+                                        this.player.setNumberOfFails(0);
+                                    }
+                                    defuseSuccess = false;
+                                }
+                                this.trapRender.getStage().clear();
+                                defuseCompleted = true;
+                            }
+
+                            if (this.trapRender.getStage().getActors().isEmpty()) {
+                                if (animationCounter!= 0){
+                                    showTrapResult(defuseSuccess);
+                                }else {
+                                    if (defuseSuccess || this.player.getNumberOfFails() == 2){
+                                        this.player.turnValue = TurnValue.DICEROLL;
+                                    }
+                                    defuseCompleted = false;
+                                    animationCounter = 120;
+                                    trapRender.setMovementDefuse(null);
+                                    this.turnDone = true;
+                                }
                             }
                         }
                     }
@@ -435,6 +419,30 @@ public class TurnLogic {
         }
     }
 
+    public void showTrapResult(boolean succ){
+        if (succ){
+            Texture success = new Texture("success.png");
+            board.getBatch().draw(success, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+        }else{
+            Texture fail = new Texture("fail.png");
+            board.getBatch().draw(fail, this.player.getPosition().x - Gdx.graphics.getWidth() / 2f, this.player.getPosition().y - Gdx.graphics.getWidth() / 4f);
+        }
+        animationCounter--;
+    }
+
+    public boolean getMovementTrapOutcome() throws InterruptedException{
+        if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE){
+            return this.trapRender.getMovementDefuse().dontMove();
+        }
+        else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.QUICKSAND){
+            return this.trapRender.getMovementDefuse().crawlOut();
+        }
+        else if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR){
+            return this.trapRender.getMovementDefuse().climbUp();
+        }
+        return false;
+    }
+      
     public void playerReturnServer(ArrayList<NetworkPlayer> networkplayers){
         /* TODO networkplayer to normal player einbinden | Unterschied nur String statt Image
             Methode wird automatisch aufgerufen nachdem jeder seinen Zug gemacht hat

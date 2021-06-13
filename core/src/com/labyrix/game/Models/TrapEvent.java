@@ -10,7 +10,6 @@ public class TrapEvent {
     private TrapEventName event;
     private Image eventImage;
     private TrapDefuseMethod defuseMethod;
-    private MovementDefuse sensorDefuse;
 
     public TrapEvent (){
         this.event = randomTrapEvent();
@@ -41,32 +40,6 @@ public class TrapEvent {
         return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
-    public boolean TrapDefuse() throws InterruptedException {
-        boolean result = false;
-        this.sensorDefuse = new MovementDefuse(3f,3f,TrapEventName.DOOR);
-
-        switch (defuseMethod){
-            case DEFUSEBOMB:
-                break;
-            case CLIMBUP:
-                result = sensorDefuse.climbUp();
-                break;
-            case CRAWLOUT:
-                result = sensorDefuse.crawlOut();
-                break;
-            case STOPMOVING:
-                result = sensorDefuse.dontMove();
-                break;
-            case WAVE:
-                //result = sensorDefuse.wave();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + defuseMethod);
-        }
-        System.out.println(result);
-        return result;
-    }
-
     public TrapEventName getEvent() {
         return event;
     }
@@ -89,9 +62,5 @@ public class TrapEvent {
 
     public void setDefuseMethod(TrapDefuseMethod defuseMethod) {
         this.defuseMethod = defuseMethod;
-    }
-
-    public MovementDefuse getSensorDefuse() {
-        return sensorDefuse;
     }
 }

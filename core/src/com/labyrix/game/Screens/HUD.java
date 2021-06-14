@@ -18,6 +18,12 @@ import com.labyrix.game.Models.HudButton;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.TurnLogic;
 
+/**
+ * this is the HUD that will be displayed during the game.
+ *
+ * @author Jahn Alexander
+ */
+
 public class HUD {
 
     /**
@@ -28,11 +34,11 @@ public class HUD {
     private final Viewport viewport;
 
     /**
-     * hudPlayerName: shows your own name in the HUD
-     * hudTurnVal: shows the current state of the character; movement, diceroll, etc.
-     * hudRemSteps: shows how many steps the character can take during his turn after rolling the dice.
-     * hudRemFields: shows the remaining steps to the destination
-     * hudReduMvmtSpeedUntil: Shows how long you have restricted mobility after being caught in a trap.
+     * hudPlayerName: your own player-name
+     * hudTurnVal: in which state the character currently is; movement, diceroll, etc.
+     * hudRemSteps: how many steps the character can take during his turn after rolling the dice.
+     * hudRemFields: remaining steps to the destination
+     * hudReduMvmtSpeedUntil: shows how long you have restricted mobility after being caught in a trap.
      */
     private String hudPlayerName;
     private String hudTurnVal;
@@ -48,8 +54,8 @@ public class HUD {
     private final Label.LabelStyle labelStyle;
 
     /**
-     * player: is required for certain information, such as the remaining way to the destination
-     * turnLogic: is required so that the buttons are active in the correct state
+     * player: is required for certain information, such as the remaining way to the destination.
+     * turnLogic: is required so that the buttons are active in the correct state.
      */
     private final Player player;
     private final TurnLogic turnLogic;
@@ -77,14 +83,16 @@ public class HUD {
      */
     private int frameCounter;
 
+    /**
+     * the state in which a button is active.
+     */
     private TurnValue buttonStatus;
 
     /**
-     *
-     * @param player
-     * @param turnLogic
+     * the constructor only initializes the most important variables and objects, which remain constant and do not have to be recreated with each frame.
+     * @param player the player that is created in GameScreen
+     * @param turnLogic the TurnLogic belonging to the player
      */
-
     public HUD(Player player, TurnLogic turnLogic){
         this.turnLogic = turnLogic;
         this.player = player;
@@ -105,10 +113,9 @@ public class HUD {
     }
 
     /**
-     *
-     * @param batch
+     * creates and renders 60 times per second all HUD elements and updates its values everytime
+     * @param batch the batch where the game is drawn. The HUD is drawn over it.
      */
-
     public void render(SpriteBatch batch) {
         this.hudPlayerName = this.player.getName();
         this.hudTurnVal = turnValTranslator(this.turnLogic.getPlayer().getTurnValue());
@@ -145,6 +152,11 @@ public class HUD {
         this.stage.draw();
     }
 
+    /**
+     * Each state is translated and helps the player understand what is happening or what needs to be done.
+     * @param turnValue The value which has to be translated.
+     * @return text that is understandable for the player.
+     */
     private String turnValTranslator(TurnValue turnValue){
         if (turnValue == TurnValue.DICEROLL){
             return "Roll the Dice!";
@@ -174,6 +186,17 @@ public class HUD {
         return this.turnLogic.getPlayer().getTurnValue().toString();
     }
 
+    /**
+     * creates a HUD element which displays a single value
+     * @param xCoordinate the point on the x-axis where the element gets created.
+     * @param yCoordinate the point on the y-axis where the element gets created.
+     * @param barLength length of the element / x-axis
+     * @param barHeight height of the element / y-axis
+     * @param labelDescription what should be displayed
+     * @param labelValue the current value
+     * @param textCenter if true, the text gets centered
+     * @param signal if true, the element flashes, if a trap gets activated
+     */
     private void createTopBarElement(float xCoordinate, float yCoordinate, float barLength, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
         Table tableTopBarElement = new Table();
         tableTopBarElement.bottom();
@@ -232,6 +255,14 @@ public class HUD {
         this.frameCounter++;
     }
 
+    /**
+     * creates a hud element that contains buttons for the game
+     * @param xCoordinate the point on the x-axis where the element gets created.
+     * @param yCoordinate the point on the y-axis where the element gets created.
+     * @param radius specifies how big the radius should be at the corners.
+     * @param barLength length of the element / x-axis
+     * @param barHeight length of the element / y-axis
+     */
     private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLength, float barHeight){
         Table tableSideBar = new Table();
 
@@ -303,9 +334,8 @@ public class HUD {
     }
 
     /**
-     * getter and setter. unnecessary to say anything
+     * getter and setter.
      */
-
     public String getHudPlayerName() {
         return this.hudPlayerName;
     }

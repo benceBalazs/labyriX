@@ -94,7 +94,7 @@ public class TurnLogic {
             if (this.player.getRemainingSteps() == 0) {
                 animationCounter = 120;
             }
-            if (Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd() && animationCounter == 120) {
+            if (Gdx.input.justTouched() && Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd() && animationCounter == 120) {
                 int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
                 this.player.setRemainingSteps(steps);
 
@@ -135,7 +135,7 @@ public class TurnLogic {
                 }
             }
 
-            if (Gdx.input.getX() >= cheatButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= cheatButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonEnd() && this.player.getRemainingCheats() > 0 && clicker) {
+            if (Gdx.input.justTouched() && Gdx.input.getX() >= cheatButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= cheatButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - cheatButton.getyCoordinateButtonEnd() && this.player.getRemainingCheats() > 0 && clicker) {
                 this.player.setMovementSpeed(1);
                 this.player.setCounterReducedMovementSpeed(0);
                 this.player.setRemainingCheats(this.player.getRemainingCheats()-1);
@@ -154,7 +154,7 @@ public class TurnLogic {
                 this.dicerollImg = null;
             }
 
-            if (Gdx.input.getX() >= uncoverButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= uncoverButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonEnd()) {
+            if (Gdx.input.justTouched() && Gdx.input.getX() >= uncoverButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= uncoverButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonEnd()) {
                 //Logic for Uncover Cheat
             }
 
@@ -165,8 +165,10 @@ public class TurnLogic {
 
     public void move() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
+
             this.clicker = true;
             this.cheatButton.setActive(true);
+
             if (this.player.getCurrentField().isWinField() == true) {
                 this.player.turnValue = TurnValue.WON;
             }

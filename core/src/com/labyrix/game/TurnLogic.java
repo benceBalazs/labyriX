@@ -76,7 +76,6 @@ public class TurnLogic {
                         client.sendTCP(new PlayerWinIdRequest(true));
                         sentDataToServer = true;
                     }
-                    //SOME FANCY SERVER STUFF
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -84,7 +83,6 @@ public class TurnLogic {
         } else if (this.turnDone == true) {
             if (this.sentDataToServer == false) {
                 doServerStuff();
-                //TODO reset Gdx.Input or clear Stage or smth like that
             }
         }
     }
@@ -262,8 +260,7 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
 
-                //this.player.turnValue = TurnValue.TRAPACTIVATED;
-                this.player.turnValue = TurnValue.DICEROLL;
+                this.player.turnValue = TurnValue.TRAPACTIVATED;
 
                 int x, y;
                 if (this.player.getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.ZOMBIE) {

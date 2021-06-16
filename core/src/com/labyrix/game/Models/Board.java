@@ -371,10 +371,6 @@ public class Board {
         return fields;
     }
 
-    public void setFields(Field[][] fields) {
-        this.fields = fields;
-    }
-
     public PathField getPathFieldByID(int id) {
         if (this.fields != null) {
             for (int i = 0; i < fields.length; i++) {

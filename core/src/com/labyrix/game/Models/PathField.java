@@ -9,35 +9,16 @@ public class PathField extends Field {
     private Trap trap;
     private boolean isWinField = false;
 
-    public PathField(int id, Vector2 coordinates, Image fieldImage, float trapProbability) {
-        this.setId(id);
-        this.setCoordinates(coordinates);
-        this.setFieldImage(fieldImage);
-        followingFields = new ArrayList<PathField>();
-        this.trap = new Trap(trapProbability);
-    }
-
-    public PathField(int id, Image fieldImage, float trapProbability) {
+       public PathField(int id, Image fieldImage, float trapProbability) {
         this.setId(id);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
         this.trap = new Trap(trapProbability);
-    }
-
-    public PathField(int id, Image fieldImage) {
-        this.setId(id);
-        this.setFieldImage(fieldImage);
-
-        followingFields = new ArrayList<PathField>();
     }
 
     @Override
     public ArrayList<PathField> getFollowingFields() {
         return followingFields;
-    }
-
-    public void setFollowingFields(ArrayList<PathField> followingFields) {
-        this.followingFields = followingFields;
     }
 
     public Trap getTrap() {

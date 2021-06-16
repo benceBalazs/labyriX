@@ -53,7 +53,6 @@ public class TurnLogic {
 
     public void doTurn() throws IllegalArgumentException {
         if (this.turnDone == false) {
-            System.out.println(this.player.turnValue);
             switch (this.player.turnValue) {
                 case DICEROLL:
                     rollDice();
@@ -71,7 +70,6 @@ public class TurnLogic {
                     defuseTrap();
                     break;
                 case WON:
-                    System.out.println("WON");
                     if (!sentDataToServer) {
                         client.sendTCP(new PlayerWinIdRequest(true));
                         sentDataToServer = true;
@@ -81,9 +79,7 @@ public class TurnLogic {
                     throw new IllegalArgumentException();
             }
         } else if (this.turnDone == true) {
-            System.out.println("SDTS: " +sentDataToServer);
             if (this.sentDataToServer == false) {
-                System.out.println("before do serverstuff");
                 doServerStuff();
             }
         }
@@ -186,8 +182,6 @@ public class TurnLogic {
                 this.getArrowActors().setArrowActorUp(null);
             }
 
-            System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
-            System.out.println("Following Fields: " + this.player.getCurrentField().getFollowingFields().size());
 
 
             if (this.player.getRemainingSteps() <= 0) {
@@ -219,7 +213,6 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
             if (this.player.getRemainingSteps() > 0) {
-                System.out.println("Remaining Steps: " + this.player.getRemainingSteps());
                 int i = 0;
                 this.arrowActors.setInputProcess();
                 for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
@@ -289,19 +282,15 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
             this.sentDataToServer = false;
             if (this.animationCounter != 0) {
-                System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
                 int y = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().y - (int) (Gdx.graphics.getHeight() / 8f);
                 Texture trapImg = this.player.getCurrentField().getTrap().getEvent().getEventImage().getImg();
                 board.drawImg(trapImg, x, y);
 
                 animationCounter--;
-                System.out.println("Print Trap");
             } else {
                 try {
                     if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB) {
-                        System.out.println("bombdefuse");
-
                         this.trapRender.setInputProcess();
                         if (this.trapRender.getBombDefuse() == null) {
                             BombDefuse defuse = new BombDefuse(this.player.getCurrentField().getCoordinates().x, this.player.getCurrentField().getCoordinates().y);
@@ -349,13 +338,10 @@ public class TurnLogic {
                                     this.player.turnValue = TurnValue.DICEROLL;
                                 }
                             }
-                            System.out.println("turn done");
                             this.turnDone = true;
-                            System.out.println("now it should do serverstuff");
                         }
 
                     } else {
-                        System.out.println("movedefuse");
                         if (this.trapRender.getMovementDefuse() == null){
                             MovementDefuse movementDefuse1 = new MovementDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y, this.player.getCurrentField().getTrap().getEvent().getEvent());
                             this.trapRender.setMovementDefuse(movementDefuse1);
@@ -413,9 +399,7 @@ public class TurnLogic {
                             }
                             if (this.trapRender.getStage().getActors().isEmpty()) {
                                 trapRender.setMovementDefuse(null);
-                                System.out.println("turn done");
                                 this.turnDone = true;
-                                System.out.println("now it should do serverstuff");
                             }
                         }
                     }
@@ -430,13 +414,11 @@ public class TurnLogic {
 
     public void doServerStuff() throws IllegalArgumentException {
         if (this.turnDone == true) {
-            System.out.println("Server communication beep boop boop beep - Server returned voll cool ey");
 
-            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.isUpdated());
+            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields());
 
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
-            System.out.println("Sent stuff");
 
         } else {
             throw new IllegalArgumentException();
@@ -451,7 +433,6 @@ public class TurnLogic {
 
         if (this.turnDone == true) {
 
-            System.out.println("receiving stuff");
             for (NetworkPlayer np: networkplayers) {
                 if (np.getId() != this.player.getId()) {
 
@@ -463,7 +444,6 @@ public class TurnLogic {
                     }
                 }
             }
-            System.out.println("received stuff");
             this.turnDone = false;
         }
     }
@@ -504,10 +484,7 @@ public class TurnLogic {
 
     public int getPlayerIndexById(int id) {
         int pid = -1;
-
-        System.out.println("search for player:");
         for (Player pl : players) {
-            System.out.println(pl.toString());
             pid++;
             if (pl.getId() == id) {
                 break;

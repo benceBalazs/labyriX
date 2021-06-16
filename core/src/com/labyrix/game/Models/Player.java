@@ -17,7 +17,6 @@ public class Player {
     private Image playerImage;
     private Vector2 position;
     private PathField currentField;
-    private String roundStatus = null;
     private float movementSpeed = 1f;
     private int remainingCheats = 2;
     private int numberOfFails = 0;
@@ -29,7 +28,6 @@ public class Player {
     public TurnValue turnValue;
     private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
     private int hasCheated = 0;
-    private boolean isUpdated = false;
 
     public Player(int id, int lobbyId, String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
         this.id = id;
@@ -131,14 +129,6 @@ public class Player {
         this.counterReducedMovementSpeed = counterReducedMovementSpeed;
     }
 
-    public String getRoundStatus() {
-        return roundStatus;
-    }
-
-    public void setRoundStatus(String roundStatus) {
-        this.roundStatus = roundStatus;
-    }
-
     public Image getPlayerImage() {
         return playerImage;
     }
@@ -211,14 +201,6 @@ public class Player {
         this.lobbyId = lobbyId;
     }
 
-    public boolean isUpdated() {
-        return isUpdated;
-    }
-
-    public void setUpdated(boolean updated) {
-        isUpdated = updated;
-    }
-
     public void setMaxRemainingFields(int maxRemainingFields) {
         this.maxRemainingFields = maxRemainingFields;
     }
@@ -236,7 +218,6 @@ public class Player {
                 ", playerImage=" + playerImage +
                 ", position=" + position +
                 ", currentField=" + currentField +
-                ", roundStatus='" + roundStatus + '\'' +
                 ", movementSpeed=" + movementSpeed +
                 ", remainingCheats=" + remainingCheats +
                 ", numberOfFails=" + numberOfFails +
@@ -247,7 +228,6 @@ public class Player {
                 ", turnValue=" + turnValue +
                 ", listAllPath=" + listAllPath +
                 ", hasCheated=" + hasCheated +
-                ", isUpdated=" + isUpdated +
                 '}';
     }
 }

@@ -81,7 +81,9 @@ public class TurnLogic {
                     throw new IllegalArgumentException();
             }
         } else if (this.turnDone == true) {
+            System.out.println("SDTS: " +sentDataToServer);
             if (this.sentDataToServer == false) {
+                System.out.println("before do serverstuff");
                 doServerStuff();
             }
         }
@@ -285,6 +287,7 @@ public class TurnLogic {
 
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
+            this.sentDataToServer = false;
             if (this.animationCounter != 0) {
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
@@ -293,11 +296,13 @@ public class TurnLogic {
                 board.drawImg(trapImg, x, y);
 
                 animationCounter--;
+                System.out.println("Print Trap");
             } else {
                 try {
                     if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB) {
-                        this.trapRender.setInputProcess();
+                        System.out.println("bombdefuse");
 
+                        this.trapRender.setInputProcess();
                         if (this.trapRender.getBombDefuse() == null) {
                             BombDefuse defuse = new BombDefuse(this.player.getCurrentField().getCoordinates().x, this.player.getCurrentField().getCoordinates().y);
                             this.trapRender.setBombDefuse(defuse);
@@ -344,10 +349,13 @@ public class TurnLogic {
                                     this.player.turnValue = TurnValue.DICEROLL;
                                 }
                             }
+                            System.out.println("turn done");
                             this.turnDone = true;
+                            System.out.println("now it should do serverstuff");
                         }
 
                     } else {
+                        System.out.println("movedefuse");
                         if (this.trapRender.getMovementDefuse() == null){
                             MovementDefuse movementDefuse1 = new MovementDefuse(this.player.getCurrentField().getCoordinates().x,this.player.getCurrentField().getCoordinates().y, this.player.getCurrentField().getTrap().getEvent().getEvent());
                             this.trapRender.setMovementDefuse(movementDefuse1);
@@ -405,7 +413,9 @@ public class TurnLogic {
                             }
                             if (this.trapRender.getStage().getActors().isEmpty()) {
                                 trapRender.setMovementDefuse(null);
+                                System.out.println("turn done");
                                 this.turnDone = true;
+                                System.out.println("now it should do serverstuff");
                             }
                         }
                     }

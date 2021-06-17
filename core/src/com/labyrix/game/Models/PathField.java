@@ -29,6 +29,9 @@ public class PathField extends Field {
         this.trap = trap;
     }
 
+    /** fügt Folgefeld in Liste der Folgefelder hinzu - insofern, die Länge der Folgefelderliste noch nicht 3 erreicht hat
+     * @param: f - Pathfield, welches hinzugefügt werden soll
+     */
     @Override
     public void addFollowingFields(PathField f) {
         if (followingFields.size() < 3){
@@ -36,7 +39,11 @@ public class PathField extends Field {
         }
     }
 
-
+    /** gibt das Folgefeld an der Position i der Folgefelderliste zurück
+     * @param: i - Position des Feldes in followingfields
+     * @return: Pathfield
+     * @exception: IlllegalArgumentException - falls i Größer als followingFields.size
+     */
     public PathField getFollowingField(int i) {
 
         if (followingFields.size() > i) {

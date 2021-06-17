@@ -51,6 +51,11 @@ public class TurnLogic {
         this.clicker = true;
     }
 
+    /** calls different Methods according to boolean turnDone and ENUM player.turnValue
+     * if turnDone is false - rollDice, move, selectPath, checkTrap, defuseTrap are called; or server gets notified that player won the game
+     * if turnDone is true - a method for sending an data to server is called
+     * @exception: IllegalArgumentException - in case turnValue is not known.
+     */
     public void doTurn() throws IllegalArgumentException {
         if (this.turnDone == false) {
             switch (this.player.turnValue) {
@@ -85,6 +90,16 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * Implements Diceroll
+     * with Click on diceButton a random number will be generated.
+     * counter for reduced movement speed, and cheat recognitions tatus (hasCheated) will be decreased
+     * according to the diced number, a image will be rendered for 120 rollDice calls
+     * with Click on cheatButton - the movementspeed will be set back to 1, counterReducedMovementSpeed = 0, and hasCheated will be set on 2
+     * with Click on  Uncover TODO
+     * Switch to turnValue MOVEMENT
+     * @exception: IllegalArgumentException - in case turnValue is not DICEROLL.
+     */
     public void rollDice() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.DICEROLL && turnDone == false) {
             if (this.player.getRemainingSteps() == 0) {
@@ -159,6 +174,14 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * Implements Movement
+     * Character moves every 20 call of this method as long as the remaining Steps are not zero
+     * also check if Player is on the Winfield - switch turnValue to WON
+     * if no remaining steps are left - switch turnValue to TRAPCHECK
+     * if there are more than one following field - switch turnvalue to PATHSELECTION
+     * @exception: IllegalArgumentException - in case turnValue is not MOVEMENT.
+     */
     public void move() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.MOVEMENT && turnDone == false) {
 
@@ -209,6 +232,14 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * Implements Pathselection
+     * if the character has remaining steps > 0 and there are more than one following field
+     * - sets arrowactors for every possible following field
+     * - player can choose which way he wants to go
+     * after choosing - switch turnvalue to MOVE
+     * @exception: IllegalArgumentException - in case turnValue is not SELECTPATH.
+     */
     public void selectPath() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.PATHSELECTION && turnDone == false) {
             //Show arrows for PathSelection - selection of path in arrowActor Eventlistener
@@ -218,24 +249,24 @@ public class TurnLogic {
                 for (PathField pf : this.player.getCurrentField().getFollowingFields()) {
                     //Arrow Spawn for all 4 possible followingFields
                     if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                        ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowUp", this, i);
+                        ArrowActor actorUp = new ArrowActor("arrowNewUp.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, this, i);
 
                         this.arrowActors.setArrowActorUp(actorUp);
                         this.arrowActors.getStage().addActor(actorUp);
 
                     }
                     if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y < pf.getCoordinates().y) {
-                        ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowLeft", this, i);
+                        ArrowActor actorLeft = new ArrowActor("arrowNewLeft.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, this, i);
                         this.arrowActors.setArrowActorLeft(actorLeft);
                         this.arrowActors.getStage().addActor(actorLeft);
                     }
                     if (this.player.getCurrentField().getCoordinates().x > pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                        ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowDown", this, i);
+                        ArrowActor actorDown = new ArrowActor("arrowNewDown.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, this, i);
                         this.arrowActors.setArrowActorDown(actorDown);
                         this.arrowActors.getStage().addActor(actorDown);
                     }
                     if (this.player.getCurrentField().getCoordinates().x < pf.getCoordinates().x && this.player.getCurrentField().getCoordinates().y > pf.getCoordinates().y) {
-                        ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, "ArrowRight", this, i);
+                        ArrowActor actorRight = new ArrowActor("arrowNewRight.png", pf.getCoordinates().x - Gdx.graphics.getWidth() / 8f, pf.getCoordinates().y - Gdx.graphics.getHeight() / 8f, this, i);
                         this.arrowActors.setArrowActorRight(actorRight);
                         this.arrowActors.getStage().addActor(actorRight);
                     }
@@ -251,6 +282,13 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * Implements TrapCheck
+     * Checks, if the trap on the current field of the player gets activated or not.
+     * if no - switch turnValue to MOVEMENT and turndone to true
+     * if yes - switch turnValue to TRAPACTIVATED and turndone to true
+     * @exception: IllegalArgumentException - in case turnValue is not TRAPCHECK.
+     */
     public void checkTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPCHECK && turnDone == false) {
             if (this.player.getCurrentField().getTrap().isTrapActivated() == true) {
@@ -412,8 +450,14 @@ public class TurnLogic {
         }
     }
 
+
+    /**
+     * Implements sending data to server
+     * Checks, if the turn is done and then sends the data plus sets check if data is sent on true
+     * @exception: IllegalArgumentException - in case turn is not done or sentDataToServer is true.
+     */
     public void doServerStuff() throws IllegalArgumentException {
-        if (this.turnDone == true) {
+        if (this.turnDone == true && !sentDataToServer) {
 
             NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields());
 
@@ -425,10 +469,12 @@ public class TurnLogic {
         }
     }
 
+
     /**
-     * wird automatisch vom aufgerufen, wenn Daten vom Server an Game geschickt werden
-     *
-     * */
+     * Wird automatisch vom aufgerufen, wenn Daten vom Server an Game geschickt werden
+     * Spieler werden anhand der networkplayers upgedated und turnDone auf false gesetzt
+     * @param networkplayers - ArrayListe aller Speiler
+     */
     public void playerReturnServer(ArrayList<NetworkPlayer> networkplayers){
 
         if (this.turnDone == true) {
@@ -446,6 +492,22 @@ public class TurnLogic {
             }
             this.turnDone = false;
         }
+    }
+
+
+    /**
+     * gibt Index des Players mit der übergebenen ID zurück
+     * @return pid - index des players falls gefunden, sonst -1
+     */
+    public int getPlayerIndexById(int id) {
+        int pid = -1;
+        for (Player pl : players) {
+            pid++;
+            if (pl.getId() == id) {
+                break;
+            }
+        }
+        return pid;
     }
 
     public ArrowActors getArrowActors() {
@@ -481,15 +543,5 @@ public class TurnLogic {
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
     }
-
-    public int getPlayerIndexById(int id) {
-        int pid = -1;
-        for (Player pl : players) {
-            pid++;
-            if (pl.getId() == id) {
-                break;
-            }
-        }
-        return pid;
     }
 }

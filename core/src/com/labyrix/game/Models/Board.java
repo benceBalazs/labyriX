@@ -347,6 +347,11 @@ public class Board {
         }
     }
 
+    /**
+     * Prüft, ob das übergebene Board eine valide Größe hat (gleich viele Spalten je Zeile).
+     * @param: field - das in Integerwerten modellierte Array des Spielbretts, welches im Konstruktor in das richtige Spielbrett übersetzt wird
+     * @return: ture - valide Größe, sonst false
+     */
     public boolean checkBoardSize(int[][] field) throws IllegalArgumentException {
         for (int i = 1; i < field.length; i++) {
             if (field[i - 1].length != field[1].length) {
@@ -356,6 +361,9 @@ public class Board {
         return true;
     }
 
+    /**
+     * zeichent das Spielbrett
+     */
     public void drawGround() {
         for (int row = fields.length - 1; row >= 0; row--) {
             for (int cols = fields[row].length - 1; cols >= 0; cols--) {
@@ -371,6 +379,11 @@ public class Board {
         return fields;
     }
 
+    /**
+     * Sucht Pathfield aus dem Spielbrett und gibt dieses zurück
+     * @param: id - id des Pathfields
+     * @return: Pathfield - falls gefunden sonst null
+     */
     public PathField getPathFieldByID(int id) {
         if (this.fields != null) {
             for (int i = 0; i < fields.length; i++) {

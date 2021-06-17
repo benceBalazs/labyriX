@@ -48,12 +48,22 @@ public class Player {
         this.playerImage = new Image(playerImagePath);
     }
 
+    /**
+     * Method for rendering the Player
+     *
+     * @param: batch - Spritebatch, auf dem der Player gezeichnet werden soll
+     */
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
         maxRemainingFields = maxPathLength(currentField);
         minRemainingFields = minPathLength(currentField);
     }
 
+    /**
+     * @param:
+     * @return:
+     * @exception:
+     */
     private void countingFields (Field field, int count){
         count ++;
         ArrayList<PathField> followingFieldList = field.getFollowingFields();
@@ -65,6 +75,11 @@ public class Player {
         }
     }
 
+    /**
+     * @param:
+     * @return:
+     * @exception:
+     */
     private int maxPathLength (Field field){
         countingFields(field,0);
         int maxPath = 0;
@@ -77,6 +92,11 @@ public class Player {
         return maxPath;
     }
 
+    /**
+     * @param:
+     * @return:
+     * @exception:
+     */
     private int minPathLength (Field field){
         countingFields(field, 0);
         int minPath = listAllPath.get(0);

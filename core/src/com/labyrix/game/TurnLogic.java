@@ -316,6 +316,10 @@ public class TurnLogic {
         }
     }
 
+    /**
+     * Implements TrapDefusion
+     * @exception: IllegalArgumentException - in case turnValue is not TRAPACTIVATED.
+     */
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
             this.sentDataToServer = false;

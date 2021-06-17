@@ -543,5 +543,4 @@ public class TurnLogic {
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
     }
-    }
 }

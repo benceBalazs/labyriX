@@ -46,10 +46,11 @@ public class Uncover {
             textFields.add(new TextField(p.getName(),skin));
         }
 
-        for (Image i : playerImages) {
-            addListener(i);
-            table.add(i).size(Gdx.graphics.getWidth()/6 - 50,Gdx.graphics.getHeight()/4);
+        for (int i = 0; i < playerImages.size(); i++) {
+            addListener(playerImages.get(i), otherplayers.get(i).getId());
+            table.add(playerImages.get(i)).size(Gdx.graphics.getWidth()/6 - 50,Gdx.graphics.getHeight()/4);
         }
+
         table.row();
         for (TextField t : textFields) {
             t.setAlignment(1);
@@ -58,11 +59,13 @@ public class Uncover {
         }
     }
 
-    public void addListener(Image i){
+    public void addListener(Image i, final int id){
         i.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                client.sendTCP(new UncoverRequest());
+                System.out.println(otherplayers.size());
+                System.out.println(id);
+                client.sendTCP(new UncoverRequest(id));
                 System.out.println("Sent UncoverRequest");
                 table.clear();
             }

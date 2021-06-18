@@ -24,13 +24,14 @@ public class TurnLogic {
     private Player player;
     private boolean turnDone;
     private Client client;
+    private UncoverRender uncoverRender;
     private ArrowActors arrowActors;
     private TrapRender trapRender;
     int animationCounter = 20;
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
     private boolean sentDataToServer = false;
-
+    private boolean playerCheated = false;
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
@@ -43,6 +44,7 @@ public class TurnLogic {
         this.turnDone = false;
         this.player.turnValue = TurnValue.DICEROLL;
         this.trapRender = new TrapRender(camera);
+        this.uncoverRender = new UncoverRender(camera);
         arrowActors = new ArrowActors(camera);
 
         this.uncoverButton = new HudButton();
@@ -166,7 +168,12 @@ public class TurnLogic {
             }
 
             if (Gdx.input.justTouched() && Gdx.input.getX() >= uncoverButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= uncoverButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - uncoverButton.getyCoordinateButtonEnd()) {
-                //Logic for Uncover Cheat
+
+                Uncover uncover = new Uncover(player,players, client);
+                this.uncoverRender.setInputProcess();
+                this.uncoverRender.addToStage(uncover.getTable());
+                this.clicker = false;
+                this.uncoverButton.setActive(false);
             }
 
         } else {
@@ -187,6 +194,8 @@ public class TurnLogic {
 
             this.clicker = true;
             this.cheatButton.setActive(true);
+            this.uncoverRender.getStage().clear();
+            this.uncoverButton.setActive(true);
 
             if (this.player.getCurrentField().isWinField() == true) {
                 this.player.turnValue = TurnValue.WON;
@@ -534,6 +543,18 @@ public class TurnLogic {
         if (this.players.size() < 3) {
             this.players.add(player);
         }
+    }
+
+    public boolean isPlayerCheated() {
+        return playerCheated;
+    }
+
+    public void setPlayerCheated(boolean playerCheated) {
+        this.playerCheated = playerCheated;
+    }
+
+    public UncoverRender getUncoverRender() {
+        return uncoverRender;
     }
 
     public void setUncoverButton(HudButton uncoverButton) {

@@ -11,6 +11,8 @@ import com.labyrix.game.NetworkModels.PlayerStatusRequest;
 import com.labyrix.game.NetworkModels.PlayerStatusResponse;
 import com.labyrix.game.NetworkModels.PlayerWinIdRequest;
 import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
+import com.labyrix.game.NetworkModels.UncoverRequest;
+import com.labyrix.game.NetworkModels.UncoverResponse;
 
 import java.io.IOException;
 
@@ -27,6 +29,8 @@ public class Main {
         kryo.register(PlayerWinIdRequest.class);
         kryo.register(PlayerStatusResponse.class);
         kryo.register(PlayerStatusRequest.class);
+        kryo.register(UncoverRequest.class);
+        kryo.register(UncoverResponse.class);
         kryo.register(com.labyrix.game.Models.NetworkPlayer.class);
         kryo.register(java.util.ArrayList.class);
         kryo.register(com.labyrix.game.ENUMS.TurnValue.class);

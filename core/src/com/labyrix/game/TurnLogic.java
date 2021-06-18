@@ -31,7 +31,7 @@ public class TurnLogic {
     private Texture dicerollImg;
     private ArrayList<Player> players = new ArrayList<Player>();
     private boolean sentDataToServer = false;
-
+    private boolean playerCheated = false;
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
@@ -490,6 +490,14 @@ public class TurnLogic {
         if (this.players.size() < 3) {
             this.players.add(player);
         }
+    }
+
+    public boolean isPlayerCheated() {
+        return playerCheated;
+    }
+
+    public void setPlayerCheated(boolean playerCheated) {
+        this.playerCheated = playerCheated;
     }
 
     public UncoverRender getUncoverRender() {

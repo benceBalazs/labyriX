@@ -10,6 +10,7 @@ import com.labyrix.game.NetworkModels.LobbyJoinResponse;
 import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
 import com.labyrix.game.NetworkModels.PlayerStatusResponse;
 import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
+import com.labyrix.game.NetworkModels.UncoverResponse;
 import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LobbyScreen;
@@ -88,6 +89,10 @@ public class ClientRequestListener extends Listener {
                     lobbyScreen.changeToGame();
                 }
             });
+        }
+
+        if (object instanceof UncoverResponse){
+            gameScreen.getTl().setPlayerCheated(((UncoverResponse) object).isHasCheated());
         }
     }
 

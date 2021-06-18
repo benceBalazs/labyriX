@@ -21,6 +21,7 @@ public class NetworkPlayer {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
+    private int hasCheated = 0;
     private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
     private boolean isUpdated;
 
@@ -40,6 +41,14 @@ public class NetworkPlayer {
 
     public NetworkPlayer() {
 
+    }
+
+    public int getHasCheated() {
+        return hasCheated;
+    }
+
+    public void setHasCheated(int hasCheated) {
+        this.hasCheated = hasCheated;
     }
 
     public int getLobbyId() {

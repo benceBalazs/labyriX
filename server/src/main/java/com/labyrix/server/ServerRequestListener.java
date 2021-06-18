@@ -15,6 +15,9 @@ import com.labyrix.game.NetworkModels.PlayerStatusRequest;
 import com.labyrix.game.NetworkModels.PlayerStatusResponse;
 import com.labyrix.game.NetworkModels.PlayerWinIdRequest;
 import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
+import com.labyrix.game.NetworkModels.UncoverRequest;
+import com.labyrix.game.NetworkModels.UncoverResponse;
+
 import java.util.Random;
 
 public class ServerRequestListener extends Listener {
@@ -94,6 +97,14 @@ public class ServerRequestListener extends Listener {
             server.sendToAllTCP(new ChangeLobbyToGameResponse());
         }
 
+        if (object instanceof UncoverRequest){
+            if(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getHasCheated() > 0){
+                server.sendToTCP(connection.getID(),new UncoverResponse(true));
+            }else{
+                server.sendToTCP(connection.getID(),new UncoverResponse(false));
+            }
+        }
+
         System.out.println("########### All Lobbies ###########");
         if (lobbyHandler.getLobbyList().size()>0){
             for (Lobby lobby : lobbyHandler.getLobbyList()) {
@@ -120,8 +131,9 @@ public class ServerRequestListener extends Listener {
         lobbyLeaveResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList());
         if(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size() == 0){
             lobbyHandler.removeLobby(lobbyHandler.getLobbyById(networkPlayerLobby));
+        }else{
+            server.sendToAllTCP(lobbyLeaveResponse);
         }
-        server.sendToAllTCP(lobbyLeaveResponse);
     }
 
     public int randomNumberGenerator(){

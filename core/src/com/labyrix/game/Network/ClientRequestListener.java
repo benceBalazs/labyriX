@@ -93,6 +93,7 @@ public class ClientRequestListener extends Listener {
 
         if (object instanceof UncoverResponse){
             gameScreen.getTl().setPlayerCheated(((UncoverResponse) object).isHasCheated());
+            // TODO reduce movement speed of the cheating player with gameScreen.getTl().getPlayers.get(object.getID).slowmovement or so
         }
     }
 

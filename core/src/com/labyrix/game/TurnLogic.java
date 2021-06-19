@@ -461,7 +461,7 @@ public class TurnLogic {
                 }
             }
         } else {
-            throw new IllegalArgumentException(("Trapdefuse - Wrong TurnValue or Turn not done");
+            throw new IllegalArgumentException("Trapdefuse - Wrong TurnValue or Turn not done");
         }
     }
 

@@ -8,6 +8,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         UnitTestExample.class,
         TestTrap.class,
+        TestTrapEvent.class,
         TestBoard.class
 })
 

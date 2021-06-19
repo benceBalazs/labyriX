@@ -18,34 +18,81 @@ import com.labyrix.game.Models.HudButton;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.TurnLogic;
 
+/**
+ * this is the HUD that will be displayed during the game.
+ *
+ * @author Jahn Alexander
+ */
+
 public class HUD {
+
+    /**
+     * stage: Every element of the HUD gets added to this stage.
+     * viewport: helps with the correct representation on the display
+     */
     private Stage stage;
     private final Viewport viewport;
 
-    private String hudPlayerName;          // Zeigt den Spielernamen
-    private String hudTurnVal;              // Zeigt an, in welchem Status sich der Charakter gerade befindet, Movement, Diceroll usw.
-    private Integer hudRemSteps;            // Zeigt an, wie viele Schritte der Charakter während seines Zuges noch gehen kann.
-    private Integer hudRemFields;           // Zeigt an, wie weit der Weg bis zum Ziel noch ist.
-    private Integer hudReduMvmtSpeedUntil;  // Zeigt an, wie lange man sich noch eingeschränkt fortbewegt, nachdem man eine Falle abbekommen hat.
+    /**
+     * hudPlayerName: your own player-name
+     * hudTurnVal: in which state the character currently is; movement, diceroll, etc.
+     * hudRemSteps: how many steps the character can take during his turn after rolling the dice.
+     * hudRemFields: remaining steps to the destination
+     * hudReduMvmtSpeedUntil: shows how long you have restricted mobility after being caught in a trap.
+     */
+    private String hudPlayerName;
+    private String hudTurnVal;
+    private Integer hudRemSteps;
+    private Integer hudRemFields;
+    private Integer hudReduMvmtSpeedUntil;
 
+    /**
+     * shapeRenderer: draws the HUD-elements
+     * labelStyle: determines the font and color
+     */
     private final ShapeRenderer shapeRenderer;
     private final Label.LabelStyle labelStyle;
 
+    /**
+     * player: is required for certain information, such as the remaining way to the destination.
+     * turnLogic: is required so that the buttons are active in the correct state.
+     */
     private final Player player;
     private final TurnLogic turnLogic;
 
+    /**
+     * following buttons are placed in the HUD-sidebar. they are clickable but they get their functionality in the TurnLogic class.
+     * uncoverButton: is meant to reveal if someone is cheating
+     * cheatButton: is meant to activate the cheat
+     * diceButton: is meant to roll the dice
+     */
     private HudButton uncoverButton;
     private HudButton cheatButton;
     private HudButton diceButton;
+
+    /**
+     * main colors of HUD
+     */
     private final Color colorLightGreen;
     private final Color colorDarkGreen;
     private final Color colorWhite;
     private final Color colorRed;
 
+    /**
+     * is required so that the elements can flash.
+     */
     private int frameCounter;
 
+    /**
+     * the state in which a button is active.
+     */
     private TurnValue buttonStatus;
 
+    /**
+     * the constructor only initializes the most important variables and objects, which remain constant and do not have to be recreated with each frame.
+     * @param player the player that is created in GameScreen
+     * @param turnLogic the TurnLogic belonging to the player
+     */
     public HUD(Player player, TurnLogic turnLogic){
         this.turnLogic = turnLogic;
         this.player = player;
@@ -65,6 +112,10 @@ public class HUD {
         this.buttonStatus = TurnValue.DICEROLL;
     }
 
+    /**
+     * creates and renders 60 times per second all HUD elements and updates its values everytime
+     * @param batch the batch where the game is drawn. The HUD is drawn over it.
+     */
     public void render(SpriteBatch batch) {
         this.hudPlayerName = this.player.getName();
         this.hudTurnVal = turnValTranslator(this.turnLogic.getPlayer().getTurnValue());
@@ -101,6 +152,11 @@ public class HUD {
         this.stage.draw();
     }
 
+    /**
+     * Each state is translated and helps the player understand what is happening or what needs to be done.
+     * @param turnValue The value which has to be translated.
+     * @return text that is understandable for the player.
+     */
     private String turnValTranslator(TurnValue turnValue){
         if (turnValue == TurnValue.DICEROLL){
             return "Roll the Dice!";
@@ -130,6 +186,17 @@ public class HUD {
         return this.turnLogic.getPlayer().getTurnValue().toString();
     }
 
+    /**
+     * creates a HUD element which displays a single value
+     * @param xCoordinate the point on the x-axis where the element gets created.
+     * @param yCoordinate the point on the y-axis where the element gets created.
+     * @param barLength length of the element / x-axis
+     * @param barHeight height of the element / y-axis
+     * @param labelDescription what should be displayed
+     * @param labelValue the current value
+     * @param textCenter if true, the text gets centered
+     * @param signal if true, the element flashes, if a trap gets activated
+     */
     private void createTopBarElement(float xCoordinate, float yCoordinate, float barLength, float barHeight, String labelDescription, String labelValue, boolean textCenter, boolean signal) {
         Table tableTopBarElement = new Table();
         tableTopBarElement.bottom();
@@ -188,7 +255,15 @@ public class HUD {
         this.frameCounter++;
     }
 
-    private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLenght, float barHeight){
+    /**
+     * creates a hud element that contains buttons for the game
+     * @param xCoordinate the point on the x-axis where the element gets created.
+     * @param yCoordinate the point on the y-axis where the element gets created.
+     * @param radius specifies how big the radius should be at the corners.
+     * @param barLength length of the element / x-axis
+     * @param barHeight height of the element / y-axis
+     */
+    private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLength, float barHeight){
         Table tableSideBar = new Table();
 
         tableSideBar.bottom();
@@ -197,22 +272,17 @@ public class HUD {
         float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f;
 
         Label description = new Label("Remaining Steps:", this.labelStyle);
-        Label firstMultiplayerPlayer = new Label("Franz: " + 15, this.labelStyle);      //TODO there is no functionality yet. still has to be inserted.
-        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, this.labelStyle);     //TODO there is no functionality yet. still has to be inserted.
-        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, this.labelStyle);        //TODO there is no functionality yet. still has to be inserted.
-
         description.setFontScale(scaleFont);
-        firstMultiplayerPlayer.setFontScale(scaleFont);
-        secondMultiplayerPlayer.setFontScale(scaleFont);
-        thirdMultiplayerPlayer.setFontScale(scaleFont);
 
         tableSideBar.add(description).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(firstMultiplayerPlayer).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(secondMultiplayerPlayer).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
+
+        for (Player p: turnLogic.getPlayers()) {
+            Label multiplayerLabel = new Label(p.getName() + ": " + p.getMaxRemainingFields(), this.labelStyle);
+            multiplayerLabel.setFontScale(scaleFont);
+            tableSideBar.row();
+            tableSideBar.add(multiplayerLabel).expandX().fillX();
+        }
+
         tableSideBar.setPosition(xCoordinate, yCoordinate);
 
         this.stage.addActor(tableSideBar);
@@ -223,41 +293,44 @@ public class HUD {
         this.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.shapeRenderer.setColor(this.colorWhite);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
-        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
-        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate + barHeight, radius);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLength, barHeight + radius * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLength + radius * 2f, barHeight);
 
         this.shapeRenderer.setColor(this.colorLightGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius - percentHeight);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius - percentHeight);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate, radius - percentHeight);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius - percentHeight);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius - percentHeight);
-        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLenght, barHeight + radius * 2f - percentHeight * 2f);
-        this.shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLenght + radius * 2f - percentHeight * 2f, barHeight);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate + barHeight, radius - percentHeight);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius + percentHeight, barLength, barHeight + radius * 2f - percentHeight * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius + percentHeight, yCoordinate, barLength + radius * 2f - percentHeight * 2f, barHeight);
 
         radius = radius * 0.5f;
         barHeight = barHeight / 4f;
 
         this.shapeRenderer.setColor(this.colorDarkGreen);
         this.shapeRenderer.circle(xCoordinate, yCoordinate, radius);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate, radius);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate, radius);
         this.shapeRenderer.circle(xCoordinate, yCoordinate + barHeight, radius);
-        this.shapeRenderer.circle(xCoordinate + barLenght, yCoordinate + barHeight, radius);
-        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLenght, barHeight + radius * 2f);
-        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLenght + radius * 2f, barHeight);
+        this.shapeRenderer.circle(xCoordinate + barLength, yCoordinate + barHeight, radius);
+        this.shapeRenderer.rect(xCoordinate, yCoordinate - radius, barLength, barHeight + radius * 2f);
+        this.shapeRenderer.rect(xCoordinate - radius, yCoordinate, barLength + radius * 2f, barHeight);
         this.shapeRenderer.end();
 
-        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1));
-        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLenght, barHeight, percentHeight, this.buttonStatus, this.player.getRemainingCheats()));
-        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLenght, barHeight, percentHeight, TurnValue.DICEROLL, 1));
+        this.stage.addActor(this.uncoverButton.buttonCreation("Uncover", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight * 2, barLength, barHeight, percentHeight, TurnValue.DICEROLL, 1));
+        this.stage.addActor(this.cheatButton.buttonCreation("Cheat", scaleFont, xCoordinate, yCoordinate + radius * 1.5f + barHeight, barLength, barHeight, percentHeight, this.buttonStatus, this.player.getRemainingCheats()));
+        this.stage.addActor(this.diceButton.buttonCreation("Dice", scaleFont, xCoordinate, yCoordinate + radius * 1.5f, barLength, barHeight, percentHeight, TurnValue.DICEROLL, 1));
 
         this.turnLogic.setUncoverButton(this.uncoverButton);
         this.turnLogic.setCheatButton(this.cheatButton);
         this.turnLogic.setDiceButton(this.diceButton);
     }
 
+    /**
+     * getter and setter.
+     */
     public String getHudPlayerName() {
         return this.hudPlayerName;
     }

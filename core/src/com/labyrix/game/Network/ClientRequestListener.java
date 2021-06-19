@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinResponse;
@@ -64,6 +65,9 @@ public class ClientRequestListener extends Listener {
                     lobbyScreen.setNetworkPlayers(((LobbyJoinResponse) object).getNetworkPlayerList());
                 }
                 lobbyScreen.updatePlayers(((LobbyJoinResponse) object).getNetworkPlayerList().size());
+            }
+            for (NetworkPlayer np:((LobbyJoinResponse) object).getNetworkPlayerList()) {
+                System.out.println("PlayerID: "+np.getId()+" and Lobby: "+np.getLobbyId());
             }
         }
 

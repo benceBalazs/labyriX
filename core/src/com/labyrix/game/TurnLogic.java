@@ -473,6 +473,10 @@ public class TurnLogic {
 
     public void cheatingPlayerMovementspeed(int playerId, boolean hasCheated){
         // TODO if hasCheated then punish him
+        if (this.player.getId() == playerId) {
+            this.player.setMovementSpeed(this.player.getMovementSpeed()*0.5f);
+            this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+5);
+        }
     }
 
 

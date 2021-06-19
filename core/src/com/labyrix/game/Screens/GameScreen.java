@@ -84,10 +84,6 @@ public class GameScreen implements Screen {
                 player.render(batch);
             }
         }
-        if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
-            tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
-
-        }
         cameraLerp( camera, player.getPosition());
         tl.getUncoverRender().render();
         if (tl.getArrowActors() != null) {

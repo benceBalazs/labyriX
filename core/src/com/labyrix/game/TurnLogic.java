@@ -221,6 +221,9 @@ public class TurnLogic {
 
 
             if (this.player.getRemainingSteps() <= 0) {
+                if (this.player.getCurrentField().isWinField() == true) {
+                    this.player.turnValue = TurnValue.WON;
+                }
                 this.player.turnValue = TurnValue.TRAPCHECK;
             }
 

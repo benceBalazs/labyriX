@@ -96,7 +96,7 @@ public class ClientRequestListener extends Listener {
         }
 
         if (object instanceof UncoverResponse){
-            gameScreen.getTl().cheatingPlayerMovementspeed(((UncoverResponse) object).getPlayerId(),((UncoverResponse) object).isHasCheated());
+            gameScreen.getTl().cheatingPlayerMovementspeed(((UncoverResponse) object).getPlayerId());
         }
     }
 

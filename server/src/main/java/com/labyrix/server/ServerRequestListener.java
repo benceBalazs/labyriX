@@ -105,14 +105,9 @@ public class ServerRequestListener extends Listener {
             System.out.println("Got request to check: "+((UncoverRequest) object).getId());
             if(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getHasCheated() > 0){
                 for (NetworkPlayer networkPlayer:lobbyHandler.getLobbyById(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getLobbyId()).getNetworkPlayerList()) {
-                    server.sendToTCP(networkPlayer.getId(),new UncoverResponse(true, ((UncoverRequest) object).getId()));
+                    server.sendToTCP(networkPlayer.getId(),new UncoverResponse(((UncoverRequest) object).getId()));
                 }
                 System.out.println("Sent: true");
-            }else{
-                for (NetworkPlayer networkPlayer:lobbyHandler.getLobbyById(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getLobbyId()).getNetworkPlayerList()) {
-                    server.sendToTCP(networkPlayer.getId(),new UncoverResponse(false, ((UncoverRequest) object).getId()));
-                }
-                System.out.println("Sent: false");
             }
         }
 

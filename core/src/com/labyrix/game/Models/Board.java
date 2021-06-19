@@ -307,19 +307,8 @@ public class Board {
     }
 
 
-    public Board(SpriteBatch batch, int[][] field) throws IllegalArgumentException {
-        if (this.batch == null) {
-            this.batch = batch;
-        }
-
+    public Board(int[][] field) throws IllegalArgumentException {
         if (checkBoardSize(field)) {
-            Image snow = new Image("bodenLabyrixSnow.png");
-            Image ziel = new Image("bodenLabyrixZiel.png");
-            Image poison = new Image("bodenlabyrixdarkv2.png");
-            Image stone = new Image("bodenLabyrixstone.png");
-            Image dach = new Image("bodenLabyrixdach.png");
-            Image cheddar = new Image("bodenLabyrixcheddar.png");
-            Image floor = new Image("bodenLabyrixv3.png");
 
             fields = new Field[field.length][field[0].length];
             int id = 1;
@@ -327,19 +316,19 @@ public class Board {
             for (int i = 0; i < field.length; i++) {
                 for (int j = 0; j < field[i].length; j++) {
                     if (field[i][j] == 1) {
-                        fields[i][j] = new PathField(id, floor, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 2) {
-                        fields[i][j] = new NonPathField(id, poison);
+                        fields[i][j] = new NonPathField();
                     } else if (field[i][j] == 3) {
-                        fields[i][j] = new PathField(id, stone, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 4) {
-                        fields[i][j] = new NonPathField(id, dach);
+                        fields[i][j] = new NonPathField();
                     } else if (field[i][j] == 5) {
-                        fields[i][j] = new PathField(id, snow, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 6) {
-                        fields[i][j] = new PathField(id, cheddar, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else {
-                        fields[i][j] = new PathField(id, ziel, (float) Math.random());
+                        fields[i][j] = new PathField();
                     }
                     id++;
                 }

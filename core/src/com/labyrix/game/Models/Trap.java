@@ -12,6 +12,9 @@ public class Trap {
     private TrapEvent event;
 
     public Trap (float probability){
+        if (probability < 0 || probability > 1){
+            throw new IllegalArgumentException("The probability must be between 0 and 1.");
+        }
         this.probability = probability;
         this.event = new TrapEvent();
     }

@@ -62,6 +62,7 @@ public class ServerRequestListener extends Listener {
                 lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).addNetworkPlayerToLobby(((LobbyJoinRequest) object).getNetworkPlayer());
                 for (NetworkPlayer np : lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).getNetworkPlayerList()) {
                     np.setLobbyId(((LobbyJoinRequest) object).getLobbyId());
+                    np.setImagePath(lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).givePlayerRandomAvatar());
                 }
                 lobbyJoinResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).getNetworkPlayerList());
                 server.sendToAllTCP(lobbyJoinResponse);
@@ -133,6 +134,7 @@ public class ServerRequestListener extends Listener {
         LobbyLeaveResponse lobbyLeaveResponse = new LobbyLeaveResponse();
         int networkPlayerLobby = lobbyHandler.getNetworkPlayerById(connection.getID()).getLobbyId();
         System.out.println(lobbyHandler.getNetworkPlayerById(connection.getID()).getLobbyId());
+        lobbyHandler.getLobbyById(networkPlayerLobby).getPlayerAvatars().add(lobbyHandler.getNetworkPlayerById(connection.getID()).getImagePath());
         lobbyHandler.getLobbyById(networkPlayerLobby).removeNetworkPlayerFromLobby(lobbyHandler.getNetworkPlayerById(connection.getID()));
         lobbyLeaveResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList());
         if(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size() == 0){

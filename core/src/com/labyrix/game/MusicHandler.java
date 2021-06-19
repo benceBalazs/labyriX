@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class MusicHandler {
     private static MusicHandler INSTANCE = null;
     private Music major, minor, majorTemp, minorTemp;
-    private ArrayList<FileHandle> fileHandles = new ArrayList<>();
+    private ArrayList<FileHandle> fileHandles = new ArrayList<FileHandle>();
     private String[] musicFiles = new String[]{"music/mainTheme.wav","music/base.wav","music/fx1.wav","music/fx2.wav","music/fx3.wav","music/fx4.wav","music/fx5.wav"};
 
     private MusicHandler(){

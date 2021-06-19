@@ -160,6 +160,7 @@ public class LobbyScreen extends ScreenAdapter {
         switch (size){
             case(1):
                 playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setColor(setPlayerButtonColor(networkPlayers.get(0).getImagePath()));
                 playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
                 playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -188,12 +189,14 @@ public class LobbyScreen extends ScreenAdapter {
                 break;
             case(2):
                 playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setColor(setPlayerButtonColor(networkPlayers.get(0).getImagePath()));
                 playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
                 playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile1);
 
                 playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setColor(setPlayerButtonColor(networkPlayers.get(1).getImagePath()));
                 playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
                 playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -215,18 +218,21 @@ public class LobbyScreen extends ScreenAdapter {
                 break;
             case(3):
                 playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setColor(setPlayerButtonColor(networkPlayers.get(0).getImagePath()));
                 playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
                 playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile1);
 
                 playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setColor(setPlayerButtonColor(networkPlayers.get(1).getImagePath()));
                 playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
                 playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile2);
 
                 playerProfile3 = new TextButton(networkPlayers.get(2).getName(), skinMedium, "default");
+                playerProfile3.setColor(setPlayerButtonColor(networkPlayers.get(2).getImagePath()));
                 playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
                 playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -241,24 +247,28 @@ public class LobbyScreen extends ScreenAdapter {
                 break;
             case(4):
                 playerProfile1 = new TextButton(networkPlayers.get(0).getName(), skinMedium, "default");
+                playerProfile1.setColor(setPlayerButtonColor(networkPlayers.get(0).getImagePath()));
                 playerProfile1.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile1.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*1.875f);
                 playerProfile1.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile1);
 
                 playerProfile2 = new TextButton(networkPlayers.get(1).getName(), skinMedium, "default");
+                playerProfile2.setColor(setPlayerButtonColor(networkPlayers.get(1).getImagePath()));
                 playerProfile2.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile2.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) + playerProfile1.getHeight()*0.625f);
                 playerProfile2.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile2);
 
                 playerProfile3 = new TextButton(networkPlayers.get(2).getName(), skinMedium, "default");
+                playerProfile3.setColor(setPlayerButtonColor(networkPlayers.get(2).getImagePath()));
                 playerProfile3.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile3.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*0.625f);
                 playerProfile3.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
                 stage.addActor(playerProfile3);
 
                 playerProfile4 = new TextButton(networkPlayers.get(3).getName(), skinMedium, "default");
+                playerProfile4.setColor(setPlayerButtonColor(networkPlayers.get(3).getImagePath()));
                 playerProfile4.setSize(labyrixMain.getWIDTH()/2.8f, labyrixMain.getHEIGHT()/8f);
                 playerProfile4.setPosition(labyrixMain.getWIDTH()/2f - (playerProfile1.getWidth()/2) +labyrixMain.getWIDTH()/4f, labyrixMain.getHEIGHT()/2f - (playerProfile1.getHeight()/2) - playerProfile1.getHeight()*1.875f);
                 playerProfile4.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
@@ -266,6 +276,20 @@ public class LobbyScreen extends ScreenAdapter {
                 break;
             default:    break;
         }
+    }
+
+    private Color setPlayerButtonColor(String imagePath){
+        Color playerColor = new Color();
+        if ("DinoBlue.png".equals(imagePath)) {
+            playerColor = Color.BLUE;
+        } else if ("DinoOrange.png".equals(imagePath)) {
+            playerColor = Color.ORANGE;
+        } else if ("DinoPink.png".equals(imagePath)) {
+            playerColor = Color.PINK;
+        } else if ("img_0116.png".equals(imagePath)) {
+            playerColor = Color.VIOLET;
+        }
+        return playerColor;
     }
 
     private void initScreen() {

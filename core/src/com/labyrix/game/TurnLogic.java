@@ -83,7 +83,7 @@ public class TurnLogic {
                     }
                     break;
                 default:
-                    throw new IllegalArgumentException();
+                    throw new IllegalArgumentException("Wrong Turnvalue");
             }
         } else if (this.turnDone == true) {
             if (this.sentDataToServer == false) {
@@ -177,7 +177,8 @@ public class TurnLogic {
             }
 
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("DiceRoll - Wrong TurnValue or Turn not done");
+
         }
     }
 
@@ -237,7 +238,8 @@ public class TurnLogic {
                 this.player.turnValue = TurnValue.PATHSELECTION;
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Move - Wrong TurnValue or Turn not done");
+
         }
     }
 
@@ -287,7 +289,7 @@ public class TurnLogic {
                 }
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("PathSelection - Wrong TurnValue or Turn not done");
         }
     }
 
@@ -321,7 +323,7 @@ public class TurnLogic {
             }
             this.turnDone = true;
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(("checkTrap - Wrong TurnValue or Turn not done");
         }
     }
 
@@ -459,7 +461,7 @@ public class TurnLogic {
                 }
             }
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(("Trapdefuse - Wrong TurnValue or Turn not done"););
         }
     }
 
@@ -478,7 +480,7 @@ public class TurnLogic {
             sentDataToServer = true;
 
         } else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Turn not Done or data already sent to server");
         }
     }
 
@@ -542,7 +544,10 @@ public class TurnLogic {
     public void addPlayer(Player player) {
         if (this.players.size() < 3) {
             this.players.add(player);
+        } else {
+            throw new RuntimeException("Already three Players!");
         }
+
     }
 
     public boolean isPlayerCheated() {

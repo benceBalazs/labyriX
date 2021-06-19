@@ -471,6 +471,10 @@ public class TurnLogic {
         }
     }
 
+    public void cheatingPlayerMovementspeed(int playerId, boolean hasCheated){
+        // TODO if hasCheated then punish him
+    }
+
 
     /**
      * Wird automatisch vom aufgerufen, wenn Daten vom Server an Game geschickt werden

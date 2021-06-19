@@ -11,6 +11,9 @@ public class NonPathField extends Field {
         this.setFieldImage(fieldImage);
     }
 
+    public NonPathField() {
+    }
+
     @Override
     public void addFollowingFields(PathField f) {
     }

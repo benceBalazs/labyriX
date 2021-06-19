@@ -29,12 +29,13 @@ public class NetworkPlayer {
         this.imagePath = playerImagePath;
     }
 
-    public NetworkPlayer(int id, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields) {
+    public NetworkPlayer(int id, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields, int hasCheated) {
         this.id = id;
         this.lobbyId = lobbyId;
         this.position = position;
         this.maxRemainingFields = maxRemainingFields;
         this.minRemainingFields = minRemainingFields;
+        this.hasCheated = hasCheated;
     }
 
     public NetworkPlayer() {

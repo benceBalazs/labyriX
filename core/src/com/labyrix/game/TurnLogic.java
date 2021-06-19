@@ -461,7 +461,7 @@ public class TurnLogic {
     public void doServerStuff() throws IllegalArgumentException {
         if (this.turnDone == true && !sentDataToServer) {
 
-            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields());
+            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.getHasCheated());
 
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
@@ -489,6 +489,7 @@ public class TurnLogic {
                         this.players.get(playerindex).setPosition(np.getPosition());
                         this.players.get(playerindex).setMaxRemainingFields(np.getMaxRemainingFields());
                         this.players.get(playerindex).setMinRemainingFields(np.getMinRemainingFields());
+                        this.players.get(playerindex).setHasCheated(np.getHasCheated());
                     }
                 }
             }

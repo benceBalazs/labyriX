@@ -52,6 +52,7 @@ public class GameScreen implements Screen {
         for (NetworkPlayer np: networkPlayers) {
             if (np.getId() == this.mainPlayerId) {
                 this.player = new Player(mainPlayerId, np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                System.out.println(this.player.toString());
             }
         }
 
@@ -62,6 +63,7 @@ public class GameScreen implements Screen {
         for (NetworkPlayer np: networkPlayers) {
             if (np.getId() != this.mainPlayerId) {
                 Player p = new Player(np.getId(), np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                System.out.println(p.toString());
                 tl.addPlayer(p);
             }
         }

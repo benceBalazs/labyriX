@@ -7,36 +7,18 @@ import java.util.ArrayList;
 public class PathField extends Field {
     private ArrayList<PathField> followingFields;
     private Trap trap;
+    private boolean isWinField = false;
 
-    public PathField(int id, Vector2 coordinates, Image fieldImage, float trapProbability) {
-        this.setId(id);
-        this.setCoordinates(coordinates);
-        this.setFieldImage(fieldImage);
-        followingFields = new ArrayList<PathField>();
-        this.trap = new Trap(trapProbability);
-    }
-
-    public PathField(int id, Image fieldImage, float trapProbability) {
+       public PathField(int id, Image fieldImage, float trapProbability) {
         this.setId(id);
         this.setFieldImage(fieldImage);
         followingFields = new ArrayList<PathField>();
         this.trap = new Trap(trapProbability);
-    }
-
-    public PathField(int id, Image fieldImage) {
-        this.setId(id);
-        this.setFieldImage(fieldImage);
-
-        followingFields = new ArrayList<PathField>();
     }
 
     @Override
     public ArrayList<PathField> getFollowingFields() {
         return followingFields;
-    }
-
-    public void setFollowingFields(ArrayList<PathField> followingFields) {
-        this.followingFields = followingFields;
     }
 
     public Trap getTrap() {
@@ -47,6 +29,9 @@ public class PathField extends Field {
         this.trap = trap;
     }
 
+    /** fügt Folgefeld in Liste der Folgefelder hinzu - insofern, die Länge der Folgefelderliste noch nicht 3 erreicht hat
+     * @param: f - Pathfield, welches hinzugefügt werden soll
+     */
     @Override
     public void addFollowingFields(PathField f) {
         if (followingFields.size() < 3){
@@ -54,7 +39,11 @@ public class PathField extends Field {
         }
     }
 
-
+    /** gibt das Folgefeld an der Position i der Folgefelderliste zurück
+     * @param: i - Position des Feldes in followingfields
+     * @return: Pathfield
+     * @exception: IlllegalArgumentException - falls i Größer als followingFields.size
+     */
     public PathField getFollowingField(int i) {
 
         if (followingFields.size() > i) {
@@ -65,4 +54,11 @@ public class PathField extends Field {
         }
     }
 
+    public boolean isWinField() {
+        return isWinField;
+    }
+
+    public void setWinField(boolean winField) {
+        isWinField = winField;
+    }
 }

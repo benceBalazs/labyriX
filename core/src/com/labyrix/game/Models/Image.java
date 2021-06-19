@@ -1,6 +1,8 @@
 package com.labyrix.game.Models;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Image {
@@ -27,7 +29,7 @@ public class Image {
         this.coordinates = coordinates;
     }
 
-    /*public void render(SpriteBatch batch, float x, float y) {
+    public void render(SpriteBatch batch, float x, float y) {
         batch.draw(this.img, x - Gdx.graphics.getWidth()/8f, y- Gdx.graphics.getHeight()/8f);
-    }*/
+    }
 }

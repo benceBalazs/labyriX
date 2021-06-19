@@ -2,7 +2,11 @@ package de.tomgrill.gdxtesting.labyrixTests;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.labyrix.game.Models.Board;
+import com.labyrix.game.Models.NonPathField;
+import com.labyrix.game.Models.PathField;
 import com.labyrix.game.Models.Trap;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +29,13 @@ public class TestBoard {
     @Test
     public void boardCreation_correctSize(){
         final int[][] board = {{1,2,3,4,5}, {1,2,3,4,5}, {1,2,3,4,5}};
-        Board b;
-        assertEquals(true, b = new Board(this.batch, board));
+        //create a board by hand
+
+        Board b = null;
+        Assert.assertTrue(b.checkBoardSize(board));
+
+        b = new Board(this.batch, board);
+        assertEquals(Board.class, b.getClass());
     }
 
     @Test
@@ -54,7 +63,7 @@ public class TestBoard {
         });
     }
 
-    /*@Test
+    @Test
     public void boardCreation_working(){
         int[][] board = {{1,2,3,4,5}, {1,2,3,4,5}, {1,2,3,4,5}};
 
@@ -62,8 +71,13 @@ public class TestBoard {
 
         for (int i = 0; i < b.getFields().length; i++) {
             for (int j = 0; j < b.getFields()[0].length; j++) {
+                 if (board[i][j] == 1 || board[i][j] == 3 || board[i][j] == 5) {
+                     assertEquals(PathField.class, b.getFields()[i][j].getClass());
+                 } else {
+                     assertEquals(NonPathField.class, b.getFields()[i][j].getClass());
+                 }
             }
         }
-    }*/
+    }
 }
 

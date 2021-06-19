@@ -43,7 +43,7 @@ public class JoinScreen implements Screen {
     private ClientNetworkHandler clientNetworkHandler;
     private Client client;
     private String lobbyCodeReturn;
-    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<>();
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
 
     public JoinScreen(){
         this.labyrixMain = LabyrixMain.getINSTANCE();

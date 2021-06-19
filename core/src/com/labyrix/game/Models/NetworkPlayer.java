@@ -21,15 +21,32 @@ public class NetworkPlayer {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
-    private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private int hasCheated = 0;
+    private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
 
     public NetworkPlayer(String name, String playerImagePath) {
         this.name = name;
         this.imagePath = playerImagePath;
     }
 
+    public NetworkPlayer(int id, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields) {
+        this.id = id;
+        this.lobbyId = lobbyId;
+        this.position = position;
+        this.maxRemainingFields = maxRemainingFields;
+        this.minRemainingFields = minRemainingFields;
+    }
+
     public NetworkPlayer() {
 
+    }
+
+    public int getHasCheated() {
+        return hasCheated;
+    }
+
+    public void setHasCheated(int hasCheated) {
+        this.hasCheated = hasCheated;
     }
 
     public int getLobbyId() {
@@ -158,5 +175,27 @@ public class NetworkPlayer {
 
     public void setListAllPath(ArrayList<Integer> listAllPath) {
         this.listAllPath = listAllPath;
+    }
+
+    @Override
+    public String toString() {
+        return "NetworkPlayer{" +
+                "id=" + id +
+                ", lobbyId=" + lobbyId +
+                ", name='" + name + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", position=" + position +
+                ", currentField=" + currentField +
+                ", roundStatus='" + roundStatus + '\'' +
+                ", movementSpeed=" + movementSpeed +
+                ", remainingCheats=" + remainingCheats +
+                ", numberOfFails=" + numberOfFails +
+                ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
+                ", remainingSteps=" + remainingSteps +
+                ", maxRemainingFields=" + maxRemainingFields +
+                ", minRemainingFields=" + minRemainingFields +
+                ", turnValue=" + turnValue +
+                ", listAllPath=" + listAllPath +
+                '}';
     }
 }

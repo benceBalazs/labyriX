@@ -7,6 +7,10 @@ public class PlayerWinIdResponse {
         this.winCondition = winCondition;
     }
 
+    public PlayerWinIdResponse() {
+
+    }
+
     public boolean isWinCondition() {
         return winCondition;
     }

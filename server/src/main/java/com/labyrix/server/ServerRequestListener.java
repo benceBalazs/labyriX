@@ -4,6 +4,8 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.labyrix.game.Models.NetworkPlayer;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse;
 import com.labyrix.game.NetworkModels.LobbyCreateRequest;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinRequest;
@@ -13,6 +15,9 @@ import com.labyrix.game.NetworkModels.PlayerStatusRequest;
 import com.labyrix.game.NetworkModels.PlayerStatusResponse;
 import com.labyrix.game.NetworkModels.PlayerWinIdRequest;
 import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
+import com.labyrix.game.NetworkModels.UncoverRequest;
+import com.labyrix.game.NetworkModels.UncoverResponse;
+
 import java.util.Random;
 
 public class ServerRequestListener extends Listener {
@@ -66,6 +71,7 @@ public class ServerRequestListener extends Listener {
             PlayerStatusResponse playerStatusResponse = new PlayerStatusResponse();
             int networkPlayerLobby = lobbyHandler.getNetworkPlayerById(connection.getID()).getLobbyId();
             if (lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers().size() < lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size()){
+                lobbyHandler.getLobbyById(((PlayerStatusRequest) object).getNetworkPlayer().getLobbyId()).updateNetworkPlayer(((PlayerStatusRequest) object).getNetworkPlayer().getId(),((PlayerStatusRequest) object).getNetworkPlayer());
                 lobbyHandler.getLobbyById(networkPlayerLobby).addReadyPlayer(lobbyHandler.getNetworkPlayerById(connection.getID()));
                 if(lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers().size() == lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size()){
                     playerStatusResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(networkPlayerLobby).getReadyPlayers());
@@ -87,16 +93,37 @@ public class ServerRequestListener extends Listener {
             }
         }
 
-        System.out.println("########### All Lobbies ###########");
-        for (Lobby lobby : lobbyHandler.getLobbyList()) {
-            System.out.print("Lobby: "+lobby.getLobbyId());
-            System.out.println("PLAYERS ----------------");
-            for (NetworkPlayer networkPlayer : lobby.getNetworkPlayerList()) {
-                System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+        if (object instanceof ChangeLobbyToGameRequest){
+            server.sendToAllTCP(new ChangeLobbyToGameResponse());
+        }
+
+        if (object instanceof UncoverRequest){
+            System.out.println("Got request to check: "+((UncoverRequest) object).getId());
+            if(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getHasCheated() > 0){
+                for (NetworkPlayer networkPlayer:lobbyHandler.getLobbyById(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getLobbyId()).getNetworkPlayerList()) {
+                    server.sendToTCP(networkPlayer.getId(),new UncoverResponse(true, ((UncoverRequest) object).getId()));
+                }
+                System.out.println("Sent: true");
+            }else{
+                for (NetworkPlayer networkPlayer:lobbyHandler.getLobbyById(lobbyHandler.getNetworkPlayerById(((UncoverRequest) object).getId()).getLobbyId()).getNetworkPlayerList()) {
+                    server.sendToTCP(networkPlayer.getId(),new UncoverResponse(false, ((UncoverRequest) object).getId()));
+                }
+                System.out.println("Sent: false");
             }
-            System.out.println("READY ----------------");
-            for (NetworkPlayer networkPlayer : lobby.getReadyPlayers()) {
-                System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+        }
+
+        System.out.println("########### All Lobbies ###########");
+        if (lobbyHandler.getLobbyList().size()>0){
+            for (Lobby lobby : lobbyHandler.getLobbyList()) {
+                System.out.println("Lobby: "+lobby.getLobbyId());
+                System.out.println("PLAYERS ----------------");
+                for (NetworkPlayer networkPlayer : lobby.getNetworkPlayerList()) {
+                    System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+                }
+                System.out.println("READY ----------------");
+                for (NetworkPlayer networkPlayer : lobby.getReadyPlayers()) {
+                    System.out.println("+ "+networkPlayer.getName()+" ID: "+networkPlayer.getId());
+                }
             }
         }
     }
@@ -111,8 +138,9 @@ public class ServerRequestListener extends Listener {
         lobbyLeaveResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList());
         if(lobbyHandler.getLobbyById(networkPlayerLobby).getNetworkPlayerList().size() == 0){
             lobbyHandler.removeLobby(lobbyHandler.getLobbyById(networkPlayerLobby));
+        }else{
+            server.sendToAllTCP(lobbyLeaveResponse);
         }
-        server.sendToAllTCP(lobbyLeaveResponse);
     }
 
     public int randomNumberGenerator(){

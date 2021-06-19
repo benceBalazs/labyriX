@@ -59,11 +59,6 @@ public class TrapEvent {
         return TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
     }
 
-    /**
-     *                                                  //TODO deprecated?
-     * @return
-     * @throws InterruptedException
-     */
     public boolean TrapDefuse() throws InterruptedException {
         boolean result = false;
         this.sensorDefuse = new MovementDefuse(3f,3f,TrapEventName.DOOR);

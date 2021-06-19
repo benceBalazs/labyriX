@@ -95,6 +95,8 @@ public class TurnLogic {
         }
     }
 
+
+
     /**
      * Implements Diceroll
      * with Click on diceButton a random number will be generated.
@@ -597,5 +599,13 @@ public class TurnLogic {
 
     public void setDiceButton(HudButton diceButton) {
         this.diceButton = diceButton;
+    }
+
+    public int getAnimationCounter() {
+        return animationCounter;
+    }
+
+    public void setAnimationCounter(int animationCounter) {
+        this.animationCounter = animationCounter;
     }
 }

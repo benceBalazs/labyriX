@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Random;
-
 import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -27,29 +25,26 @@ public class TestTrapEvent {
     @Before
     public void init(){
         this.trapEvent = new TrapEvent();
-        this.trapEventName = TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
-        this.image = new Image("../android/assets/badlogic.jpg");
     }
 
     @Test
     public void TrapEvent_createsTrapEventObject(){
-        assertNotNull(trapEvent);
+        assertNotNull(this.trapEvent);
     }
 
     @Test
     public void TrapEvent_createsRandomEvent(){
-        this.trapEvent = new TrapEvent();
         assertNotNull(this.trapEvent.getEvent());
     }
 
     @Test
     public void TrapEvent_getsImageAutomatically(){
-        assertNotNull(trapEvent.getEventImage());
+        assertNotNull(this.trapEvent.getEventImage());
     }
 
     @Test
     public void TrapEvent_getsDefuseMethodAutomatically(){
-        assertNotNull(trapEvent.getDefuseMethod());
+        assertNotNull(this.trapEvent.getDefuseMethod());
     }
 
     @Test
@@ -59,7 +54,7 @@ public class TestTrapEvent {
         int loops = 10000;      // should not be less than 10000
 
         for (int i = 0; i < loops; i++){
-            TrapEventName trapEventName = trapEvent.randomTrapEvent();
+            TrapEventName trapEventName = this.trapEvent.randomTrapEvent();
             for (int j = 0; j < count.length; j++){
                 if (identifier[j] == null){
                     identifier[j] = trapEventName;
@@ -85,118 +80,99 @@ public class TestTrapEvent {
     }
 
     @Test
-    public void getEvent_returnsTrapEventName(){
-        assertNotNull(this.trapEvent.getEvent());
-    }
+    public void TrapEvent_showsZombieImage_whenEventIsZombie(){
+        this.trapEventName = TrapEventName.ZOMBIE;
+        this.image = new Image("../android/assets/zombie.png");
 
-    @Test
-    public void setEvent_setsNewEvent(){
-        while (this.trapEvent.getEvent() == trapEventName){
+        while (this.trapEvent.getEvent() != this.trapEventName){
             this.trapEvent = new TrapEvent();
         }
 
-        this.trapEvent.setEvent(trapEventName);
-
-        assertEquals(trapEventName, trapEvent.getEvent());
-    }
-
-    @Test
-    public void getEventImage_returnsCurrentEventImage(){
-        //TODO
-        assertEquals(true, false);
-    }
-
-    @Test
-    public void setEventImage_setsNewImage(){
-        //TODO
-        assertEquals(true, false);
-    }
-
-    @Test
-    public void getDefuseMethod_returnsCurrentDefuseMethod(){
-        //TODO
-        assertEquals(true, false);
-    }
-
-    @Test
-    public void setDefuseMethod_setsNewDefuseMethod(){
-        //TODO
-        assertEquals(true, false);
-    }
-
-    @Test
-    public void TrapEvent_showsZombieImage_whenEventIsZombie(){
-        this.trapEventName = TrapEventName.ZOMBIE;
-        // TODO this.image = new Image("someZombie");
-        while (trapEvent.getEvent() != trapEventName){
-            trapEvent = new TrapEvent();
-        }
-
-        // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, false);
+        assertEquals(this.trapEvent.getEventImage().getImg().toString(), this.image.getImg().toString());
     }
 
     @Test
     public void TrapEvent_hasZombieDefuseMethod_whenEventIsZombie(){
         this.trapEventName = TrapEventName.ZOMBIE;
-        // TODO this.defuseMethod = null;
-        while (trapEvent.getEvent() != trapEventName){
-            trapEvent = new TrapEvent();
+        this.defuseMethod = TrapDefuseMethod.STOPMOVING;
+
+        while (this.trapEvent.getEvent() != this.trapEventName){
+            this.trapEvent = new TrapEvent();
         }
 
-        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, false);
+        assertEquals(this.trapEvent.getDefuseMethod(), this.defuseMethod);
     }
 
     @Test
     public void TrapEvent_showsBombImage_whenEventIsBomb(){
         this.trapEventName = TrapEventName.BOMB;
-        // TODO this.image = new Image("someBomb");
-        while (trapEvent.getEvent() != trapEventName){
-            trapEvent = new TrapEvent();
+        this.image = new Image("../android/assets/bomb.png");
+
+        while (this.trapEvent.getEvent() != this.trapEventName){
+            this.trapEvent = new TrapEvent();
         }
 
-        // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, false);
+        assertEquals(this.trapEvent.getEventImage().getImg().toString(), this.image.getImg().toString());
     }
 
     @Test
-    public void TrapEvent_TrapEvent_hasBombDefuseMethod_whenEventIsBomb(){
+    public void TrapEvent_hasBombDefuseMethod_whenEventIsBomb(){
         this.trapEventName = TrapEventName.BOMB;
-        // TODO this.defuseMethod = null;
-        while (trapEvent.getEvent() != trapEventName){
-            trapEvent = new TrapEvent();
+        this.defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
+
+        while (this.trapEvent.getEvent() != this.trapEventName){
+            this.trapEvent = new TrapEvent();
         }
 
-        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, false);
-    }
-
-  /*  @Test
-    public void TrapEvent_showsPitfallImage_whenEventIsPitfall(){
-        this.trapEventName = TrapEventName.PITFALL;
-        // TODO this.image = new Image("somePitfall");
-        while (trapEvent.getEvent() != trapEventName){
-            trapEvent = new TrapEvent();
-        }
-
-        // assertEquals(trapEvent.getEventImage(), this.image);
-        assertEquals(true, false);
+        assertEquals(this.trapEvent.getDefuseMethod(), this.defuseMethod);
     }
 
     @Test
-    public void TrapEvent_hasPitfallDefuseMethod_whenEventIsPitfall(){
-        this.trapEventName = TrapEventName.PITFALL;
-        // TODO this.defuseMethod = null;
+    public void TrapEvent_showsQuicksandImage_whenEventIsQuicksand(){
+        this.trapEventName = TrapEventName.QUICKSAND;
+        this.image = new Image("../android/assets/quicksand.png");
+
         while (trapEvent.getEvent() != trapEventName){
             trapEvent = new TrapEvent();
         }
 
-        // TODO assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
-        assertEquals(true, false);
-    }*/
+        assertEquals(trapEvent.getEventImage().getImg().toString(), this.image.getImg().toString());
+    }
 
-    //TODO tests have to be adapted, when TrapEventNames change.
+    @Test
+    public void TrapEvent_hasQuicksandDefuseMethod_whenEventIsQuicksand() {
+        this.trapEventName = TrapEventName.QUICKSAND;
+        this.defuseMethod = TrapDefuseMethod.CRAWLOUT;
 
+        while (trapEvent.getEvent() != trapEventName) {
+            trapEvent = new TrapEvent();
+        }
+
+        assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
+    }
+
+    @Test
+    public void TrapEvent_showsDoorImage_whenEventIsDoor(){
+        this.trapEventName = TrapEventName.DOOR;
+        this.image = new Image("../android/assets/cage.png");
+
+        while (trapEvent.getEvent() != trapEventName){
+            trapEvent = new TrapEvent();
+        }
+
+        assertEquals(trapEvent.getEventImage().getImg().toString(), this.image.getImg().toString());
+    }
+
+    @Test
+    public void TrapEvent_hasDoorDefuseMethod_whenEventIsDoor() {
+        this.trapEventName = TrapEventName.DOOR;
+        this.defuseMethod = TrapDefuseMethod.CLIMBUP;
+
+        while (trapEvent.getEvent() != trapEventName) {
+            trapEvent = new TrapEvent();
+        }
+
+        assertEquals(trapEvent.getDefuseMethod(), this.defuseMethod);
+    }
 
 }

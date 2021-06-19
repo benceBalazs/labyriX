@@ -3,6 +3,11 @@ package com.labyrix.game.Models;
 import java.util.Random;
 
 public class Trap {
+
+    /**
+     * probability: tells how likely a trap is activated.
+     * event: what kind of trap it is.
+     */
     private float probability;
     private TrapEvent event;
 
@@ -11,6 +16,10 @@ public class Trap {
         this.event = new TrapEvent();
     }
 
+    /**
+     * tells if a trap has been activated based on the probability the trap has.
+     * @return true, if a trap is activated.
+     */
     public boolean isTrapActivated () {
         boolean result = false;
 
@@ -24,6 +33,9 @@ public class Trap {
         return result;
     }
 
+    /**
+     * getter and setter.
+     */
     public float getProbability() {
         return probability;
     }

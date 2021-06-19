@@ -261,7 +261,7 @@ public class HUD {
      * @param yCoordinate the point on the y-axis where the element gets created.
      * @param radius specifies how big the radius should be at the corners.
      * @param barLength length of the element / x-axis
-     * @param barHeight length of the element / y-axis
+     * @param barHeight height of the element / y-axis
      */
     private void createSideBarElement(float xCoordinate, float yCoordinate, float radius, float barLength, float barHeight){
         Table tableSideBar = new Table();
@@ -272,22 +272,17 @@ public class HUD {
         float scaleFont = Gdx.graphics.getHeight() * 0.08f * 0.025f;
 
         Label description = new Label("Remaining Steps:", this.labelStyle);
-        Label firstMultiplayerPlayer = new Label("Franz: " + 15, this.labelStyle);      //TODO there is no functionality yet. still has to be inserted.
-        Label secondMultiplayerPlayer = new Label("Dieter: " + 3, this.labelStyle);     //TODO there is no functionality yet. still has to be inserted.
-        Label thirdMultiplayerPlayer = new Label("Udo: " + 80, this.labelStyle);        //TODO there is no functionality yet. still has to be inserted.
-
         description.setFontScale(scaleFont);
-        firstMultiplayerPlayer.setFontScale(scaleFont);
-        secondMultiplayerPlayer.setFontScale(scaleFont);
-        thirdMultiplayerPlayer.setFontScale(scaleFont);
 
         tableSideBar.add(description).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(firstMultiplayerPlayer).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(secondMultiplayerPlayer).expandX().fillX();
-        tableSideBar.row();
-        tableSideBar.add(thirdMultiplayerPlayer).expandX().fillX();
+
+        for (Player p: turnLogic.getPlayers()) {
+            Label multiplayerLabel = new Label(p.getName() + ": " + p.getMaxRemainingFields(), this.labelStyle);
+            multiplayerLabel.setFontScale(scaleFont);
+            tableSideBar.row();
+            tableSideBar.add(multiplayerLabel).expandX().fillX();
+        }
+
         tableSideBar.setPosition(xCoordinate, yCoordinate);
 
         this.stage.addActor(tableSideBar);

@@ -6,13 +6,17 @@ import com.labyrix.game.ENUMS.TrapEventName;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.Random;
+
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(GdxTestRunner.class)
 public class TestTrapEvent {
 
     TrapEvent trapEvent;
@@ -24,7 +28,7 @@ public class TestTrapEvent {
     public void init(){
         this.trapEvent = new TrapEvent();
         this.trapEventName = TrapEventName.values()[new Random().nextInt(TrapEventName.values().length)];
-        //TODO this.image = new Image("badlogic.jpg"); does not work
+        this.image = new Image("../android/assets/badlogic.jpg");
     }
 
     @Test

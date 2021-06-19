@@ -338,7 +338,7 @@ public class TurnLogic {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
             this.sentDataToServer = false;
             if (this.animationCounter != 0 && this.trapRender.getMovementDefuse() == null && this.trapRender.getBombDefuse() == null) {
-                turnValueText = new Texture("trapActive.png");
+
                 System.out.println(this.player.getCurrentField().getTrap().getEvent().getEvent());
                 int x = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().x - (int) (Gdx.graphics.getWidth() / 8f);
                 int y = (int) this.player.getCurrentField().getTrap().getEvent().getEventImage().getCoordinates().y - (int) (Gdx.graphics.getHeight() / 8f);

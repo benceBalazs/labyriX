@@ -31,19 +31,19 @@ public class TrapEvent {
 
         switch (event){
             case ZOMBIE:
-                this.eventImage = new Image("../android/assets/zombie.png");
+                this.eventImage = new Image("zombie.png");
                 this.defuseMethod = TrapDefuseMethod.STOPMOVING;
                 break;
             case BOMB:
-                this.eventImage = new Image("../android/assets/bomb.png");
+                this.eventImage = new Image("bomb.png");
                 this.defuseMethod = TrapDefuseMethod.DEFUSEBOMB;
                 break;
             case DOOR:
-                this.eventImage = new Image("../android/assets/cage.png");
+                this.eventImage = new Image("cage.png");
                 this.defuseMethod = TrapDefuseMethod.CLIMBUP;
                 break;
             case QUICKSAND:
-                this.eventImage = new Image("../android/assets/quicksand.png");
+                this.eventImage = new Image("quicksand.png");
                 this.defuseMethod = TrapDefuseMethod.CRAWLOUT;
                 break;
             default:

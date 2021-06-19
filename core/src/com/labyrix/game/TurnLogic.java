@@ -323,7 +323,7 @@ public class TurnLogic {
             }
             this.turnDone = true;
         } else {
-            throw new IllegalArgumentException(("checkTrap - Wrong TurnValue or Turn not done");
+            throw new IllegalArgumentException("checkTrap - Wrong TurnValue or Turn not done");
         }
     }
 
@@ -461,7 +461,7 @@ public class TurnLogic {
                 }
             }
         } else {
-            throw new IllegalArgumentException(("Trapdefuse - Wrong TurnValue or Turn not done"););
+            throw new IllegalArgumentException(("Trapdefuse - Wrong TurnValue or Turn not done");
         }
     }
 

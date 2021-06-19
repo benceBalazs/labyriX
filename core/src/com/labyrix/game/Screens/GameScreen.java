@@ -10,11 +10,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.ENUMS.TrapEventName;
+import com.labyrix.game.ENUMS.TurnValue;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
+import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.TurnLogic;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
     private final LabyrixMain labyrixMain;
@@ -28,6 +32,8 @@ public class GameScreen implements Screen {
     private HUD hud;
     private ClientNetworkHandler clientNetworkHandler;
     private Client client;
+    private int mainPlayerId;
+    private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
 
     public GameScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -40,20 +46,27 @@ public class GameScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
         isorend = new Board(batch);
-        player = new Player("Testplayer", "img_0116.png", isorend.getPathFieldByID(1), 70, 180, isorend);
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
         camera.position.set(cameraHeight / 2 - 700,cameraWidth / 2, 5);
+
+        for (NetworkPlayer np: networkPlayers) {
+            if (np.getId() == this.mainPlayerId) {
+                this.player = new Player(mainPlayerId, np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                System.out.println(this.player.toString());
+            }
+        }
+
         tl = new TurnLogic(isorend, player, camera);
         hud = new HUD(player, tl);
 
         //Serverstuff - fill list of other Players
-        Player p1 = new Player("Herbert", "DinoPink.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-        Player p2 = new Player("Hubert", "DinoOrange.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-        Player p3 = new Player("Hubsi", "DinoBlue.png", isorend.getPathFieldByID(1), 70, 180, isorend);
-
-        tl.addPlayer(p1);
-        tl.addPlayer(p2);
-        tl.addPlayer(p3);
+        for (NetworkPlayer np: networkPlayers) {
+            if (np.getId() != this.mainPlayerId) {
+                Player p = new Player(np.getId(), np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                System.out.println(p.toString());
+                tl.addPlayer(p);
+            }
+        }
     }
 
     @Override
@@ -63,17 +76,20 @@ public class GameScreen implements Screen {
         batch.begin();
         isorend.drawGround();
         tl.doTurn();
-        if (tl.getTrapRender().getStage().getActors().size == 0||tl.getTrapRender().getStage().getActors() == null){
-            for (Player p: tl.getPlayers()) {
-                p.render(batch);
+        if (tl.getTrapRender().getStage().getActors().size == 0 || tl.getTrapRender().getStage().getActors() == null){
+            if (tl.getUncoverRender().getStage().getActors().size == 0 || tl.getUncoverRender().getStage().getActors() == null){
+                for (Player p: tl.getPlayers()) {
+                    p.render(batch);
+                }
+                player.render(batch);
             }
-            player.render(batch);
         }
-        /*if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() != TrapEventName.QUICKSAND) {
+        if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && (tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB || tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR) && this.tl.getAnimationCounter() != 0) {
             tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
+        }
 
-        }*/
         cameraLerp( camera, player.getPosition());
+        tl.getUncoverRender().render();
         if (tl.getArrowActors() != null) {
             tl.getArrowActors().render();
         }
@@ -101,11 +117,27 @@ public class GameScreen implements Screen {
 
     public void switchToEnd(boolean condition){
         if (condition){
-            // TODO switch to winScreen with labyrixMain.setScreen(labyrixMain.getWinScreen())
+            labyrixMain.setScreen(labyrixMain.getWinnerScreen());
         }else {
-            // TODO switch to looseScreen with labyrixMain.setScreen(labyrixMain.getLooseScreen())
+            labyrixMain.setScreen(labyrixMain.getLoserScreen());
         }
         client.stop();
+    }
+
+    public int getMainPlayerId() {
+        return mainPlayerId;
+    }
+
+    public void setMainPlayerId(int mainPlayerId) {
+        this.mainPlayerId = mainPlayerId;
+    }
+
+    public ArrayList<NetworkPlayer> getNetworkPlayers() {
+        return networkPlayers;
+    }
+
+    public void setNetworkPlayers(ArrayList<NetworkPlayer> networkPlayers) {
+        this.networkPlayers = networkPlayers;
     }
 
     @Override

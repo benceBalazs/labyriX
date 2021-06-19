@@ -38,6 +38,7 @@ public class MovementDefuse {
         this.table = new Table(skin);
         this.table.setX(x - 120);
         this.table.setY(y + 100);
+        this.table.setZIndex(100);
 
         if (trapEventName == TrapEventName.ZOMBIE){
             descriptionText.setText("!!!Don´t Move!!!");

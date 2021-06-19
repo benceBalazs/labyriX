@@ -34,6 +34,11 @@ public class Lobby {
         networkPlayerList.add(networkPlayer);
     }
 
+    public void updateNetworkPlayer(int id, NetworkPlayer networkPlayer) {
+        networkPlayerList.remove(getNetworkPlayerById(id));
+        networkPlayerList.add(networkPlayer);
+    }
+
     public void removeReadyPlayer(NetworkPlayer networkPlayer) {
         readyPlayers.remove(networkPlayer);
     }

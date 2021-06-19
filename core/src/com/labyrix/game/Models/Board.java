@@ -300,26 +300,15 @@ public class Board {
             fields[23][25].addFollowingFields((PathField) fields[24][25]);
             fields[24][25].addFollowingFields((PathField) fields[25][25]);
 
-            
+            ((PathField) fields[25][25]).setWinField(true);
 
             //createPath(field);
         }
     }
 
 
-    public Board(SpriteBatch batch, int[][] field) throws IllegalArgumentException {
-        if (this.batch == null) {
-            this.batch = batch;
-        }
-
+    public Board(int[][] field) throws IllegalArgumentException {
         if (checkBoardSize(field)) {
-            Image snow = new Image("bodenLabyrixSnow.png");
-            Image ziel = new Image("bodenLabyrixZiel.png");
-            Image poison = new Image("bodenlabyrixdarkv2.png");
-            Image stone = new Image("bodenLabyrixstone.png");
-            Image dach = new Image("bodenLabyrixdach.png");
-            Image cheddar = new Image("bodenLabyrixcheddar.png");
-            Image floor = new Image("bodenLabyrixv3.png");
 
             fields = new Field[field.length][field[0].length];
             int id = 1;
@@ -327,19 +316,19 @@ public class Board {
             for (int i = 0; i < field.length; i++) {
                 for (int j = 0; j < field[i].length; j++) {
                     if (field[i][j] == 1) {
-                        fields[i][j] = new PathField(id, floor, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 2) {
-                        fields[i][j] = new NonPathField(id, poison);
+                        fields[i][j] = new NonPathField();
                     } else if (field[i][j] == 3) {
-                        fields[i][j] = new PathField(id, stone, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 4) {
-                        fields[i][j] = new NonPathField(id, dach);
+                        fields[i][j] = new NonPathField();
                     } else if (field[i][j] == 5) {
-                        fields[i][j] = new PathField(id, snow, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else if (field[i][j] == 6) {
-                        fields[i][j] = new PathField(id, cheddar, (float) Math.random());
+                        fields[i][j] = new PathField();
                     } else {
-                        fields[i][j] = new PathField(id, ziel, (float) Math.random());
+                        fields[i][j] = new PathField();
                     }
                     id++;
                 }
@@ -347,6 +336,11 @@ public class Board {
         }
     }
 
+    /**
+     * Prüft, ob das übergebene Board eine valide Größe hat (gleich viele Spalten je Zeile).
+     * @param: field - das in Integerwerten modellierte Array des Spielbretts, welches im Konstruktor in das richtige Spielbrett übersetzt wird
+     * @return: ture - valide Größe, sonst false
+     */
     public boolean checkBoardSize(int[][] field) throws IllegalArgumentException {
         for (int i = 1; i < field.length; i++) {
             if (field[i - 1].length != field[1].length) {
@@ -356,6 +350,9 @@ public class Board {
         return true;
     }
 
+    /**
+     * zeichent das Spielbrett
+     */
     public void drawGround() {
         for (int row = fields.length - 1; row >= 0; row--) {
             for (int cols = fields[row].length - 1; cols >= 0; cols--) {
@@ -367,143 +364,15 @@ public class Board {
         }
     }
 
-    public void createPath(int[][] field) {
-        //von startfeld einen pfad bis zum ende
-        //wenn mehr als ein folgefeld -> füge diese zu einer liste für subpfade
-        //wenn du am ende des weges angelangt bist (oder an einem Feld, das bereits betreten wurde)
-        //--> elemente aus der liste entfernen
-        //--> hauptpfad mit subpfad zusammenfügen
-        //wieder von start bis ende durchgehen (wenn feld bereits passiert - verknüpfe die pfade
-
-        ArrayList<Field> passedFields = new ArrayList<>();
-        ArrayList<PathField> subPaths = new ArrayList<>();
-        ArrayList<PathField> splitPaths = new ArrayList<>();
-        ArrayList<Integer> is = new ArrayList<>();
-        ArrayList<Integer> js = new ArrayList<>();
-
-        int i = 0, j = 0;
-
-        subPaths.add((PathField) this.fields[0][0]);
-        is.add(i);
-        js.add(j);
-
-        while (subPaths.size() > 0) {
-            int tempI = i, tempJ = j;
-            int follwoingFields = 0;
-
-            if (j < field[i].length - 1 && (field[i][j + 1] == 1 || field[i][j + 1] == 7 ) ) {
-                if (!passedFields.contains(fields[i][j+1])) {
-                    if (follwoingFields == 0) {
-                        fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
-                        tempJ = j+1;
-                        follwoingFields++;
-                    } else {
-                        //Neuer Pfad
-                        splitPaths.add((PathField) fields[i][j]);
-                        subPaths.add((PathField) fields[i][j + 1]);
-                        is.add(i);
-                        js.add(j + 1);
-                    }
-                    passedFields.add((PathField) fields[i][j]);
-
-                    //Pfad zusammenfügen
-                } else if (passedFields.contains(fields[i][j+1]) && subPaths.contains(fields[i][j])&& !fields[i][j+1].getFollowingFields().contains(fields[i][j])) {
-                    fields[i][j].addFollowingFields((PathField) fields[i][j + 1]);
-                    tempJ = j+1;
-                    follwoingFields++;
-                }
-            }
-
-            if (i < field.length - 1 && (field[i + 1][j] == 1  || field[i + 1][j] == 7 )) {
-
-                if (!passedFields.contains(fields[i+1][j])) {
-                    if (follwoingFields == 0) {
-                        fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
-                        tempI = i+1;
-                        follwoingFields++;
-                    } else {
-                        splitPaths.add((PathField) fields[i][j]);
-                        subPaths.add((PathField) fields[i + 1][j]);
-                        is.add(i + 1);
-                        js.add(j);
-                    }
-                    passedFields.add((PathField) fields[i][j]);
-                } else if (passedFields.contains(fields[i + 1][j]) && subPaths.contains(fields[i][j])&& !fields[i+1][j].getFollowingFields().contains(fields[i][j])) {
-                    fields[i][j].addFollowingFields((PathField) fields[i + 1][j]);
-                    tempI = i+1;
-                    follwoingFields++;
-                }
-            }
-
-            if (j > 0 && (field[i][j - 1] == 1  || field[i][j - 1] == 7 )) {
-                if (!passedFields.contains(fields[i][j-1])) {
-                    if (follwoingFields == 0) {
-                        fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
-                        tempJ = j-1;
-                        follwoingFields++;
-                    } else {
-                        splitPaths.add((PathField) fields[i][j]);
-                        subPaths.add((PathField) fields[i][j - 1]);
-                        is.add(i);
-                        js.add(j - 1);
-                    }
-                    passedFields.add((PathField) fields[i][j]);
-                } else if (passedFields.contains(fields[i][j - 1]) && subPaths.contains(fields[i][j]) && !fields[i][j-1].getFollowingFields().contains(fields[i][j])) {
-                    fields[i][j].addFollowingFields((PathField) fields[i][j - 1]);
-                    tempJ = j-1;
-                    follwoingFields++;
-                }
-            }
-
-            if (i > 0 && (field[i - 1][j] == 1  || field[i - 1][j] == 7 )) {
-                if (!passedFields.contains(fields[i-1][j])) {
-                    if (follwoingFields == 0) {
-                        fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
-                        tempI = i-1;
-                        follwoingFields++;
-                    } else {
-                        splitPaths.add((PathField) fields[i][j]);
-                        subPaths.add((PathField) fields[i - 1][j]);
-                        is.add(i - 1);
-                        js.add(j);
-                    }
-                    passedFields.add((PathField) fields[i][j]);
-                } else if (passedFields.contains(fields[i - 1][j]) && subPaths.contains(fields[i][j]) && !fields[i-1][j].getFollowingFields().contains(fields[i][j])) {
-                    fields[i][j].addFollowingFields((PathField) fields[i - 1][j]);
-                    tempI = i-1;
-                    follwoingFields++;
-                }
-            }
-
-
-            i = tempI;
-            j = tempJ;
-
-            if (field[i][j] == 7 || passedFields.contains(fields[i][j])) {
-                subPaths.remove(0);
-                is.remove(0);
-                js.remove(0);
-
-                if (is.size() > 0 && js.size() > 0) {
-                    i = is.get(0);
-                    j = js.get(0);
-
-                    splitPaths.get(0).addFollowingFields((PathField) fields[i][j]);
-                    splitPaths.remove(0);
-                }
-            }
-        }
-    }
-
-
     public Field[][] getFields() {
         return fields;
     }
 
-    public void setFields(Field[][] fields) {
-        this.fields = fields;
-    }
-
+    /**
+     * Sucht Pathfield aus dem Spielbrett und gibt dieses zurück
+     * @param: id - id des Pathfields
+     * @return: Pathfield - falls gefunden sonst null
+     */
     public PathField getPathFieldByID(int id) {
         if (this.fields != null) {
             for (int i = 0; i < fields.length; i++) {

@@ -57,10 +57,12 @@ public class ServerRequestListener extends Listener {
             LobbyJoinResponse lobbyJoinResponse = new LobbyJoinResponse();
             if(lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()) != null &&
                     lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).getNetworkPlayerList().size() < 4){
-
                 ((LobbyJoinRequest) object).getNetworkPlayer().setId(connection.getID());
                 ((LobbyJoinRequest) object).getNetworkPlayer().setLobbyId(((LobbyJoinRequest) object).getLobbyId());
                 lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).addNetworkPlayerToLobby(((LobbyJoinRequest) object).getNetworkPlayer());
+                for (NetworkPlayer np : lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).getNetworkPlayerList()) {
+                    np.setLobbyId(((LobbyJoinRequest) object).getLobbyId());
+                }
                 lobbyJoinResponse.setNetworkPlayerList(lobbyHandler.getLobbyById(((LobbyJoinRequest) object).getLobbyId()).getNetworkPlayerList());
                 server.sendToAllTCP(lobbyJoinResponse);
             }

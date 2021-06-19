@@ -52,10 +52,10 @@ public class HudButton {
         this.shapeRenderer.setColor(this.colorWhite);
         this.shapeRenderer.rect(xCoordinate, yCoordinate + height * 1.05f, length, height * 0.9f);
 
-        if (this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0  && this.isActive) {
+        if (this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0  && this.isActive && !this.turnLogic.isTurnDone()) {
             this.shapeRenderer.setColor(this.colorDarkGreen);
             this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, length - edge * 2f, height * 0.9f - edge * 2f);
-        } else if (!this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0 || !this.isActive){
+        } else if (!this.turnLogic.getPlayer().getTurnValue().equals(turnValue) && terminationCondition > 0 || !this.isActive || this.turnLogic.isTurnDone()){
             this.shapeRenderer.setColor(this.colorGray);
             this.shapeRenderer.rect(this.xCoordinateButtonBegin, this.yCoordinateButtonBegin + edge, length - edge * 2f, height * 0.9f - edge * 2f);
             name = "Wait...";

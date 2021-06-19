@@ -608,4 +608,12 @@ public class TurnLogic {
     public void setAnimationCounter(int animationCounter) {
         this.animationCounter = animationCounter;
     }
+
+    public boolean isTurnDone() {
+        return turnDone;
+    }
+
+    public void setTurnDone(boolean turnDone) {
+        this.turnDone = turnDone;
+    }
 }

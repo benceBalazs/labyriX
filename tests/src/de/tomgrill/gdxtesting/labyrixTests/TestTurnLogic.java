@@ -195,6 +195,34 @@ public class TestTurnLogic {
         assertEquals("checkTrap - Wrong TurnValue or Turn not done", msg.getMessage());
     }
 
+    @Test
+    public void turnLogic_doServerStuff_TurnDoneFalse_ThrowsException() {
+        turnlogic.setTurnDone(false);
+        turnlogic.setSentDataToServer(false);
+
+        RuntimeException msg = assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                turnlogic.doServerStuff();
+            }
+        });
+        assertEquals("Turn not Done or data already sent to server", msg.getMessage());
+    }
+
+    @Test
+    public void turnLogic_doServerStuff_SentDataToServerTrue_ThrowsException() {
+        turnlogic.setTurnDone(true);
+        turnlogic.setSentDataToServer(true);
+
+        RuntimeException msg = assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                turnlogic.doServerStuff();
+            }
+        });
+        assertEquals("Turn not Done or data already sent to server", msg.getMessage());
+    }
+
 
     @After
     public void teardown() {

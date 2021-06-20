@@ -21,6 +21,7 @@ de/tomgrill/gdxtesting/labyrixTests/SuitRunner.java
 de/tomgrill/gdxtesting/labyrixTests/TestTurnLogic.java
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$1
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$10
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$2
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$3
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$4
@@ -28,3 +29,4 @@ de/tomgrill/gdxtesting/labyrixTests/TestTurnLogic.java
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$6
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$7
  de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$8
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$9

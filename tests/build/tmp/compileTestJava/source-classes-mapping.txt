@@ -2,25 +2,29 @@ de/tomgrill/gdxtesting/GdxTestRunner.java
  de.tomgrill.gdxtesting.GdxTestRunner
 de/tomgrill/gdxtesting/labyrixTests/UnitTestExample.java
  de.tomgrill.gdxtesting.labyrixTests.UnitTestExample
-de/tomgrill/gdxtesting/labyrixTests/SuitRunner.java
- de.tomgrill.gdxtesting.labyrixTests.SuitRunner
-de/tomgrill/gdxtesting/labyrixTests/AssetExistsExampleTest.java
- de.tomgrill.gdxtesting.labyrixTests.AssetExistsExampleTest
-de/tomgrill/gdxtesting/labyrixTests/UnitTestExample.java
- de.tomgrill.gdxtesting.labyrixTests.UnitTestExample
 de/tomgrill/gdxtesting/labyrixTests/TestPathField.java
  de.tomgrill.gdxtesting.labyrixTests.TestPathField
-de/tomgrill/gdxtesting/labyrixTests/TestTurnLogic.java
- de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic
-de/tomgrill/gdxtesting/labyrixTests/SuitRunner.java
- de.tomgrill.gdxtesting.labyrixTests.SuitRunner
+de/tomgrill/gdxtesting/labyrixTests/AssetExistsExampleTest.java
+ de.tomgrill.gdxtesting.labyrixTests.AssetExistsExampleTest
 de/tomgrill/gdxtesting/labyrixTests/TestTrapEvent.java
  de.tomgrill.gdxtesting.labyrixTests.TestTrapEvent
+de/tomgrill/gdxtesting/labyrixTests/TestTrap.java
+ de.tomgrill.gdxtesting.labyrixTests.TestTrap
 de/tomgrill/gdxtesting/labyrixTests/CustomTestSuit.java
  de.tomgrill.gdxtesting.labyrixTests.CustomTestSuit
 de/tomgrill/gdxtesting/labyrixTests/TestBoard.java
  de.tomgrill.gdxtesting.labyrixTests.TestBoard
  de.tomgrill.gdxtesting.labyrixTests.TestBoard$1
  de.tomgrill.gdxtesting.labyrixTests.TestBoard$2
-de/tomgrill/gdxtesting/labyrixTests/TestTrap.java
- de.tomgrill.gdxtesting.labyrixTests.TestTrap
+de/tomgrill/gdxtesting/labyrixTests/SuitRunner.java
+ de.tomgrill.gdxtesting.labyrixTests.SuitRunner
+de/tomgrill/gdxtesting/labyrixTests/TestTurnLogic.java
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$1
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$2
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$3
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$4
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$5
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$6
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$7
+ de.tomgrill.gdxtesting.labyrixTests.TestTurnLogic$8

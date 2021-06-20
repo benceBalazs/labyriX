@@ -56,6 +56,9 @@ public class TurnLogic {
         this.clicker = true;
     }
 
+    public TurnLogic() {
+    }
+
     /** calls different Methods according to boolean turnDone and ENUM player.turnValue
      * if turnDone is false - rollDice, move, selectPath, checkTrap, defuseTrap are called; or server gets notified that player won the game
      * if turnDone is true - a method for sending an data to server is called

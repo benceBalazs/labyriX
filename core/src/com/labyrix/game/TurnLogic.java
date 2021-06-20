@@ -619,4 +619,12 @@ public class TurnLogic {
     public void setTurnDone(boolean turnDone) {
         this.turnDone = turnDone;
     }
+
+    public boolean isSentDataToServer() {
+        return sentDataToServer;
+    }
+
+    public void setSentDataToServer(boolean sentDataToServer) {
+        this.sentDataToServer = sentDataToServer;
+    }
 }

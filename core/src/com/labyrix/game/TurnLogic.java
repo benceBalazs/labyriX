@@ -45,7 +45,7 @@ public class TurnLogic {
         this.player = player;
         this.client = ClientNetworkHandler.getInstance().getClient();
         this.turnDone = false;
-        this.player.turnValue = TurnValue.DICEROLL;
+        this.player.setTurnValue(TurnValue.DICEROLL);
         this.trapRender = new TrapRender(camera);
         this.uncoverRender = new UncoverRender(camera);
         arrowActors = new ArrowActors(camera);

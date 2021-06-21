@@ -72,5 +72,12 @@ public class TestPlayer {
         assertEquals(14, maxPath);
     }
 
+    //Test for the minPath Length from the Beginning to the End
+    @Test
+    public void minPathLength_returnsMinPathField (){
+        int minPath= player.minPathLength(player.getCurrentField());
+        assertEquals(6,minPath);
+    }
+
     
 }

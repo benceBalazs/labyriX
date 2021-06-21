@@ -1,14 +1,9 @@
-package de.tomgrill.gdxtesting.labyrixTests;
-
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
-import com.labyrix.game.LabyrixMain;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-
-import jdk.nashorn.internal.objects.Global;
 
 public class SuitRunner {
     public static void main(String[] args) {

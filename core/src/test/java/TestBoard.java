@@ -1,5 +1,3 @@
-package de.tomgrill.gdxtesting.labyrixTests;
-
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.NonPathField;
 import com.labyrix.game.Models.PathField;
@@ -8,8 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
-
-import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;

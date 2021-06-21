@@ -1,5 +1,3 @@
-package de.tomgrill.gdxtesting.labyrixTests;
-
 import com.labyrix.game.Models.Trap;
 import com.labyrix.game.Models.TrapEvent;
 
@@ -7,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

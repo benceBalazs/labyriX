@@ -1,4 +1,3 @@
-package de.tomgrill.gdxtesting.labyrixTests;
 import com.labyrix.game.Models.Image;
 import com.labyrix.game.ENUMS.TrapDefuseMethod;
 import com.labyrix.game.Models.TrapEvent;
@@ -7,8 +6,6 @@ import com.labyrix.game.ENUMS.TrapEventName;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import de.tomgrill.gdxtesting.GdxTestRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

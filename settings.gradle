@@ -1,2 +1,2 @@
 include 'android', 'core', 'server'
-include ':tests'
+//include ':tests'

@@ -14,8 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 
-package de.tomgrill.gdxtesting;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,10 +21,10 @@ import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.InitializationError;
+import org.mockito.Mockito;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import static org.mockito.Mockito.mock;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
@@ -41,7 +39,7 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
 		HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
 
 		new HeadlessApplication(this, conf);
-		Gdx.gl = mock(GL20.class);
+		Gdx.gl = Mockito.mock(GL20.class);
 	}
 
 	@Override

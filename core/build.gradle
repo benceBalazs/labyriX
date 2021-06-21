@@ -1,23 +1,39 @@
 plugins {
     id 'jacoco'
     id 'java'
+    id "org.sonarqube" version "3.1.1"
 }
 
 sourceCompatibility = 1.7
-test {
-    useJUnitPlatform {
 
-    }
-}
+sourceSets.main.java.srcDirs = ["src/com/labyrix/game"]
+sourceSets.test.java.srcDirs = ["src/test/java"]
 
 jacocoTestReport {
     reports {
         xml.enabled true
     }
 }
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 dependencies {
     implementation 'junit:junit:4.12'
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "labyriX"
+        property "sonar.organization", "LabyriX"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 sourceSets.main.java.srcDirs = [ "src/" ]

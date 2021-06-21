@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Lobby {
-    private ArrayList<String> playerAvatars = new ArrayList<>();
+    private ArrayList<String> playerAvatars = new ArrayList<>(4);
     private ArrayList<NetworkPlayer> networkPlayerList = new ArrayList<>(4);
     private ArrayList<NetworkPlayer> readyPlayers = new ArrayList<>(4);
     private int lobbyId;
@@ -41,7 +41,14 @@ public class Lobby {
     }
 
     public String givePlayerRandomAvatar(){
+        this.playerAvatars.clear();
+        this.playerAvatars.add("DinoBlue.png");
+        this.playerAvatars.add("DinoOrange.png");
+        this.playerAvatars.add("DinoPink.png");
+        this.playerAvatars.add("img_0116.png");
+        System.out.println("Player Size: "+playerAvatars.size());
         int randomNumber = new Random().nextInt(playerAvatars.size());
+        System.out.println("Random Number: "+randomNumber);
         String avatar = this.playerAvatars.get(randomNumber);
         this.playerAvatars.remove(randomNumber);
         return avatar;

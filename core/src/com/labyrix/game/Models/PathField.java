@@ -17,8 +17,6 @@ public class PathField extends Field {
     }
 
     public PathField() {
-    }
-    public PathField() {
 
         followingFields = new ArrayList<PathField>();
     }

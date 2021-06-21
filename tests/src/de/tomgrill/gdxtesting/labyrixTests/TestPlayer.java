@@ -65,5 +65,12 @@ public class TestPlayer {
         player.setCurrentField((PathField) fields[0][0]);
     }
 
+    //Test for the maxPath Length from the Beginning to the End
+    @Test
+    public void maxPathLength_returnsMaxPathField (){
+        int maxPath= player.maxPathLength(player.getCurrentField());
+        assertEquals(14, maxPath);
+    }
+
     
 }

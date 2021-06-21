@@ -103,5 +103,13 @@ public class TestPlayer {
         assertEquals(12,intersectionMaxPath);
     }
 
-   
+    //Test for the minPath Length from the Intersection to the End
+    @Test
+    public void minPathLength_IntersectionFieldsTillLastField(){
+        player.setCurrentField((PathField)fields[2][0]);
+        int intersectionMinPath= player.minPathLength(player.getCurrentField());
+        assertEquals(4,intersectionMinPath);
+    }
+
+    
 }

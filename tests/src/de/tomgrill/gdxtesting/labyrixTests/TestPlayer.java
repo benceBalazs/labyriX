@@ -79,5 +79,13 @@ public class TestPlayer {
         assertEquals(6,minPath);
     }
 
+    //Test for the maxLength from the Last field to the Last field
+    @Test
+    public void maxPathLength_lastField (){
+        player.setCurrentField((PathField) fields[6][0]);
+        int lastField= player.maxPathLength(player.getCurrentField());
+        assertEquals(0,lastField);
+    }
+
     
 }

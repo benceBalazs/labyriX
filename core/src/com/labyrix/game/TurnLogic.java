@@ -117,6 +117,8 @@ public class TurnLogic {
             }
             if (Gdx.input.justTouched() && Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd() && animationCounter == 120) {
 
+                System.out.println("Dice Roll: "+this.player.getCounterReducedMovementSpeed());
+
                 int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
                 this.player.setRemainingSteps(steps);
 
@@ -403,7 +405,9 @@ public class TurnLogic {
                                         this.animationCounter = 120;
                                     }
                                     else {
-                                        this.player.setCounterReducedMovementSpeed(4);
+                                        System.out.println("before reduce: "+this.player.getCounterReducedMovementSpeed());
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+4);
+                                        System.out.println("after reduce: "+this.player.getCounterReducedMovementSpeed());
                                         this.player.setNumberOfFails(0);
                                         this.player.turnValue = TurnValue.DICEROLL;
                                     }
@@ -428,7 +432,9 @@ public class TurnLogic {
                                         this.animationCounter = 120;
                                     }
                                     else {
-                                        this.player.setCounterReducedMovementSpeed(4);
+                                        System.out.println("before reduce: "+this.player.getCounterReducedMovementSpeed());
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+4);
+                                        System.out.println("after reduce: "+this.player.getCounterReducedMovementSpeed());
                                         this.player.setNumberOfFails(0);
                                     }
                                     defuseSuccess = false;
@@ -480,7 +486,6 @@ public class TurnLogic {
     }
 
     public void cheatingPlayerMovementspeed(int playerId){
-        // TODO if hasCheated then punish him
         if (this.player.getId() == playerId) {
             this.player.setMovementSpeed(this.player.getMovementSpeed()*0.5f);
             this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+5);

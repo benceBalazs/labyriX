@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.tomgrill.gdxtesting.labyrixTests.AssetExistsExampleTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-21T20:01:46" hostname="DESKTOP-4QSJNUH" time="0.002">
+  <properties/>
+  <testcase name="badlogicLogoFileExists" classname="de.tomgrill.gdxtesting.labyrixTests.AssetExistsExampleTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

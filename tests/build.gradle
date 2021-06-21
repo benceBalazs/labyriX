@@ -1,10 +1,22 @@
+plugins {
+    id 'jacoco'
+    id 'java'
+}
 
 
 apply plugin: "java"
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+    def javaTree = fileTree(dir: "${project.buildDir}/../core/intermediates/javac/debug/classes")
+    classDirectories.from = files([javaTree])
+}
+
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
 
 
 sourceSets {
@@ -13,11 +25,8 @@ sourceSets {
             srcDir 'src'
         }
     }
-    
-    
 }
 
 eclipse.project {
     name = appName + "-tests"
 }
-

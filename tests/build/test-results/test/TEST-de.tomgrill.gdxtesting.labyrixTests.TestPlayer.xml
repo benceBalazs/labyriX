@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" tests="7" skipped="0" failures="0" errors="0" timestamp="2021-06-21T20:01:47" hostname="DESKTOP-4QSJNUH" time="0.003">
+  <properties/>
+  <testcase name="maxPathLength_IntersectionFieldsTillLastField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.001"/>
+  <testcase name="minPathLength_IntersectionFieldsTillLastField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.0"/>
+  <testcase name="maxPathLength_returnsMaxPathField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.0"/>
+  <testcase name="currentFieldMethode_returnLengthOfList" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.0"/>
+  <testcase name="minPathLength_lastField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.001"/>
+  <testcase name="maxPathLength_lastField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.0"/>
+  <testcase name="minPathLength_returnsMinPathField" classname="de.tomgrill.gdxtesting.labyrixTests.TestPlayer" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

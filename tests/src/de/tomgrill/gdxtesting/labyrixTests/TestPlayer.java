@@ -87,5 +87,13 @@ public class TestPlayer {
         assertEquals(0,lastField);
     }
 
+    //Test for the minlength from the Last field to the Last field
+    @Test
+    public void minPathLength_lastField (){
+        player.setCurrentField((PathField) fields[6][0]);
+        int lastField= player.minPathLength(player.getCurrentField());
+        assertEquals(0,lastField);
+    }
+
     
 }

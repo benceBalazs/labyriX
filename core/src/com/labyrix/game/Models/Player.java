@@ -47,6 +47,9 @@ public class Player {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
     }
+    public Player() {
+
+    }
 
     /**
      * Method for rendering the Player
@@ -57,7 +60,8 @@ public class Player {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
 
     }
-
+  
+    //Creates an Array with all possible Paths to the field "goal"
     /**
      * @param:
      * @return:
@@ -73,7 +77,8 @@ public class Player {
             listAllPath.add(count);
         }
     }
-
+  
+    //Max length till the last Field
     /**
      * @param:
      * @return:
@@ -88,14 +93,10 @@ public class Player {
             }
         }
         listAllPath = new ArrayList<Integer>();
-        return maxPath;
+        return maxPath-1;
     }
 
-    /**
-     * @param:
-     * @return:
-     * @exception:
-     */
+    //Min length till the last Field
     public int minPathLength (Field field){
         countingFields(field, 0);
         int minPath = listAllPath.get(0);
@@ -105,7 +106,7 @@ public class Player {
             }
         }
         listAllPath = new ArrayList<Integer>();
-        return minPath;
+        return minPath-1;
     }
 
     public String getName() {
@@ -212,6 +213,10 @@ public class Player {
         this.hasCheated = hasCheated;
     }
 
+    public ArrayList<Integer> getListAllPath() { return listAllPath; }
+
+    public void setListAllPath(ArrayList<Integer> listAllPath) { this.listAllPath = listAllPath; }
+  
     public int getLobbyId() {
         return lobbyId;
     }

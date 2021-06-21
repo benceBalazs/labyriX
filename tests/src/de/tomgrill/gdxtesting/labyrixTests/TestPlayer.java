@@ -95,5 +95,13 @@ public class TestPlayer {
         assertEquals(0,lastField);
     }
 
-    
+    //Test for the maxPath Length from the Intersection to the End
+    @Test
+    public void maxPathLength_IntersectionFieldsTillLastField(){
+        player.setCurrentField((PathField)fields[2][0]);
+        int intersectionMaxPath= player.maxPathLength(player.getCurrentField());
+        assertEquals(12,intersectionMaxPath);
+    }
+
+   
 }

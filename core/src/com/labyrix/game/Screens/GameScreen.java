@@ -82,27 +82,28 @@ public class GameScreen implements Screen {
         batch.begin();
         isorend.drawGround();
         tl.doTurn();
-        if (tl.getTrapRender().getStage().getActors().size == 0 || tl.getTrapRender().getStage().getActors() == null){
-            if (tl.getUncoverRender().getStage().getActors().size == 0 || tl.getUncoverRender().getStage().getActors() == null){
-                for (Player p: tl.getPlayers()) {
-                    p.render(batch);
-                }
-                this.player.setMaxRemainingFields(this.player.maxPathLength(this.player.getCurrentField()));
-                this.player.setMinRemainingFields(this.player.minPathLength(this.player.getCurrentField()));
-                player.render(batch);
-            }
+
+        for (Player p: tl.getPlayers()) {
+            p.render(batch);
         }
+        this.player.setMaxRemainingFields(this.player.maxPathLength(this.player.getCurrentField()));
+        this.player.setMinRemainingFields(this.player.minPathLength(this.player.getCurrentField()));
+        player.render(batch);
+
         if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && (tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB || tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR) && this.tl.getAnimationCounter() != 0) {
             tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
         }
 
         cameraLerp( camera, player.getPosition());
-        tl.getUncoverRender().render();
+
         if (tl.getArrowActors() != null) {
             tl.getArrowActors().render();
         }
-        tl.getTrapRender().render();
+
         batch.end();
+
+        tl.getUncoverRender().render();
+        tl.getTrapRender().render();
 
         hud.render(batch);
     }

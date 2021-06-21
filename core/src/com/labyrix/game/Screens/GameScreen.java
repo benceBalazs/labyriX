@@ -81,7 +81,6 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         isorend.drawGround();
-        tl.doTurn();
 
         for (Player p: tl.getPlayers()) {
             p.render(batch);
@@ -90,6 +89,8 @@ public class GameScreen implements Screen {
         this.player.setMinRemainingFields(this.player.minPathLength(this.player.getCurrentField()));
         player.render(batch);
 
+        tl.doTurn();
+        
         if (tl.getPlayer().getTurnValue() == TurnValue.TRAPACTIVATED && (tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.BOMB || tl.getPlayer().getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.DOOR) && this.tl.getAnimationCounter() != 0) {
             tl.getPlayer().getCurrentField().getTrap().getEvent().getEventImage().render(batch, tl.getPlayer().getCurrentField().getCoordinates().x, tl.getPlayer().getCurrentField().getCoordinates().y);
         }

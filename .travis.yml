@@ -39,7 +39,7 @@ script:
   - yes | sdkmanager "platforms;android-30" # accept licenses
   - yes | sdkmanager "build-tools;30.0.3"   # accept licenses
   - chmod +x gradlew                        # make executable 
-  - ./gradlew test jacocoTestReport
+  - ./gradlew :core:jacocoTestReport
 ## uncomment test exec if android integration tests are needed
 #  - ./gradlew connectedAndroidTest
   - ./gradlew lint

@@ -375,11 +375,11 @@ public class Board {
         //--> hauptpfad mit subpfad zusammenfügen
         //wieder von start bis ende durchgehen (wenn feld bereits passiert - verknüpfe die pfade
 
-        ArrayList<Field> passedFields = new ArrayList<>();
-        ArrayList<PathField> subPaths = new ArrayList<>();
-        ArrayList<PathField> splitPaths = new ArrayList<>();
-        ArrayList<Integer> is = new ArrayList<>();
-        ArrayList<Integer> js = new ArrayList<>();
+        ArrayList<Field> passedFields = new ArrayList<Field>();
+        ArrayList<PathField> subPaths = new ArrayList<PathField>();
+        ArrayList<PathField> splitPaths = new ArrayList<PathField>();
+        ArrayList<Integer> is = new ArrayList<Integer>();
+        ArrayList<Integer> js = new ArrayList<Integer>();
 
         int i = 0, j = 0;
 

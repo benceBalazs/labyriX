@@ -25,7 +25,7 @@ public class Player {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
-    private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
     private int hasCheated = 0;
 
     public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
@@ -44,14 +44,17 @@ public class Player {
         this.name = name;
         this.playerImage = new Image(playerImagePath);
     }
+    public Player() {
+
+    }
 
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
         maxRemainingFields = maxPathLength(currentField);
         minRemainingFields = minPathLength(currentField);
     }
-
-    private void countingFields (Field field, int count){
+    //Creates an Array with all possible Paths to the field "goal"
+    public void countingFields (Field field, int count){
         count ++;
         ArrayList<PathField> followingFieldList = field.getFollowingFields();
         for(int i= 0; i< followingFieldList.size();i++){
@@ -61,8 +64,8 @@ public class Player {
             listAllPath.add(count);
         }
     }
-
-    private int maxPathLength (Field field){
+    //Max length till the last Field
+    public int maxPathLength (Field field){
         countingFields(field,0);
         int maxPath = 0;
         for (int i = 0; i< listAllPath.size(); i++){
@@ -70,11 +73,12 @@ public class Player {
                 maxPath = listAllPath.get(i);
             }
         }
-        listAllPath = new ArrayList<>();
-        return maxPath;
+        listAllPath = new ArrayList<Integer>();
+        return maxPath-1;
     }
 
-    private int minPathLength (Field field){
+    //Min length till the last Field
+    public int minPathLength (Field field){
         countingFields(field, 0);
         int minPath = listAllPath.get(0);
         for (int i = 0; i< listAllPath.size(); i++){
@@ -82,8 +86,8 @@ public class Player {
                 minPath = listAllPath.get(i);
             }
         }
-        listAllPath = new ArrayList<>();
-        return minPath;
+        listAllPath = new ArrayList<Integer>();
+        return minPath-1;
     }
 
     public String getName() {
@@ -197,4 +201,8 @@ public class Player {
     public void setHasCheated(int hasCheated) {
         this.hasCheated = hasCheated;
     }
+
+    public ArrayList<Integer> getListAllPath() { return listAllPath; }
+
+    public void setListAllPath(ArrayList<Integer> listAllPath) { this.listAllPath = listAllPath; }
 }

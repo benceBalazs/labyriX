@@ -29,6 +29,10 @@ public class PathField extends Field {
 
         followingFields = new ArrayList<PathField>();
     }
+    public PathField() {
+
+        followingFields = new ArrayList<PathField>();
+    }
 
     @Override
     public ArrayList<PathField> getFollowingFields() {

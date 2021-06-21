@@ -4,6 +4,12 @@ plugins {
 }
 
 sourceCompatibility = 1.7
+test {
+    useJUnitPlatform {
+
+    }
+}
+
 jacocoTestReport {
     reports {
         xml.enabled true

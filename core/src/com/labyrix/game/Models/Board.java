@@ -22,6 +22,7 @@ public class Board {
             this.batch = batch;
         }
 
+        //creation Images for the floors
         Image snow = new Image("bodenLabyrixSnow.png");
         Image ziel = new Image("bodenLabyrixZiel2.png");
         Image poison = new Image("bodenlabyrixdarkv2.png");
@@ -30,7 +31,7 @@ public class Board {
         Image cheddar = new Image("bodenLabyrixcheddar.png");
         Image floor = new Image("bodenLabyrixv3.png");
 
-
+        //creating an Array field as the board with numbers for the Images
         int[][] field = {
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
                 {1, 5, 5, 5, 1, 5, 5, 5, 1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
@@ -64,7 +65,7 @@ public class Board {
             fields = new Field[field.length][field[0].length];
             int id = 1;
 
-
+            //checking fields id from Array with for and giving the fields an image
             for (int i = 0; i < field.length; i++) {
                 for (int y = 0; y < field[i].length; y++) {
                     if (field[i][y] == 1) {
@@ -87,6 +88,8 @@ public class Board {
 
                 }
             }
+
+            //adding following fields till some paths to the end
             fields[0][0].addFollowingFields((PathField) fields[1][0]);
             fields[1][0].addFollowingFields((PathField) fields[2][0]);
             fields[2][0].addFollowingFields((PathField) fields[3][0]);

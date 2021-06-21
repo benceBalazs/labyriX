@@ -404,11 +404,12 @@ public class TurnLogic {
                                     if (this.player.getNumberOfFails() < 2) {
                                         this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
                                         this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() + 2);
                                         this.animationCounter = 120;
                                     }
                                     else {
                                         System.out.println("before reduce: "+this.player.getCounterReducedMovementSpeed());
-                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+4);
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() + 1);
                                         System.out.println("after reduce: "+this.player.getCounterReducedMovementSpeed());
                                         this.player.setNumberOfFails(0);
                                         this.player.turnValue = TurnValue.DICEROLL;
@@ -431,11 +432,12 @@ public class TurnLogic {
                                     if (this.player.getNumberOfFails() < 2) {
                                         this.player.setNumberOfFails(this.player.getNumberOfFails() + 1);
                                         this.player.setMovementSpeed((float) (this.player.getMovementSpeed() * 0.75));
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() + 2);
                                         this.animationCounter = 120;
                                     }
                                     else {
                                         System.out.println("before reduce: "+this.player.getCounterReducedMovementSpeed());
-                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed()+4);
+                                        this.player.setCounterReducedMovementSpeed(this.player.getCounterReducedMovementSpeed() + 1);
                                         System.out.println("after reduce: "+this.player.getCounterReducedMovementSpeed());
                                         this.player.setNumberOfFails(0);
                                     }

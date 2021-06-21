@@ -1,4 +1,14 @@
+plugins {
+    id 'jacoco'
+    id 'java'
+}
+
 sourceCompatibility = 1.7
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
 dependencies {
     implementation 'junit:junit:4.12'
 }

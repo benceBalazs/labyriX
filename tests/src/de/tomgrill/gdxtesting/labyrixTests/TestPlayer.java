@@ -111,5 +111,15 @@ public class TestPlayer {
         assertEquals(4,intersectionMinPath);
     }
 
-    
+    //Test for the length of the List from Methode CountingFields
+    @Test
+    public void currentFieldMethode_returnLengthOfList(){
+        player.countingFields(fields[0][0],0);
+        ArrayList<Integer> testArray = new ArrayList<Integer>();
+        testArray.add((Integer)7);
+        testArray.add((Integer)15);
+        ArrayList<Integer> acctualArray;
+        acctualArray= player.getListAllPath();
+        assertTrue(testArray.containsAll(acctualArray)&& acctualArray.containsAll(testArray));
+    }
 }

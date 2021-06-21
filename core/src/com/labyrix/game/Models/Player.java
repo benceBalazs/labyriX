@@ -5,17 +5,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.labyrix.game.ENUMS.TurnValue;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 
 public class Player {
 
     private int id;
+    private int lobbyId;
     private String name;
     private Image playerImage;
     private Vector2 position;
     private PathField currentField;
-    private String roundStatus = null;
     private float movementSpeed = 1f;
     private int remainingCheats = 2;
     private int numberOfFails = 0;
@@ -28,7 +29,9 @@ public class Player {
     private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
     private int hasCheated = 0;
 
-    public Player(String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
+    public Player(int id, int lobbyId, String name, String playerImagePath, PathField currentField, int xPos, int yPos, Board board) {
+        this.id = id;
+        this.lobbyId = lobbyId;
         this.name = name;
         this.playerImage = new Image(playerImagePath);
         this.currentField = currentField;
@@ -48,12 +51,22 @@ public class Player {
 
     }
 
+    /**
+     * Method for rendering the Player
+     *
+     * @param: batch - Spritebatch, auf dem der Player gezeichnet werden soll
+     */
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
-        maxRemainingFields = maxPathLength(currentField);
-        minRemainingFields = minPathLength(currentField);
+
     }
+  
     //Creates an Array with all possible Paths to the field "goal"
+    /**
+     * @param:
+     * @return:
+     * @exception:
+     */
     public void countingFields (Field field, int count){
         count ++;
         ArrayList<PathField> followingFieldList = field.getFollowingFields();
@@ -64,7 +77,13 @@ public class Player {
             listAllPath.add(count);
         }
     }
+  
     //Max length till the last Field
+    /**
+     * @param:
+     * @return:
+     * @exception:
+     */
     public int maxPathLength (Field field){
         countingFields(field,0);
         int maxPath = 0;
@@ -128,14 +147,6 @@ public class Player {
 
     public void setCounterReducedMovementSpeed(int counterReducedMovementSpeed) {
         this.counterReducedMovementSpeed = counterReducedMovementSpeed;
-    }
-
-    public String getRoundStatus() {
-        return roundStatus;
-    }
-
-    public void setRoundStatus(String roundStatus) {
-        this.roundStatus = roundStatus;
     }
 
     public Image getPlayerImage() {
@@ -205,4 +216,37 @@ public class Player {
     public ArrayList<Integer> getListAllPath() { return listAllPath; }
 
     public void setListAllPath(ArrayList<Integer> listAllPath) { this.listAllPath = listAllPath; }
+  
+    public int getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(int lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public void setMaxRemainingFields(int maxRemainingFields) {
+        this.maxRemainingFields = maxRemainingFields;
+    }
+
+    public void setMinRemainingFields(int minRemainingFields) {
+        this.minRemainingFields = minRemainingFields;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", lobbyId=" + lobbyId +
+                ", name='" + name +
+                ", position=" + position +
+                ", movementSpeed=" + movementSpeed +
+                ", remainingCheats=" + remainingCheats +
+                ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
+                ", maxRemainingFields=" + maxRemainingFields +
+                ", minRemainingFields=" + minRemainingFields +
+                ", turnValue=" + turnValue +
+                ", hasCheated=" + hasCheated +
+                '}';
+    }
 }

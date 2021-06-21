@@ -1,13 +1,17 @@
 package com.labyrix.game.Network;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+import com.labyrix.game.Models.NetworkPlayer;
+import com.labyrix.game.NetworkModels.ChangeLobbyToGameResponse;
 import com.labyrix.game.NetworkModels.LobbyCreateResponse;
 import com.labyrix.game.NetworkModels.LobbyJoinResponse;
 import com.labyrix.game.NetworkModels.LobbyLeaveResponse;
 import com.labyrix.game.NetworkModels.PlayerStatusResponse;
 import com.labyrix.game.NetworkModels.PlayerWinIdResponse;
+import com.labyrix.game.NetworkModels.UncoverResponse;
 import com.labyrix.game.Screens.GameScreen;
 import com.labyrix.game.Screens.JoinScreen;
 import com.labyrix.game.Screens.LobbyScreen;
@@ -46,6 +50,8 @@ public class ClientRequestListener extends Listener {
             joinScreen.setLobbyCodeReturn(String.valueOf(lobbyId));
             joinScreen.changeToLobby();
             lobbyScreen.setInLobby(true);
+            lobbyScreen.setMainPlayerId(connection.getID());
+            System.out.println(lobbyScreen.getMainPlayerId());
         }
 
         if (object instanceof LobbyJoinResponse){
@@ -53,10 +59,15 @@ public class ClientRequestListener extends Listener {
                 if(!lobbyScreen.isInLobby()){
                     joinScreen.setNetworkPlayers(((LobbyJoinResponse) object).getNetworkPlayerList());
                     joinScreen.changeToLobby();
+                    lobbyScreen.setMainPlayerId(connection.getID());
+                    System.out.println(lobbyScreen.getMainPlayerId());
                 }else {
                     lobbyScreen.setNetworkPlayers(((LobbyJoinResponse) object).getNetworkPlayerList());
                 }
                 lobbyScreen.updatePlayers(((LobbyJoinResponse) object).getNetworkPlayerList().size());
+            }
+            for (NetworkPlayer np:((LobbyJoinResponse) object).getNetworkPlayerList()) {
+                System.out.println("PlayerID: "+np.getId()+" and Lobby: "+np.getLobbyId());
             }
         }
 
@@ -71,6 +82,21 @@ public class ClientRequestListener extends Listener {
 
         if (object instanceof PlayerWinIdResponse){
             gameScreen.switchToEnd(((PlayerWinIdResponse) object).isWinCondition());
+        }
+
+        if (object instanceof ChangeLobbyToGameResponse){
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    gameScreen.setMainPlayerId(lobbyScreen.getMainPlayerId());
+                    gameScreen.setNetworkPlayers(lobbyScreen.getNetworkPlayers());
+                    lobbyScreen.changeToGame();
+                }
+            });
+        }
+
+        if (object instanceof UncoverResponse){
+            gameScreen.getTl().cheatingPlayerMovementspeed(((UncoverResponse) object).getPlayerId());
         }
     }
 

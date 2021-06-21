@@ -21,15 +21,34 @@ public class NetworkPlayer {
     private int maxRemainingFields;
     private int minRemainingFields;
     public TurnValue turnValue;
-    private ArrayList<Integer> listAllPath = new ArrayList<>();
+    private int hasCheated = 0;
+    private ArrayList<Integer> listAllPath = new ArrayList<Integer>();
 
     public NetworkPlayer(String name, String playerImagePath) {
         this.name = name;
         this.imagePath = playerImagePath;
     }
 
+    public NetworkPlayer(int id, String name, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields, int hasCheated) {
+        this.id = id;
+        this.name = name;
+        this.lobbyId = lobbyId;
+        this.position = position;
+        this.maxRemainingFields = maxRemainingFields;
+        this.minRemainingFields = minRemainingFields;
+        this.hasCheated = hasCheated;
+    }
+
     public NetworkPlayer() {
 
+    }
+
+    public int getHasCheated() {
+        return hasCheated;
+    }
+
+    public void setHasCheated(int hasCheated) {
+        this.hasCheated = hasCheated;
     }
 
     public int getLobbyId() {
@@ -158,5 +177,22 @@ public class NetworkPlayer {
 
     public void setListAllPath(ArrayList<Integer> listAllPath) {
         this.listAllPath = listAllPath;
+    }
+
+    @Override
+    public String toString() {
+        return "NetworkPlayer{" +
+                "id=" + id +
+                ", lobbyId=" + lobbyId +
+                ", name='" + name +
+                ", position=" + position +
+                ", movementSpeed=" + movementSpeed +
+                ", remainingCheats=" + remainingCheats +
+                ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
+                ", maxRemainingFields=" + maxRemainingFields +
+                ", minRemainingFields=" + minRemainingFields +
+                ", turnValue=" + turnValue +
+                ", hasCheated=" + hasCheated +
+                '}';
     }
 }

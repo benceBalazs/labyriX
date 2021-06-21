@@ -44,6 +44,8 @@ public class BombDefuse extends Actor {
         table.setX(x - 120);
         table.setY(y + 100);
 
+        this.table.setZIndex(100);
+
         bombcodeTextfield = new TextField("bombcode", skin);
         bombcodeTextfield.setText(bombcode);
         bombcodeTextfield.setAlignment(1);

@@ -89,7 +89,6 @@ public class TestTrap {
     @Test
     public void setEvent_changesCurrentEvent(){
         TrapEvent trapEvent = new TrapEvent();
-
         this.trap.setEvent(trapEvent);
         Assert.assertSame(trapEvent, this.trap.getEvent());
     }

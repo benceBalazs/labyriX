@@ -14,7 +14,16 @@ import com.labyrix.game.ENUMS.TurnValue;
 public class ArrowActor extends Actor {
     Sprite texture;
 
-    public ArrowActor(String imgPath, float xPos, float yPos, final String actorName, final TurnLogic tl, final int fieldindex) {
+    /** Erstellt die ArrowActors - weißt Image und Position zu
+     * zuweisung des TouchDown Eventlisteners - Wird der Actor geklickt, wird der jeweilige Pfad gewählt
+     * @param: imgPath - Pfad für das Image, welches dem Actor zugewiesen wird
+     * @param: xPos - x Koordinate des Actors
+     * @param: yPos - y Koordinate des Actors
+     * @param: turnlogic - Turnlogic, in der der betroffene Player gespeichert wird
+     * @param: fieldindex - Index des Feldes in der Liste der Folgefelder des aktuell betretenen Pathfields
+     * @return:
+     */
+    public ArrowActor(String imgPath, float xPos, float yPos, final TurnLogic tl, final int fieldindex) {
         Texture t = new Texture(imgPath);
         texture = new Sprite(t);
         texture.setPosition(xPos, yPos);
@@ -25,7 +34,6 @@ public class ArrowActor extends Actor {
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println(actorName);
                 System.out.println(tl.getPlayer().getCurrentField().getFollowingField(fieldindex).getId());
                 tl.getPlayer().setCurrentField(tl.getPlayer().getCurrentField().getFollowingField(fieldindex));
                 Vector2 playerPosition = new Vector2(tl.getPlayer().getCurrentField().getCoordinates().x + 64, tl.getPlayer().getCurrentField().getCoordinates().y + 184);

@@ -7,7 +7,9 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         UnitTestExample.class,
-        TestTrap.class
+        TestTrap.class,
+        TestTrapEvent.class,
+        TestBoard.class
 })
 
         // chang paths:    "../android/assets/badlogic.jpg"

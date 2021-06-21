@@ -18,6 +18,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.labyrix.game.LabyrixMain;
+import com.labyrix.game.MusicHandler;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class TitleScreen extends ScreenAdapter {
@@ -27,6 +29,7 @@ public class TitleScreen extends ScreenAdapter {
     private Image backgroundImg;
     private TextButton buttonPlay;
     private Image logoImg;
+    private MusicHandler musicHandler;
 
     public TitleScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -38,7 +41,8 @@ public class TitleScreen extends ScreenAdapter {
         System.out.println("MAIN MENU");
         Gdx.input.setInputProcessor(stage);
         stage.clear();
-
+        this.musicHandler = MusicHandler.getINSTANCE();
+        this.musicHandler.titleScreenMusic();
         this.skin = new Skin();
         this.skin.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
         this.skin.add("default-font", labyrixMain.getFontBig());

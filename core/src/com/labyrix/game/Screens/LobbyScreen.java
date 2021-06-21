@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.esotericsoftware.kryonet.Client;
 import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.NetworkPlayer;
+import com.labyrix.game.MusicHandler;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.NetworkModels.ChangeLobbyToGameRequest;
 
@@ -44,6 +45,7 @@ public class LobbyScreen extends ScreenAdapter {
     private JoinScreen joinScreen;
     private boolean inLobby;
     private int mainPlayerId;
+    private MusicHandler musicHandler;
 
     public LobbyScreen(JoinScreen joinScreen) {
         this.joinScreen = joinScreen;
@@ -88,6 +90,8 @@ public class LobbyScreen extends ScreenAdapter {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.clear();
+        this.musicHandler = MusicHandler.getINSTANCE();
+        this.musicHandler.lobbyScreenMusic();
         this.lobbyCodeReturn = joinScreen.getLobbyCodeReturn();
         this.skinMedium = new Skin();
         this.skinMedium.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));

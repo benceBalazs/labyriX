@@ -34,6 +34,7 @@ public class TurnLogic {
     private boolean playerCheated = false;
     private boolean defuseCompleted = false;
     private boolean defuseSuccess = false;
+    private MusicHandler musicHandler;
 
     private HudButton uncoverButton;
     private HudButton cheatButton;
@@ -41,6 +42,7 @@ public class TurnLogic {
     private boolean clicker;
 
     public TurnLogic(Board board, Player player, Camera camera) {
+        this.musicHandler = MusicHandler.getINSTANCE();
         this.board = board;
         this.player = player;
         this.client = ClientNetworkHandler.getInstance().getClient();

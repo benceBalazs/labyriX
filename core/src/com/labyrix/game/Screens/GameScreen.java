@@ -15,6 +15,7 @@ import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.Board;
 import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Models.Player;
+import com.labyrix.game.MusicHandler;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.TurnLogic;
 
@@ -34,6 +35,7 @@ public class GameScreen implements Screen {
     private Client client;
     private int mainPlayerId;
     private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
+    private MusicHandler musicHandler;
 
     public GameScreen() {
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -44,6 +46,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        this.musicHandler = MusicHandler.getINSTANCE();
+        this.musicHandler.gameScreenMusic();
         batch = new SpriteBatch();
         isorend = new Board(batch);
         camera = new OrthographicCamera(cameraHeight, cameraWidth);
@@ -120,6 +124,7 @@ public class GameScreen implements Screen {
     }
 
     public void switchToEnd(boolean condition){
+        this.musicHandler.dispose();
         if (condition){
             labyrixMain.setScreen(labyrixMain.getWinnerScreen());
         }else {

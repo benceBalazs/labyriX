@@ -20,6 +20,7 @@ import com.labyrix.game.LabyrixMain;
 import com.labyrix.game.Models.NetworkPlayer;
 import com.labyrix.game.Models.Player;
 import com.labyrix.game.Models.TextFieldFilter;
+import com.labyrix.game.MusicHandler;
 import com.labyrix.game.Network.ClientNetworkHandler;
 import com.labyrix.game.NetworkModels.LobbyCreateRequest;
 import com.labyrix.game.NetworkModels.LobbyJoinRequest;
@@ -44,6 +45,7 @@ public class JoinScreen implements Screen {
     private Client client;
     private String lobbyCodeReturn;
     private ArrayList<NetworkPlayer> networkPlayers = new ArrayList<NetworkPlayer>();
+    private MusicHandler musicHandler;
 
     public JoinScreen(){
         this.labyrixMain = LabyrixMain.getINSTANCE();
@@ -57,6 +59,8 @@ public class JoinScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         stage.clear();
+        this.musicHandler = MusicHandler.getINSTANCE();
+        this.musicHandler.joinScreenMusic();
         this.skinBig = new Skin();
         this.skinBig.addRegions(labyrixMain.getAssets().get("ui/uiskin.atlas", TextureAtlas.class));
         this.skinBig.add("default-font", labyrixMain.getFontBig());

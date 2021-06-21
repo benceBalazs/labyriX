@@ -55,8 +55,7 @@ public class Player {
      */
     public void render(SpriteBatch batch) {
         batch.draw(playerImage.getImg(), position.x- Gdx.graphics.getWidth()/8f, position.y- Gdx.graphics.getHeight()/8f);
-        maxRemainingFields = maxPathLength(currentField);
-        minRemainingFields = minPathLength(currentField);
+
     }
 
     /**
@@ -64,7 +63,7 @@ public class Player {
      * @return:
      * @exception:
      */
-    private void countingFields (Field field, int count){
+    public void countingFields (Field field, int count){
         count ++;
         ArrayList<PathField> followingFieldList = field.getFollowingFields();
         for(int i= 0; i< followingFieldList.size();i++){
@@ -80,7 +79,7 @@ public class Player {
      * @return:
      * @exception:
      */
-    private int maxPathLength (Field field){
+    public int maxPathLength (Field field){
         countingFields(field,0);
         int maxPath = 0;
         for (int i = 0; i< listAllPath.size(); i++){
@@ -97,7 +96,7 @@ public class Player {
      * @return:
      * @exception:
      */
-    private int minPathLength (Field field){
+    public int minPathLength (Field field){
         countingFields(field, 0);
         int minPath = listAllPath.get(0);
         for (int i = 0; i< listAllPath.size(); i++){
@@ -234,19 +233,14 @@ public class Player {
         return "Player{" +
                 "id=" + id +
                 ", lobbyId=" + lobbyId +
-                ", name='" + name + '\'' +
-                ", playerImage=" + playerImage +
+                ", name='" + name +
                 ", position=" + position +
-                ", currentField=" + currentField +
                 ", movementSpeed=" + movementSpeed +
                 ", remainingCheats=" + remainingCheats +
-                ", numberOfFails=" + numberOfFails +
                 ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
-                ", remainingSteps=" + remainingSteps +
                 ", maxRemainingFields=" + maxRemainingFields +
                 ", minRemainingFields=" + minRemainingFields +
                 ", turnValue=" + turnValue +
-                ", listAllPath=" + listAllPath +
                 ", hasCheated=" + hasCheated +
                 '}';
     }

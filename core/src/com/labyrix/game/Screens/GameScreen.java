@@ -63,6 +63,8 @@ public class GameScreen implements Screen {
         for (NetworkPlayer np: networkPlayers) {
             if (np.getId() != this.mainPlayerId) {
                 Player p = new Player(np.getId(), np.getLobbyId(), np.getName(), np.getImagePath(), isorend.getPathFieldByID(1), 70, 180, isorend);
+                p.setMaxRemainingFields(p.maxPathLength(p.getCurrentField()));
+                p.setMinRemainingFields(p.minPathLength(p.getCurrentField()));
                 System.out.println(p.toString());
                 tl.addPlayer(p);
             }
@@ -81,6 +83,8 @@ public class GameScreen implements Screen {
                 for (Player p: tl.getPlayers()) {
                     p.render(batch);
                 }
+                this.player.setMaxRemainingFields(this.player.maxPathLength(this.player.getCurrentField()));
+                this.player.setMinRemainingFields(this.player.minPathLength(this.player.getCurrentField()));
                 player.render(batch);
             }
         }

@@ -29,8 +29,9 @@ public class NetworkPlayer {
         this.imagePath = playerImagePath;
     }
 
-    public NetworkPlayer(int id, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields, int hasCheated) {
+    public NetworkPlayer(int id, String name, int lobbyId, Vector2 position, int maxRemainingFields, int minRemainingFields, int hasCheated) {
         this.id = id;
+        this.name = name;
         this.lobbyId = lobbyId;
         this.position = position;
         this.maxRemainingFields = maxRemainingFields;
@@ -183,20 +184,15 @@ public class NetworkPlayer {
         return "NetworkPlayer{" +
                 "id=" + id +
                 ", lobbyId=" + lobbyId +
-                ", name='" + name + '\'' +
-                ", imagePath='" + imagePath + '\'' +
+                ", name='" + name +
                 ", position=" + position +
-                ", currentField=" + currentField +
-                ", roundStatus='" + roundStatus + '\'' +
                 ", movementSpeed=" + movementSpeed +
                 ", remainingCheats=" + remainingCheats +
-                ", numberOfFails=" + numberOfFails +
                 ", counterReducedMovementSpeed=" + counterReducedMovementSpeed +
-                ", remainingSteps=" + remainingSteps +
                 ", maxRemainingFields=" + maxRemainingFields +
                 ", minRemainingFields=" + minRemainingFields +
                 ", turnValue=" + turnValue +
-                ", listAllPath=" + listAllPath +
+                ", hasCheated=" + hasCheated +
                 '}';
     }
 }

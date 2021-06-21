@@ -116,6 +116,7 @@ public class TurnLogic {
                 animationCounter = 120;
             }
             if (Gdx.input.justTouched() && Gdx.input.getX() >= diceButton.getxCoordinateButtonBegin() && Gdx.input.getX() <= diceButton.getxCoordinateButtonEnd() && Gdx.input.getY() <= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonBegin() && Gdx.input.getY() >= Gdx.graphics.getHeight() - diceButton.getyCoordinateButtonEnd() && animationCounter == 120) {
+
                 int steps = (int) (((Math.random() * 10) % 5 + 1) * player.getMovementSpeed());
                 this.player.setRemainingSteps(steps);
 
@@ -452,7 +453,7 @@ public class TurnLogic {
                         }
                     }
                 } catch (InterruptedException e) {
-                    System.out.println("Trapdefuse was Interrupted!");
+                    System.err.println("Trapdefuse was Interrupted!");
                 }
             }
         } else {
@@ -469,8 +470,7 @@ public class TurnLogic {
     public void doServerStuff() throws IllegalArgumentException {
         if (this.turnDone == true && !sentDataToServer) {
 
-            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.getHasCheated());
-
+            NetworkPlayer np = new NetworkPlayer(this.player.getId(), this.player.getName(), this.player.getLobbyId(), this.player.getPosition(), this.player.getMaxRemainingFields(), this.player.getMinRemainingFields(), this.player.getHasCheated());
             client.sendTCP(new PlayerStatusRequest(np));
             sentDataToServer = true;
 

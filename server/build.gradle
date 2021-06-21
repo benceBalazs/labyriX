@@ -19,12 +19,6 @@ dependencies {
     implementation 'com.esotericsoftware:kryonet:2.22.0-RC1'
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled true
-    }
-}
-
 jar {
     dependsOn('copyJSON')
     manifest {

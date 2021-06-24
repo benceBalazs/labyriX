@@ -70,6 +70,13 @@ public class MovementDefuse {
         failCount = 0;
     }
 
+    /**
+     * Gets Accelerometer every 0.1 seconds
+     * if phone moved failcounter++
+     * else successcounter++
+     * @return if successCount > 50 - true, if failCount > 10 - false
+     * @throws InterruptedException
+     */
     public boolean dontMove() throws InterruptedException {
         double time = System.currentTimeMillis();
         double accX = Gdx.input.getAccelerometerX();
@@ -96,6 +103,12 @@ public class MovementDefuse {
         return false;
     }
 
+    /**
+     * Gets Accelerometer every 0.1 seconds
+     * if vertical phone shake successCount++
+     * @return if successCount > 30 - true, else - false
+     * @throws InterruptedException
+     */
     public boolean climbUp() throws InterruptedException {
         double time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 7000) {
@@ -113,6 +126,12 @@ public class MovementDefuse {
         return false;
     }
 
+    /**
+     * Gets Accelerometer every 0.1 seconds
+     * if horizontal phone shake successCount++
+     * @return if successCount > 30 - true, else - false
+     * @throws InterruptedException
+     */
     public boolean crawlOut() throws InterruptedException {
         double time = System.currentTimeMillis();
         while (System.currentTimeMillis() < time + 7000) {

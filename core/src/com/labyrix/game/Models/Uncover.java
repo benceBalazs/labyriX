@@ -59,6 +59,11 @@ public class Uncover {
         }
     }
 
+    /**
+     * Adds Listeners to all Player Images in playerImages
+     * @param i
+     * @param id
+     */
     public void addListener(Image i, final int id){
         i.addListener(new ClickListener(){
             @Override

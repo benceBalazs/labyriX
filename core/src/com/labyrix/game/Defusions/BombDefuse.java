@@ -89,7 +89,9 @@ public class BombDefuse extends Actor {
         table.add(numpadButtons.get(7)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
         table.add(numpadButtons.get(8)).size(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/6);
     }
-
+    /**
+     * Adds ClickListeners to all Buttons
+     */
     public void addListenerToButton(int index){
         final int indexPO = index + 1;
         numpadButtons.get(index).addListener(new ClickListener(){
@@ -101,6 +103,10 @@ public class BombDefuse extends Actor {
         });
     }
 
+    /**
+     * gets bombresult boolean
+     * @return
+     */
     public boolean bombResult(){
         if (userinput.equals(bombcode)){
             bombDefuse = true;
@@ -116,6 +122,10 @@ public class BombDefuse extends Actor {
         return table;
     }
 
+    /**
+     * Sets userinputTextfield border to green if userinput equals bombcode or bombcode substring
+     * else set border to red
+     */
     private void updateUserInputTextField() {
         userinputTextfield.setText(userinput);
         String bombcodePart = bombcode.substring(0, userinput.length());

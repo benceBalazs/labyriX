@@ -345,7 +345,11 @@ public class TurnLogic {
 
     /**
      * Implements TrapDefusion
-     * @exception: IllegalArgumentException - in case turnValue is not TRAPACTIVATED.
+     * if animationCounter != 0 render trapimage on Field Player is standing on
+     * else activate Trapdefuse
+     * if traprender Bombdefuse or Movementdefuse == null - initialize new Bombdefuse/Movementdefuse
+     * if trapdefuse true / render success image - false / render fail image
+     * @exception: IllegalArgumentException - in case turnValue is not TRAPACTIVATED or Turnvalue is not TRAPACTIVATED.
      */
     public void defuseTrap() throws IllegalArgumentException {
         if (this.player.turnValue == TurnValue.TRAPACTIVATED && turnDone == false) {
@@ -535,9 +539,13 @@ public class TurnLogic {
             }
         }
         return pid;
-    } 
-  
-  
+    }
+
+    /**
+     * if succ true - render success image
+     * else - render fail image
+     * @param succ - trapdefuse outcome: true/success, false/fail
+     */
     public void showTrapResult(boolean succ){
         if (succ){
             Texture success = new Texture("success.png");
@@ -548,8 +556,12 @@ public class TurnLogic {
         }
         animationCounter--;
     }
-  
 
+    /**
+     * Activates Trap depending on Trap.getTrapevent
+     * @return if trapdefuse success- true, else - false
+     * @throws InterruptedException
+     */
     public boolean getMovementTrapOutcome() throws InterruptedException{
         if (this.player.getCurrentField().getTrap().getEvent().getEvent() == TrapEventName.ZOMBIE){
             return this.trapRender.getMovementDefuse().dontMove();

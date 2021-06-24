@@ -219,6 +219,33 @@ public class TestTurnLogic {
         assertEquals("Turn not Done or data already sent to server", msg.getMessage());
     }
 
+    @Test
+    public void turnLogic_defuseTrap_turndoneFalse_TurnvalueNotTrapactivated_ThrowsException() {
+        turnlogic.setTurnDone(false);
+        Mockito.when(player.getTurnValue()).thenReturn(TurnValue.PATHSELECTION);
+;
+        RuntimeException msg = assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                turnlogic.defuseTrap();
+            }
+        });
+        assertEquals("Trapdefuse - Wrong TurnValue or Turn not done", msg.getMessage());
+    }
+
+    @Test
+    public void turnLogic_defuseTrap_turndoneTrue_TurnvalueTrapactivated_ThrowsException() {
+        turnlogic.setTurnDone(true);
+        Mockito.when(player.getTurnValue()).thenReturn(TurnValue.TRAPACTIVATED);
+
+        RuntimeException msg = assertThrows(IllegalArgumentException.class, new ThrowingRunnable() {
+            @Override
+            public void run() throws Throwable {
+                turnlogic.defuseTrap();
+            }
+        });
+        assertEquals("Trapdefuse - Wrong TurnValue or Turn not done", msg.getMessage());
+    }
 
     @After
     public void teardown() {

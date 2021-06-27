@@ -25,6 +25,22 @@ public class MusicHandler {
         return INSTANCE;
     }
 
+    public Music getMusic1() {
+        return music1;
+    }
+
+    public void setMusic1(Music music1) {
+        this.music1 = music1;
+    }
+
+    public Music getMusic2() {
+        return music2;
+    }
+
+    public void setMusic2(Music music2) {
+        this.music2 = music2;
+    }
+
     public void titleScreenMusic(){
         this.music1 = setSpecificMusic(this.fileHandles.get(0),0.5f);
         this.music2 = setSpecificMusic(this.fileHandles.get(1),0.5f);
@@ -33,22 +49,22 @@ public class MusicHandler {
     }
 
     public void lobbyScreenMusic(){
-        setScreenMusic(1,4);
+        setScreenMusic(1,4, 0.35f);
     }
 
     public void joinScreenMusic(){
-        setScreenMusic(1,3);
+        setScreenMusic(1,3, 0.4f);
     }
 
     public void gameScreenMusic(){
-        setScreenMusic(0,6);
+        setScreenMusic(0,6, 0.6f);
     }
 
-    public void setScreenMusic(int majorNumber, int minorNumber){
+    public void setScreenMusic(int majorNumber, int minorNumber, float volume){
         this.music1.stop();
         this.music2.stop();
-        this.music1 = setSpecificMusic(this.fileHandles.get(majorNumber),0.5f);
-        this.music2 = setSpecificMusic(this.fileHandles.get(minorNumber),0.5f);
+        this.music1 = setSpecificMusic(this.fileHandles.get(majorNumber),volume);
+        this.music2 = setSpecificMusic(this.fileHandles.get(minorNumber),volume);
         this.music1.play();
         this.music2.play();
     }
